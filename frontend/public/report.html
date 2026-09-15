@@ -219,53 +219,7 @@
           <!-- Target Protein Branches -->
           <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-3.5 flex-1" id="dynamic-nodes-container">
           </div>
-            <!-- Node 1: EGFR -->
-            <a class="group bg-surface-container-low/60 hover:bg-surface-container-low p-3.5 rounded-xl border border-outline-variant/40 hover:border-primary/40 transition-all shadow-xs flex flex-col justify-between" href="#target-egfr">
-              <div class="flex items-start justify-between">
-                <span class="font-code-sm text-[10px] font-bold px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed tracking-wide">NODE 01</span>
-                <span class="material-symbols-outlined text-[18px] text-outline group-hover:text-primary transition-colors">north_east</span>
-              </div>
-              <div class="mt-2.5">
-                <h3 class="font-headline-md text-[16px] font-bold text-on-surface group-hover:text-primary transition-colors">EGFR</h3>
-                <p class="font-body-sm text-body-sm text-on-surface-variant">Epidermal Growth Factor Receptor</p>
-              </div>
-              <div class="mt-3 pt-2 border-t border-outline-variant/30 flex items-center justify-between font-code-sm text-[11px]">
-                <span class="text-outline">Model: Gallus gallus</span>
-                <span class="text-secondary font-semibold">94.2% Sim</span>
-              </div>
-            </a>
 
-            <!-- Node 2: KRAS -->
-            <a class="group bg-surface-container-low/60 hover:bg-surface-container-low p-3.5 rounded-xl border border-outline-variant/40 hover:border-primary/40 transition-all shadow-xs flex flex-col justify-between" href="#target-kras">
-              <div class="flex items-start justify-between">
-                <span class="font-code-sm text-[10px] font-bold px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed tracking-wide">NODE 02</span>
-                <span class="material-symbols-outlined text-[18px] text-outline group-hover:text-primary transition-colors">north_east</span>
-              </div>
-              <div class="mt-2.5">
-                <h3 class="font-headline-md text-[16px] font-bold text-on-surface group-hover:text-primary transition-colors">KRAS G12D</h3>
-                <p class="font-body-sm text-body-sm text-on-surface-variant">KRAS G12D Oncogene Variant</p>
-              </div>
-              <div class="mt-3 pt-2 border-t border-outline-variant/30 flex items-center justify-between font-code-sm text-[11px]">
-                <span class="text-outline">Model: Danio rerio</span>
-                <span class="text-secondary font-semibold">88.4% Sim</span>
-              </div>
-            </a>
-
-            <!-- Node 3: ALK -->
-            <a class="group bg-surface-container-low/60 hover:bg-surface-container-low p-3.5 rounded-xl border border-outline-variant/40 hover:border-primary/40 transition-all shadow-xs flex flex-col justify-between" href="#target-alk">
-              <div class="flex items-start justify-between">
-                <span class="font-code-sm text-[10px] font-bold px-2 py-0.5 rounded bg-secondary-container/60 text-on-secondary-container tracking-wide">NODE 03</span>
-                <span class="material-symbols-outlined text-[18px] text-outline group-hover:text-primary transition-colors">north_east</span>
-              </div>
-              <div class="mt-2.5">
-                <h3 class="font-headline-md text-[16px] font-bold text-on-surface group-hover:text-primary transition-colors">ALK</h3>
-                <p class="font-body-sm text-body-sm text-on-surface-variant">Anaplastic Lymphoma Kinase</p>
-              </div>
-              <div class="mt-3 pt-2 border-t border-outline-variant/30 flex items-center justify-between font-code-sm text-[11px]">
-                <span class="text-outline">Model: Mus musculus</span>
-                <span class="text-secondary font-semibold">91.8% Sim</span>
-              </div>
-            </a>
           </div>
       <!-- Per-Protein Breakdown Section -->
       <div class="space-y-space-lg" id="dynamic-sections-container">
@@ -343,11 +297,12 @@
           const targetNum = (idx + 1).toString().padStart(2, '0');
           
           // Generate summary node
-          const bestSpecies = p.species_recommendations?.[0]?.species || "Unknown";
-          const bestSpeciesScore = p.species_recommendations?.[0]?.score?.toFixed(3) || "N/A";
+          const bestSpecies = p.species_recommendations?.ranked_species?.[0]?.species || "Unknown";
+          const bestSpeciesScore = p.species_recommendations?.ranked_species?.[0]?.final_score?.toFixed(1) + "% Sim" || "N/A";
           
-          const bestDrug = p.drug_recommendations?.[0]?.drug_name || "Unknown";
-          const bestDrugRank = p.drug_recommendations?.[0]?.dynamic_rank?.toFixed(3) || "N/A";
+          const bestDrugObj = p.drug_recommendations?.top_candidates?.[0] || null;
+          const bestDrug = bestDrugObj?.molecule_chembl_id || "Unknown";
+          const bestDrugRank = bestDrugObj?.rank?.toString() || "N/A";
 
           nodesContainer.innerHTML += `
             <a class="group bg-surface-container-low/60 hover:bg-surface-container-low p-3.5 rounded-xl border border-outline-variant/40 hover:border-primary/40 transition-all shadow-xs flex flex-col justify-between" href="#${targetId}">
@@ -416,7 +371,7 @@
                       <div class="flex items-baseline justify-between">
                         <div>
                           <h4 class="font-headline-md text-headline-md font-bold text-on-surface">${bestDrug}</h4>
-                          <span class="font-code-sm text-code-sm text-on-surface-variant">ChEMBL ID: ${p.drug_recommendations?.[0]?.drug_id || 'N/A'}</span>
+                          <span class="font-code-sm text-code-sm text-on-surface-variant">ChEMBL ID: ${bestDrugObj?.molecule_chembl_id || 'N/A'}</span>
                         </div>
                       </div>
                       <div class="grid grid-cols-2 gap-2.5 font-code-sm">
