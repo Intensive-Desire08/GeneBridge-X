@@ -2265,7 +2265,7 @@
       // Simulate loading state switch
       setTimeout(() => {
         switchPhase('2B');
-      }, 1600);
+      }, 60000);
     }
 
     function toggleSimulateLoading() {
@@ -2279,7 +2279,7 @@
           createProteinStructureScene('dna-canvas-1');
           createDNAHelixScene('dna-canvas-2', 82);
           createDNAHelixScene('dna-canvas-3', 69);
-        }, 2200);
+        }, 60000);
       } else {
         document.getElementById('view-2b-loading').classList.add('active-view');
         initPhase2BLoadingScene();
@@ -2287,7 +2287,7 @@
           hideAllViews();
           document.getElementById('view-2b-results').classList.add('active-view');
           initBallAndStickMoleculeScene();
-        }, 2200);
+        }, 60000);
       }
     }
 
@@ -2356,6 +2356,125 @@
       createProteinStructureScene('dna-canvas-1');
       createDNAHelixScene('dna-canvas-2', 82);
       createDNAHelixScene('dna-canvas-3', 69);
+      
+      initDynamicData();
     });
+    
+    // Dynamic Data Handling
+    let proteinResults = [];
+    let currentProteinIndex = 0;
+
+    function initDynamicData() {
+      const dataStr = localStorage.getItem('genebridge_analysis_result');
+      if (!dataStr) return;
+      
+      try {
+        const data = JSON.parse(dataStr);
+        if (data.disease) {
+          proteinResults = data.protein_results || [];
+        } else if (data.protein_target) {
+          proteinResults = [data];
+        }
+        
+        if (proteinResults.length > 0) {
+          renderCurrentProtein();
+        }
+      } catch (err) {
+        console.error("Failed to parse analysis result", err);
+      }
+    }
+
+    function renderCurrentProtein() {
+      const p = proteinResults[currentProteinIndex];
+      if (!p) return;
+
+      // Update Header
+      const targetVal = document.querySelector('.target-val');
+      if (targetVal) {
+        targetVal.innerText = `${p.protein_target} ${proteinResults.length > 1 ? `(${currentProteinIndex + 1} of ${proteinResults.length})` : ''}`;
+      }
+
+      // PHASE 2A: Species Recommendations
+      if (p.species_recommendations && p.species_recommendations.length > 0) {
+        // Hero Card
+        const hero = p.species_recommendations[0];
+        const heroCard = document.querySelector('.hero-organism-card');
+        if (heroCard) {
+          heroCard.querySelector('.organism-title').innerText = hero.species;
+          heroCard.querySelector('.latin-name').innerText = "Score: " + (hero.score ? hero.score.toFixed(3) : "N/A");
+          heroCard.querySelector('.compatibility-val').innerText = "Top Match";
+          heroCard.querySelector('.organism-description').innerText = "Identified as the optimal model for testing this target.";
+        }
+
+        // Sub Cards
+        const subCards = document.querySelectorAll('.sub-organism-card');
+        for (let i = 0; i < subCards.length; i++) {
+          const recIndex = i + 1;
+          if (recIndex < p.species_recommendations.length) {
+            const sp = p.species_recommendations[recIndex];
+            subCards[i].style.display = 'flex';
+            subCards[i].querySelector('h3').innerText = sp.species;
+            subCards[i].querySelector('.latin-name').innerText = "Score: " + (sp.score ? sp.score.toFixed(3) : "N/A");
+            subCards[i].querySelector('.compatibility-val').innerText = "Match";
+          } else {
+            subCards[i].style.display = 'none';
+          }
+        }
+      }
+
+      // PHASE 2B: Drug Recommendations
+      if (p.drug_recommendations && p.drug_recommendations.length > 0) {
+        const hero = p.drug_recommendations[0];
+        const heroCard = document.querySelector('.top-candidate-hero-card');
+        if (heroCard) {
+          heroCard.querySelector('.chembl-badge').innerText = hero.drug_id;
+          heroCard.querySelector('.organism-title').innerText = hero.drug_name;
+          heroCard.querySelector('.latin-name').innerText = "Dynamic Rank: " + (hero.dynamic_rank ? hero.dynamic_rank.toFixed(3) : "N/A");
+        }
+
+        const subCards = document.querySelectorAll('.candidate-card-sm');
+        for (let i = 0; i < subCards.length; i++) {
+          const recIndex = i + 1;
+          if (recIndex < p.drug_recommendations.length) {
+            const dr = p.drug_recommendations[recIndex];
+            subCards[i].style.display = 'flex';
+            subCards[i].querySelector('.chembl-badge').innerText = dr.drug_id;
+            subCards[i].querySelector('.candidate-title').innerText = dr.drug_name;
+            subCards[i].querySelector('.affinity-badge').innerText = "Rank: " + (dr.dynamic_rank ? dr.dynamic_rank.toFixed(2) : "N/A");
+          } else {
+            subCards[i].style.display = 'none';
+          }
+        }
+      }
+
+      // Update Phase 2B button behavior
+      const actionBannerRow = document.querySelectorAll('.action-banner-row')[1];
+      if (actionBannerRow) {
+        const btn = actionBannerRow.querySelector('.btn-primary');
+        if (btn) {
+          if (currentProteinIndex < proteinResults.length - 1) {
+            btn.querySelector('span').innerText = "Analyze Next Target";
+            btn.onclick = () => {
+              currentProteinIndex++;
+              renderCurrentProtein();
+              
+              // Show phase 2A loading to simulate analyzing next target
+              hideAllViews();
+              document.getElementById('view-2a-loading').classList.add('active-view');
+              initPhase2ALoadingScene();
+              
+              setTimeout(() => {
+                switchPhase('2A');
+              }, 60000);
+            };
+          } else {
+            btn.querySelector('span').innerText = "View Final Report";
+            btn.onclick = () => {
+              window.location.href = '/report.html';
+            };
+          }
+        }
+      }
+    }
   </script>
 </body></html>

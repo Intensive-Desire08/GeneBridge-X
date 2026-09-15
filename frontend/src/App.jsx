@@ -1,8 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as THREE from 'three';
 import './index.css';
 
 function App() {
+  const [analysisTarget, setAnalysisTarget] = useState({ type: 'disease', value: 'non-small cell lung carcinoma' });
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+
   useEffect(() => {
     
     
@@ -32,39 +35,6 @@ function App() {
       };
       window.addEventListener('scroll', updateScrollMetrics, { passive: true });
 
-      // 3. Quick target chips & selector interaction
-      const selector = document.getElementById('diseaseTargetSelector');
-      const quickChips = document.querySelectorAll('.quick-chip');
-      const startBtn = document.getElementById('startAnalysisBtn');
-
-      quickChips.forEach(chip => {
-        chip.addEventListener('click', () => {
-          const targetVal = chip.getAttribute('data-target');
-          chip.classList.add('scale-95');
-          setTimeout(() => chip.classList.remove('scale-95'), 120);
-
-          if (targetVal === 'EGFR T790M' && selector) selector.value = 'nsclc';
-          if (targetVal === 'KRAS G12D' && selector) selector.value = 'crc';
-          if (targetVal === 'HER2 Neu' && selector) selector.value = 'tnbc';
-        });
-      });
-
-      if (startBtn) {
-        startBtn.addEventListener('click', () => {
-          const originalText = startBtn.innerHTML;
-          startBtn.innerHTML = `
-            <span class="material-symbols-outlined animate-spin text-[20px]">progress_activity</span>
-            <span>Synthesizing Target Conformation...</span>
-          `;
-          startBtn.disabled = true;
-
-          setTimeout(() => {
-            startBtn.innerHTML = originalText;
-            startBtn.disabled = false;
-            window.location.href = '/wizard.html';
-          }, 800);
-        });
-      }
 
       // 4. Enhanced High-Visibility Three.js Canvas:
       // Vibrant Greenish Fluid Sea at Hero -> Transitions to Radiant Multi-Color Double Helix DNA on Scroll
@@ -435,12 +405,13 @@ function App() {
 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-emerald-600">
 <span className="material-symbols-outlined text-[22px]">biotech</span>
 </div>
-<select defaultValue="nsclc" className="w-full pl-12 pr-11 py-4 rounded-2xl bg-slate-50/90 text-[#0f172a] font-body text-sm sm:text-base font-semibold border-2 border-slate-200 shadow-inner appearance-none focus:outline-none focus:bg-white focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/20 transition-all cursor-pointer" id="diseaseTargetSelector">
-<option value="nsclc">Non-small cell lung cancer (NSCLC) — EGFR / KRAS / ALK</option>
-<option value="tnbc">Triple-negative breast cancer (TNBC) — PARP1 / Trop-2</option>
-<option value="gbm">Glioblastoma Multiforme (GBM) — IDH1 / MGMT / EGFRvIII</option>
-<option value="crc">Colorectal Adenocarcinoma (CRC) — BRAF V600E / APC</option>
-<option value="aml">Acute Myeloid Leukemia (AML) — FLT3 / NPM1 / DNMT3A</option>
+<select value={analysisTarget.type === 'disease' ? analysisTarget.value : ''} onChange={(e) => setAnalysisTarget({ type: 'disease', value: e.target.value })} className="w-full pl-12 pr-11 py-4 rounded-2xl bg-slate-50/90 text-[#0f172a] font-body text-sm sm:text-base font-semibold border-2 border-slate-200 shadow-inner appearance-none focus:outline-none focus:bg-white focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/20 transition-all cursor-pointer" id="diseaseTargetSelector">
+<option value="" disabled hidden>Select a disease...</option>
+<option value="non-small cell lung carcinoma">Non-small cell lung cancer (NSCLC) — EGFR / KRAS / ALK</option>
+<option value="triple-negative breast cancer">Triple-negative breast cancer (TNBC) — PARP1 / Trop-2</option>
+<option value="glioblastoma multiforme">Glioblastoma Multiforme (GBM) — IDH1 / MGMT / EGFRvIII</option>
+<option value="colorectal cancer">Colorectal Adenocarcinoma (CRC) — BRAF V600E / APC</option>
+<option value="acute myeloid leukemia">Acute Myeloid Leukemia (AML) — FLT3 / NPM1 / DNMT3A</option>
 </select>
 <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-[#475569] group-hover:text-[#0f172a] transition-colors">
 <span className="material-symbols-outlined text-[24px]">expand_more</span>
@@ -449,15 +420,15 @@ function App() {
 {/* Hot Target Quick Chips: Spans 5 cols on large screens */}
 <div className="lg:col-span-5 flex flex-wrap items-center gap-2">
 <span className="font-mono text-xs text-[#475569] font-bold mr-1">Hot Targets:</span>
-<button className="quick-chip px-3.5 py-2 rounded-xl bg-emerald-50/90 hover:bg-emerald-600 text-emerald-900 hover:text-white border border-emerald-300 font-mono text-xs font-bold transition-all duration-150 active:scale-95 shadow-xs" data-target="EGFR T790M" type="button">
-                EGFR T790M
-              </button>
-<button className="quick-chip px-3.5 py-2 rounded-xl bg-sky-50/90 hover:bg-sky-600 text-sky-900 hover:text-white border border-sky-300 font-mono text-xs font-bold transition-all duration-150 active:scale-95 shadow-xs" data-target="KRAS G12D" type="button">
-                KRAS G12D
-              </button>
-<button className="quick-chip px-3.5 py-2 rounded-xl bg-purple-50/90 hover:bg-purple-600 text-purple-900 hover:text-white border border-purple-300 font-mono text-xs font-bold transition-all duration-150 active:scale-95 shadow-xs" data-target="HER2 Neu" type="button">
-                HER2 Neu
-              </button>
+<button onClick={() => setAnalysisTarget({ type: 'protein', value: 'EGFR' })} className={`px-3.5 py-2 rounded-xl border font-mono text-xs font-bold transition-all duration-150 active:scale-95 shadow-xs ${analysisTarget.value === 'EGFR' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-emerald-50/90 hover:bg-emerald-600 text-emerald-900 hover:text-white border-emerald-300'}`} type="button">
+  EGFR T790M
+</button>
+<button onClick={() => setAnalysisTarget({ type: 'protein', value: 'KRAS' })} className={`px-3.5 py-2 rounded-xl border font-mono text-xs font-bold transition-all duration-150 active:scale-95 shadow-xs ${analysisTarget.value === 'KRAS' ? 'bg-sky-600 text-white border-sky-600' : 'bg-sky-50/90 hover:bg-sky-600 text-sky-900 hover:text-white border-sky-300'}`} type="button">
+  KRAS G12D
+</button>
+<button onClick={() => setAnalysisTarget({ type: 'protein', value: 'ERBB2' })} className={`px-3.5 py-2 rounded-xl border font-mono text-xs font-bold transition-all duration-150 active:scale-95 shadow-xs ${analysisTarget.value === 'ERBB2' ? 'bg-purple-600 text-white border-purple-600' : 'bg-purple-50/90 hover:bg-purple-600 text-purple-900 hover:text-white border-purple-300'}`} type="button">
+  HER2 Neu
+</button>
 <button className="quick-chip px-3 py-2 rounded-xl bg-slate-100/90 hover:bg-slate-200 text-[#334155] font-mono text-xs font-bold border border-slate-300 transition-all duration-150 flex items-center gap-1 shadow-xs" data-target="Custom Upload" type="button">
 <span className="material-symbols-outlined text-[14px]">upload_file</span>
                 Custom FASTA
@@ -466,11 +437,36 @@ function App() {
 </div>
 {/* Primary Action Row with Generous Spacing */}
 <div className="mt-6 pt-6 border-t border-slate-200/80 flex flex-col sm:flex-row items-center justify-between gap-4">
-<button className="w-full sm:w-auto flex-1 px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-600 via-emerald-700 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-headline text-base font-bold shadow-lg shadow-emerald-700/30 hover:shadow-xl hover:shadow-emerald-600/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 flex items-center justify-center gap-2.5 group cursor-pointer" id="startAnalysisBtn" type="button">
-<span>Start Target Analysis</span>
-<span className="material-symbols-outlined text-[20px] transition-transform duration-200 group-hover:translate-x-1">
-                arrow_forward
-              </span>
+<button disabled={isAnalyzing} onClick={async () => {
+  setIsAnalyzing(true);
+  try {
+    const endpoint = analysisTarget.type === 'disease' 
+      ? `/api/orchestrator/disease/${encodeURIComponent(analysisTarget.value)}`
+      : `/api/orchestrator/${encodeURIComponent(analysisTarget.value)}`;
+    const res = await fetch(endpoint);
+    if (!res.ok) throw new Error('API request failed');
+    const data = await res.json();
+    localStorage.setItem('genebridge_analysis_result', JSON.stringify(data));
+    window.location.href = '/wizard.html';
+  } catch (err) {
+    console.error(err);
+    alert('Failed to analyze target. Check console for details.');
+    setIsAnalyzing(false);
+  }
+}} className="w-full sm:w-auto flex-1 px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-600 via-emerald-700 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-headline text-base font-bold shadow-lg shadow-emerald-700/30 hover:shadow-xl hover:shadow-emerald-600/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 flex items-center justify-center gap-2.5 group cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed" id="startAnalysisBtn" type="button">
+  {isAnalyzing ? (
+    <>
+      <span className="material-symbols-outlined animate-spin text-[20px]">progress_activity</span>
+      <span>Synthesizing Target Conformation...</span>
+    </>
+  ) : (
+    <>
+      <span>Start Target Analysis</span>
+      <span className="material-symbols-outlined text-[20px] transition-transform duration-200 group-hover:translate-x-1">
+        arrow_forward
+      </span>
+    </>
+  )}
 </button>
 <button className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-white/90 hover:bg-white text-[#1e293b] font-body text-sm font-bold border border-slate-300 transition-all duration-150 flex items-center justify-center gap-2 shadow-xs" onClick={() => { document.getElementById('telemetry-section').scrollIntoView({behavior: 'smooth'}) }} type="button">
 <span className="material-symbols-outlined text-[19px] text-slate-700">insights</span>
