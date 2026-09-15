@@ -5,7 +5,7 @@ import './index.css';
 function App() {
   useEffect(() => {
     
-    document.addEventListener('DOMContentLoaded', () => {
+    
       // 1. Smooth entrance & active state for semicircular edge windows
       const glidePods = document.querySelectorAll('.glide-pod');
       const podObserver = new IntersectionObserver((entries) => {
@@ -70,7 +70,7 @@ function App() {
       // 4. Enhanced High-Visibility Three.js Canvas:
       // Vibrant Greenish Fluid Sea at Hero -> Transitions to Radiant Multi-Color Double Helix DNA on Scroll
       const canvas = document.getElementById('bg-canvas');
-      if (canvas && window.THREE) {
+      if (canvas && THREE) {
         const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.setSize(window.innerWidth, window.innerHeight);
@@ -296,17 +296,15 @@ function App() {
           renderer.setSize(window.innerWidth, window.innerHeight);
         });
       }
-    });
-  
   }, []);
 
   return (
-    <div className="min-h-[420vh] bg-[#f8fafc] font-body text-[#0f172a] antialiased relative overflow-x-hidden selection:bg-emerald-500 selection:text-white">
+    <div className="min-h-[420vh] bg-transparent font-body text-[#0f172a] antialiased relative overflow-x-hidden selection:bg-emerald-500 selection:text-white">
       
 {/* Dual-Mode Three.js WebGL Canvas (Fluid Sea into Radiant Luminous DNA Helix) */}
 <canvas className="fixed inset-0 w-full h-full pointer-events-none z-0" id="bg-canvas"></canvas>
 {/* Dynamic Contrast Layer & Telemetry Center Gradient Tunnel */}
-<div className="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_25%,rgba(255,255,255,0.85)_0%,rgba(241,245,249,0.7)_60%,rgba(203,213,225,0.45)_100%)]"></div>
+<div className="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_25%,rgba(255,255,255,0.25)_0%,rgba(241,245,249,0.15)_60%,rgba(203,213,225,0.05)_100%)]"></div>
 {/* Luminous Central Backdrop Glow for High-Contrast DNA Particles in Scroll Zone */}
 <div className="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_50%_60%,rgba(15,23,42,0.12)_0%,rgba(15,23,42,0.02)_55%,transparent_75%)]"></div>
 <div className="fixed inset-0 pointer-events-none z-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.04)_1px,transparent_1px)] bg-[size:3.5rem_3.5rem]"></div>
