@@ -2,6 +2,7 @@ from typing import Dict, Any
 from app.genomics.species_ranking import rank_species_for_target
 from app.genomics.target_api import resolve_human_gene_to_uniprot
 from app.drug_targets.dynamic_ranking import rank_drugs_for_target
+from app.disease_targets.disease_api import get_top_proteins_for_disease
 
 def orchestrate_protein(protein_name: str) -> Dict[str, Any]:
     """
@@ -35,4 +36,29 @@ def orchestrate_protein(protein_name: str) -> Dict[str, Any]:
         "uniprot_id": uniprot_id,
         "species_recommendations": species_ranking,
         "drug_recommendations": drug_ranking
+    }
+
+def orchestrate_disease(disease_name: str) -> Dict[str, Any]:
+    """
+    Orchestrates the GeneBridge-X pipeline for a given disease.
+    Retrieves the top protein targets for the disease and runs the
+    protein orchestrator for each.
+    """
+    proteins = get_top_proteins_for_disease(disease_name, limit=2)
+    
+    results = []
+    for protein in proteins:
+        try:
+            protein_result = orchestrate_protein(protein)
+            results.append(protein_result)
+        except Exception as e:
+            results.append({
+                "protein_target": protein,
+                "error": f"Failed to orchestrate protein {protein}: {str(e)}"
+            })
+            
+    return {
+        "disease": disease_name,
+        "top_targets_evaluated": proteins,
+        "protein_results": results
     }

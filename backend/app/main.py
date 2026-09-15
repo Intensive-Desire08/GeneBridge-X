@@ -1,15 +1,23 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from app.genomics.species_ranking import rank_species_for_target
 from app.genomics.target_api import resolve_human_gene_to_uniprot
-from app.drug_targets.egfr_ranking import rank_egfr_drugs
 from app.drug_targets.dynamic_ranking import rank_drugs_for_target
-from app.core.orchestrator import orchestrate_protein
+from app.core.orchestrator import orchestrate_protein, orchestrate_disease
 from app.core.schemas import SpeciesRankingResult
 
 app = FastAPI(
     title="GeneBridge-X API",
     description="API for GeneBridge-X modules (Species Ranking and Drug Target Ranking)",
     version="1.0.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins for development
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 @app.get("/")
@@ -28,12 +36,6 @@ def get_species_ranking(protein_name: str):
         
     return rank_species_for_target(uniprot_id)
 
-@app.get("/api/drug-targets/rank-egfr")
-def get_egfr_drugs():
-    """
-    Ranks a list of EGFR compounds based on their predicted activity.
-    """
-    return rank_egfr_drugs()
 
 @app.get("/api/drug-targets/rank/{protein_name}")
 def get_dynamic_drugs(protein_name: str):
@@ -55,6 +57,19 @@ def run_orchestrator(protein_name: str):
     """
     try:
         return orchestrate_protein(protein_name)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
+
+@app.get("/api/orchestrator/disease/{disease_name}")
+def run_disease_orchestrator(disease_name: str):
+    """
+    Orchestrates the entire pipeline for a given disease.
+    Maps the disease to top proteins, then orchestrates each protein.
+    """
+    try:
+        return orchestrate_disease(disease_name)
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
