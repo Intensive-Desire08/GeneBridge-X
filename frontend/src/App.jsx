@@ -407,7 +407,7 @@ function App() {
 <div className="mb-4 relative group">
 <div className="absolute -inset-3 bg-gradient-to-r from-emerald-500/30 via-teal-400/30 to-sky-500/30 rounded-3xl blur-xl opacity-80 group-hover:opacity-100 transition duration-500"></div>
 <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white/90 shadow-[0_16px_36px_-8px_rgba(15,23,42,0.15)] border-2 border-white flex items-center justify-center p-2.5 transition-transform duration-300 hover:scale-105 backdrop-blur-md">
-<img alt="PhyloTargetX Emblem" className="w-full h-full object-contain" src="/text-logo.svg"/>
+<img alt="PhyloTargetX Emblem" className="w-full h-full object-contain" src="/logo.png"/>
 </div>
 </div>
 {/* Oncology Status Badge */}
@@ -448,8 +448,8 @@ function App() {
 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-emerald-600">
 <span className="material-symbols-outlined text-[22px]">biotech</span>
 </div>
-<select className="w-full pl-12 pr-11 py-4 rounded-2xl bg-slate-50/90 text-[#0f172a] font-body text-sm sm:text-base font-semibold border-2 border-slate-200 shadow-inner appearance-none focus:outline-none focus:bg-white focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/20 transition-all cursor-pointer" id="diseaseTargetSelector">
-<option selected="" value="nsclc">Non-small cell lung cancer (NSCLC) — EGFR / KRAS / ALK</option>
+<select defaultValue="nsclc" className="w-full pl-12 pr-11 py-4 rounded-2xl bg-slate-50/90 text-[#0f172a] font-body text-sm sm:text-base font-semibold border-2 border-slate-200 shadow-inner appearance-none focus:outline-none focus:bg-white focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/20 transition-all cursor-pointer" id="diseaseTargetSelector">
+<option value="nsclc">Non-small cell lung cancer (NSCLC) — EGFR / KRAS / ALK</option>
 <option value="tnbc">Triple-negative breast cancer (TNBC) — PARP1 / Trop-2</option>
 <option value="gbm">Glioblastoma Multiforme (GBM) — IDH1 / MGMT / EGFRvIII</option>
 <option value="crc">Colorectal Adenocarcinoma (CRC) — BRAF V600E / APC</option>
