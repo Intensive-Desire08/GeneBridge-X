@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>PhyloTargetX — Final Analysis Report & Clinical Dossier</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+    html { scroll-behavior: smooth; }
+  </style>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "tertiary-fixed": "#ffdadb",
+            "error-container": "#ffdad6",
+            "primary": "#006194",
+            "tertiary": "#b90538",
+            "surface-container-low": "#f2f3ff",
+            "surface-container-lowest": "#ffffff",
+            "outline": "#707881",
+            "on-error": "#ffffff",
+            "on-secondary-fixed": "#002113",
+            "on-primary-container": "#fdfcff",
+            "on-primary-fixed-variant": "#004b73",
+            "secondary-container": "#6cf8bb",
+            "surface-tint": "#006398",
+            "secondary-fixed-dim": "#4edea3",
+            "secondary-fixed": "#6ffbbe",
+            "tertiary-container": "#dc2c4f",
+            "outline-variant": "#bfc7d2",
+            "surface": "#faf8ff",
+            "surface-container-highest": "#dae2fd",
+            "inverse-on-surface": "#eef0ff",
+            "inverse-primary": "#93ccff",
+            "on-secondary": "#ffffff",
+            "on-tertiary-fixed-variant": "#92002a",
+            "primary-fixed": "#cce5ff",
+            "on-surface-variant": "#3f4850",
+            "on-error-container": "#93000a",
+            "surface-dim": "#d2d9f4",
+            "error": "#ba1a1a",
+            "on-tertiary-container": "#fffbff",
+            "background": "#faf8ff",
+            "on-secondary-container": "#00714d",
+            "surface-variant": "#dae2fd",
+            "on-tertiary-fixed": "#40000d",
+            "surface-container-high": "#e2e7ff",
+            "primary-container": "#007bb9",
+            "tertiary-fixed-dim": "#ffb2b7",
+            "inverse-surface": "#283044",
+            "surface-bright": "#faf8ff",
+            "on-secondary-fixed-variant": "#005236",
+            "secondary": "#006c49",
+            "on-primary": "#ffffff",
+            "on-primary-fixed": "#001d31",
+            "on-surface": "#131b2e",
+            "on-tertiary": "#ffffff",
+            "primary-fixed-dim": "#93ccff",
+            "on-background": "#131b2e",
+            "surface-container": "#eaedff"
+          },
+          borderRadius: {
+            DEFAULT: "0.125rem",
+            lg: "0.25rem",
+            xl: "0.5rem",
+            full: "0.75rem"
+          },
+          spacing: {
+            gutter: "1.5rem",
+            "space-sm": "0.5rem",
+            "gutter-mobile": "1rem",
+            margin: "2.5rem",
+            "space-xs": "0.25rem",
+            "margin-mobile": "1rem",
+            "space-xl": "2.5rem",
+            "space-md": "1rem",
+            "space-lg": "1.5rem"
+          },
+          fontFamily: {
+            "body-sm": ["Inter", "sans-serif"],
+            "headline-lg-mobile": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-xl": ["Plus Jakarta Sans", "sans-serif"],
+            "body-lg": ["Inter", "sans-serif"],
+            "code-md": ["JetBrains Mono", "monospace"],
+            "code-lg": ["JetBrains Mono", "monospace"],
+            "headline-xl-mobile": ["Plus Jakarta Sans", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "code-sm": ["JetBrains Mono", "monospace"],
+            "headline-md": ["Plus Jakarta Sans", "sans-serif"],
+            "label-md": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-lg": ["Plus Jakarta Sans", "sans-serif"]
+          },
+          fontSize: {
+            "body-sm": ["0.75rem", { lineHeight: "1.25rem", fontWeight: "400" }],
+            "headline-lg-mobile": ["1.5rem", { lineHeight: "2rem", letterSpacing: "-0.01em", fontWeight: "600" }],
+            "headline-xl": ["3rem", { lineHeight: "3.5rem", letterSpacing: "-0.03em", fontWeight: "700" }],
+            "body-lg": ["1.125rem", { lineHeight: "1.75rem", fontWeight: "400" }],
+            "code-md": ["0.75rem", { lineHeight: "1.25rem", letterSpacing: "0em", fontWeight: "500" }],
+            "code-lg": ["0.875rem", { lineHeight: "1.5rem", letterSpacing: "-0.01em", fontWeight: "500" }],
+            "headline-xl-mobile": ["2rem", { lineHeight: "2.5rem", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "body-md": ["0.875rem", { lineHeight: "1.5rem", fontWeight: "400" }],
+            "code-sm": ["0.6875rem", { lineHeight: "1rem", letterSpacing: "0.02em", fontWeight: "400" }],
+            "headline-md": ["1.25rem", { lineHeight: "1.75rem", letterSpacing: "-0.01em", fontWeight: "600" }],
+            "label-md": ["0.75rem", { lineHeight: "1rem", letterSpacing: "0.05em", fontWeight: "600" }],
+            "headline-lg": ["2rem", { lineHeight: "2.5rem", letterSpacing: "-0.02em", fontWeight: "600" }]
+          }
+        }
+      }
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body class="bg-background font-body-md text-body-md text-on-surface antialiased min-h-screen">
+  <!-- Clean Clinical Header with Navigation across all 3 pages -->
+  <header class="sticky top-0 w-full bg-surface-container-lowest/95 backdrop-blur-xl border-b border-outline-variant/30 z-50 shadow-xs">
+    <div class="max-w-7xl mx-auto px-space-md sm:px-space-lg lg:px-space-xl h-18 py-3 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-space-md cursor-pointer group" onclick="window.location.href='/'" title="Return to Dashboard">
+        <div class="w-10 h-10 rounded-xl bg-white shadow-xs border border-outline-variant/40 p-1 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+          <img alt="PhyloTargetX Precision Oncology Brand Mark" class="w-full h-full object-contain" src="/logo.svg" onerror="this.onerror=null; this.src='/logo.png'"/>
+        </div>
+        <div class="h-6 w-px bg-outline-variant/40"></div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-headline-md text-headline-md font-bold text-on-surface tracking-tight leading-none">PhyloTargetX</h1>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-code-sm font-bold bg-secondary-container/30 text-on-secondary-container border border-secondary/20">v4.2 PRO</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Final Analysis Report &amp; Precision Therapeutic Dossier</p>
+        </div>
+      </div>
+
+      <!-- Navigation Pill Strip -->
+      <div class="flex items-center gap-2.5">
+        <nav class="hidden md:flex items-center gap-1 p-1 rounded-xl bg-surface-container-low/90 border border-outline-variant/30 text-xs">
+          <button class="px-3.5 py-1.5 rounded-lg font-semibold text-on-surface-variant hover:bg-white hover:text-on-surface transition-all cursor-pointer" onclick="window.location.href='/'">Dashboard</button>
+          <button class="px-3.5 py-1.5 rounded-lg font-semibold text-on-surface-variant hover:bg-white hover:text-on-surface transition-all cursor-pointer" onclick="window.location.href='/wizard.html'">Analysis Wizard</button>
+          <button class="px-3.5 py-1.5 rounded-lg font-bold bg-white text-secondary shadow-xs border border-outline-variant/40 cursor-default">Final Report</button>
+        </nav>
+
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-container/25 border border-secondary/30 text-secondary font-code-sm text-code-sm font-semibold">
+          <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+          Analysis Complete
+        </span>
+
+        <button onclick="window.location.href='/wizard.html'" class="px-3 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-headline-md text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer border border-outline-variant/30 shadow-xs" title="Return to Analysis Wizard">
+          <span class="material-symbols-outlined text-[16px]">arrow_back</span>
+          <span class="hidden sm:inline">Back to Wizard</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Notification Toast Container -->
+  <div id="toastNotification" class="fixed top-20 right-6 z-50 hidden bg-[#0f172a] text-white px-5 py-3 rounded-xl shadow-2xl border border-emerald-500/40 flex items-center gap-3 font-code-sm text-xs font-semibold">
+    <span class="material-symbols-outlined text-secondary">check_circle</span>
+    <span id="toastMessage">Report exported successfully</span>
+  </div>
+
+  <main class="relative bg-gradient-to-b from-surface-container-low/40 via-background to-background py-space-lg">
+    <div class="max-w-7xl mx-auto px-space-md sm:px-space-lg lg:px-space-xl space-y-space-lg">
+
+      <!-- Interactive Disease & Target Protein Flowchart -->
+      <section class="bg-surface-container-lowest/95 backdrop-blur-xl rounded-2xl p-space-lg lg:p-space-xl border border-outline-variant/35 shadow-[0_12px_30px_-10px_rgba(15,23,42,0.05)] relative overflow-hidden">
+        <div class="absolute -right-20 -top-20 w-80 h-80 bg-primary-fixed/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md pb-space-md border-b border-outline-variant/20">
+          <div>
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-primary-fixed/50 text-on-primary-fixed-variant font-code-sm text-code-sm font-semibold mb-1">
+              <span class="material-symbols-outlined text-[15px]">account_tree</span>
+              TARGET IDENTIFICATION &amp; DISCOVERY FLOW
+            </div>
+            <h2 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight">Disease-to-Protein Dynamic Pipeline</h2>
+          </div>
+          <div class="flex items-center gap-2 font-code-sm text-code-sm text-on-surface-variant bg-surface-container-low/70 px-3 py-1.5 rounded-lg border border-outline-variant/30">
+            <span class="material-symbols-outlined text-primary text-[18px]">dynamic_form</span>
+            <span>Dynamic Target Binding: <strong class="text-on-surface font-semibold">3 Targets Selected</strong> (Supports 1 to N targets)</span>
+          </div>
+        </div>
+
+        <!-- Visual Flowchart Mapping -->
+        <div class="mt-space-lg flex flex-col lg:flex-row items-center justify-center gap-4 lg:gap-6 relative">
+          <!-- Disease Root Node -->
+          <div class="w-full lg:w-72 bg-gradient-to-br from-primary-fixed/30 to-surface-container-low p-4 rounded-xl border border-primary/20 shadow-sm flex flex-col shrink-0">
+            <div class="flex items-center justify-between">
+              <span class="font-code-sm text-[11px] font-bold uppercase tracking-wider text-primary">Target Indication</span>
+              <span class="material-symbols-outlined text-primary text-[20px]">lungs</span>
+            </div>
+            <div class="mt-2">
+              <span class="font-headline-md text-[17px] font-bold text-on-surface block leading-snug">Non-Small Cell Lung Cancer</span>
+              <span class="font-code-sm text-code-sm text-on-surface-variant font-medium">(NSCLC - Adenocarcinoma)</span>
+            </div>
+            <div class="mt-3 pt-2.5 border-t border-outline-variant/30 flex items-center justify-between font-code-sm text-[11px] text-outline">
+              <span>Multi-Driver Axis</span>
+              <span class="text-secondary font-semibold">Active Profile</span>
+            </div>
+          </div>
+
+          <!-- Dynamic Connectors Desktop -->
+          <div class="hidden lg:flex flex-col items-center justify-center text-primary/60 shrink-0">
+            <span class="material-symbols-outlined text-[32px]">arrow_forward</span>
+            <span class="font-code-sm text-[10px] uppercase tracking-wider text-outline font-semibold">Tri-Target Split</span>
+          </div>
+
+          <!-- Dynamic Connectors Mobile -->
+          <div class="flex lg:hidden items-center justify-center text-primary/60">
+            <span class="material-symbols-outlined text-[26px]">arrow_downward</span>
+          </div>
+
+          <!-- Target Protein Branches (3 Target Nodes) -->
+          <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-3.5 flex-1">
+            <!-- Node 1: EGFR -->
+            <a class="group bg-surface-container-low/60 hover:bg-surface-container-low p-3.5 rounded-xl border border-outline-variant/40 hover:border-primary/40 transition-all shadow-xs flex flex-col justify-between" href="#target-egfr">
+              <div class="flex items-start justify-between">
+                <span class="font-code-sm text-[10px] font-bold px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed tracking-wide">NODE 01</span>
+                <span class="material-symbols-outlined text-[18px] text-outline group-hover:text-primary transition-colors">north_east</span>
+              </div>
+              <div class="mt-2.5">
+                <h3 class="font-headline-md text-[16px] font-bold text-on-surface group-hover:text-primary transition-colors">EGFR</h3>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Epidermal Growth Factor Receptor</p>
+              </div>
+              <div class="mt-3 pt-2 border-t border-outline-variant/30 flex items-center justify-between font-code-sm text-[11px]">
+                <span class="text-outline">Model: Gallus gallus</span>
+                <span class="text-secondary font-semibold">94.2% Sim</span>
+              </div>
+            </a>
+
+            <!-- Node 2: KRAS -->
+            <a class="group bg-surface-container-low/60 hover:bg-surface-container-low p-3.5 rounded-xl border border-outline-variant/40 hover:border-primary/40 transition-all shadow-xs flex flex-col justify-between" href="#target-kras">
+              <div class="flex items-start justify-between">
+                <span class="font-code-sm text-[10px] font-bold px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed tracking-wide">NODE 02</span>
+                <span class="material-symbols-outlined text-[18px] text-outline group-hover:text-primary transition-colors">north_east</span>
+              </div>
+              <div class="mt-2.5">
+                <h3 class="font-headline-md text-[16px] font-bold text-on-surface group-hover:text-primary transition-colors">KRAS G12D</h3>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">KRAS G12D Oncogene Variant</p>
+              </div>
+              <div class="mt-3 pt-2 border-t border-outline-variant/30 flex items-center justify-between font-code-sm text-[11px]">
+                <span class="text-outline">Model: Danio rerio</span>
+                <span class="text-secondary font-semibold">88.4% Sim</span>
+              </div>
+            </a>
+
+            <!-- Node 3: ALK -->
+            <a class="group bg-surface-container-low/60 hover:bg-surface-container-low p-3.5 rounded-xl border border-outline-variant/40 hover:border-primary/40 transition-all shadow-xs flex flex-col justify-between" href="#target-alk">
+              <div class="flex items-start justify-between">
+                <span class="font-code-sm text-[10px] font-bold px-2 py-0.5 rounded bg-secondary-container/60 text-on-secondary-container tracking-wide">NODE 03</span>
+                <span class="material-symbols-outlined text-[18px] text-outline group-hover:text-primary transition-colors">north_east</span>
+              </div>
+              <div class="mt-2.5">
+                <h3 class="font-headline-md text-[16px] font-bold text-on-surface group-hover:text-primary transition-colors">ALK</h3>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Anaplastic Lymphoma Kinase</p>
+              </div>
+              <div class="mt-3 pt-2 border-t border-outline-variant/30 flex items-center justify-between font-code-sm text-[11px]">
+                <span class="text-outline">Model: Mus musculus</span>
+                <span class="text-secondary font-semibold">91.8% Sim</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Per-Protein Breakdown Section -->
+      <div class="space-y-space-lg">
+
+        <!-- ================= TARGET 1: EGFR ================= -->
+        <section class="bg-surface-container-lowest/95 backdrop-blur-xl rounded-2xl p-space-lg lg:p-space-xl border border-outline-variant/35 shadow-[0_8px_24px_-6px_rgba(15,23,42,0.04)] scroll-mt-24" id="target-egfr">
+          <!-- Header Strip -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pb-space-md border-b border-outline-variant/20">
+            <div class="flex items-center gap-space-sm flex-wrap">
+              <span class="px-2.5 py-1 rounded bg-tertiary-fixed text-on-tertiary-fixed font-code-sm text-code-sm font-bold tracking-wide uppercase">Target 01</span>
+              <h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">EGFR (Epidermal Growth Factor Receptor)</h2>
+              <span class="px-2 py-0.5 rounded bg-surface-container-high font-code-sm text-code-sm text-on-surface-variant font-medium">Kinase Domain • PDB: 7A2A</span>
+            </div>
+            <span class="font-code-sm text-code-sm text-outline">Locus: Chr 7p11.2 | Exons 18–21</span>
+          </div>
+
+          <!-- Two Major Components Grid -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-space-lg mt-space-lg">
+            <!-- Component A: Best Animal Model -->
+            <div class="bg-surface-container-low/40 rounded-xl p-space-md border border-outline-variant/30 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-space-sm">
+                  <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                    <span class="font-label-md text-label-md uppercase font-bold text-secondary tracking-wider">A) Optimal In Vivo Animal Model</span>
+                  </div>
+                  <span class="font-code-sm text-code-sm text-outline">TaxID: 9031</span>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-space-md mt-space-sm">
+                  <!-- Scientific Animal Photo -->
+                  <div class="w-full sm:w-44 h-36 rounded-lg overflow-hidden shrink-0 border border-outline-variant/40 shadow-xs bg-surface-container-lowest">
+                    <img alt="Scientific biological photograph of Gallus gallus (chicken) in laboratory setting" class="w-full h-full object-cover object-center" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9gMGcojrmRSXnC5L6rk73tGOE3RdzyhMSSN8l9LpNdzBPnacBOpM7Cj_u7Q_FMKLV-Xgm57Z08LJAyq56aWT8PDDTxqItBTCOFhf2X-qPQoV0CeWEO3qOo3DhDaKz8zd5CgsPmy6--w7P2f9nWeLfi1jlA7zKEy3AaiWMsZLmIXvQ0MTzt9zjxS82DYdtKVb5RWaAV8xfYWQeizSUl7WrZEE8J3g28AcKhjrOMxoSvr841LhPvS9J"/>
+                  </div>
+                  <!-- Validation Rationale -->
+                  <div class="flex-1 space-y-2">
+                    <div>
+                      <h4 class="font-headline-md text-headline-md font-bold text-on-surface">Gallus gallus <span class="font-normal text-on-surface-variant">(Chicken)</span></h4>
+                      <span class="font-code-sm text-code-sm text-primary font-medium">Avian Kinase Homology Benchmark</span>
+                    </div>
+                    <div class="space-y-1.5 text-body-sm font-body-sm text-on-surface-variant">
+                      <div class="flex justify-between items-center bg-surface-container-lowest px-2.5 py-1 rounded border border-outline-variant/20 font-code-sm">
+                        <span>Sequence Identity</span>
+                        <strong class="text-secondary font-bold">94.2%</strong>
+                      </div>
+                      <div class="flex justify-between items-center bg-surface-container-lowest px-2.5 py-1 rounded border border-outline-variant/20 font-code-sm">
+                        <span>Invariant Catalytic Triad</span>
+                        <strong class="text-on-surface font-semibold">Lys745 - Glu762 - Asp855</strong>
+                      </div>
+                      <div class="flex justify-between items-center bg-surface-container-lowest px-2.5 py-1 rounded border border-outline-variant/20 font-code-sm">
+                        <span>RMSD Pocket Fit</span>
+                        <strong class="text-secondary font-bold">0.42 Å</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-space-sm pt-space-xs border-t border-outline-variant/20 font-code-sm text-[11px] text-on-surface-variant flex items-center justify-between">
+                <span>In Vivo Translational Fidelity:</span>
+                <span class="text-secondary font-bold font-code-sm">0.96 / 1.0 (High Physiological Concordance)</span>
+              </div>
+            </div>
+
+            <!-- Component B: Best Drug Candidate -->
+            <div class="bg-surface-container-low/40 rounded-xl p-space-md border border-outline-variant/30 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-space-sm">
+                  <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-primary"></span>
+                    <span class="font-label-md text-label-md uppercase font-bold text-primary tracking-wider">B) Best Screened Drug Candidate</span>
+                  </div>
+                  <span class="px-2 py-0.5 rounded-full bg-secondary-container/30 text-on-secondary-container font-code-sm text-code-sm font-bold">96.8% Confidence</span>
+                </div>
+                <div class="mt-space-sm space-y-space-sm">
+                  <div class="flex items-baseline justify-between">
+                    <div>
+                      <h4 class="font-headline-md text-headline-md font-bold text-on-surface">Osimertinib <span class="text-outline font-normal font-code-sm">(AZD9291)</span></h4>
+                      <span class="font-code-sm text-code-sm text-on-surface-variant">3rd Generation Irreversible EGFR-TKI • ChEMBL3358826</span>
+                    </div>
+                  </div>
+                  <!-- Metrics Deck -->
+                  <div class="grid grid-cols-2 gap-2.5 font-code-sm">
+                    <div class="bg-surface-container-lowest p-2.5 rounded border border-outline-variant/20">
+                      <span class="text-outline text-[11px] block">Binding Affinity (Kd)</span>
+                      <span class="text-on-surface font-code-md font-bold">0.52 nM</span>
+                    </div>
+                    <div class="bg-surface-container-lowest p-2.5 rounded border border-outline-variant/20">
+                      <span class="text-outline text-[11px] block">Predicted Free Energy (ΔG)</span>
+                      <span class="text-secondary font-code-md font-bold">-12.4 kcal/mol</span>
+                    </div>
+                  </div>
+                  <!-- Mechanistic Rationale Box -->
+                  <div class="bg-surface-container-lowest p-2.5 rounded border border-outline-variant/20">
+                    <span class="font-code-sm text-[11px] text-outline font-semibold uppercase block mb-1">Mechanistic Selection Rationale</span>
+                    <p class="font-body-sm text-body-sm text-on-surface leading-relaxed">
+                      Covalent sulfur bond targeting <span class="font-semibold text-primary">Cys797</span> directly circumvents secondary gatekeeper <span class="font-semibold text-on-surface">T790M resistance</span> mutations while sparing wild-type EGFR to minimize epidermal toxicities.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-space-sm pt-space-xs border-t border-outline-variant/20 font-code-sm text-[11px] text-on-surface-variant flex items-center justify-between">
+                <span>Selectivity Index:</span>
+                <span class="text-secondary font-bold font-code-sm">180x Selective vs WT Kinome</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= TARGET 2: KRAS ================= -->
+        <section class="bg-surface-container-lowest/95 backdrop-blur-xl rounded-2xl p-space-lg lg:p-space-xl border border-outline-variant/35 shadow-[0_8px_24px_-6px_rgba(15,23,42,0.04)] scroll-mt-24" id="target-kras">
+          <!-- Header Strip -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pb-space-md border-b border-outline-variant/20">
+            <div class="flex items-center gap-space-sm flex-wrap">
+              <span class="px-2.5 py-1 rounded bg-primary-fixed text-on-primary-fixed font-code-sm text-code-sm font-bold tracking-wide uppercase">Target 02</span>
+              <h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">KRAS G12D Oncogene</h2>
+              <span class="px-2 py-0.5 rounded bg-surface-container-high font-code-sm text-code-sm text-on-surface-variant font-medium">Small GTPase • PDB: 8D20</span>
+            </div>
+            <span class="font-code-sm text-code-sm text-outline">Locus: Chr 12p12.1 | Gly12Asp Point Mutation</span>
+          </div>
+
+          <!-- Two Major Components Grid -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-space-lg mt-space-lg">
+            <!-- Component A: Best Animal Model -->
+            <div class="bg-surface-container-low/40 rounded-xl p-space-md border border-outline-variant/30 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-space-sm">
+                  <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                    <span class="font-label-md text-label-md uppercase font-bold text-secondary tracking-wider">A) Optimal In Vivo Animal Model</span>
+                  </div>
+                  <span class="font-code-sm text-code-sm text-outline">TaxID: 7955</span>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-space-md mt-space-sm">
+                  <!-- Scientific Animal Photo -->
+                  <div class="w-full sm:w-44 h-36 rounded-lg overflow-hidden shrink-0 border border-outline-variant/40 shadow-xs bg-surface-container-lowest">
+                    <img alt="Scientific biological photograph of Danio rerio (Zebrafish) swimming in laboratory aquarium" class="w-full h-full object-cover object-center" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1HHGaBRsHcRBrU2SlGMAgidOTpBF6AUZ0HBOgQkxVqA63ioCuWwxP7jlYAVbb9r8bR6a2KnXOdChw69gkw32MLLeyGhXNDki_yL1sk-lGlJxxdAaOs9mVm893tppuNMAQqzXik5HmOomnZD9ovI1cG57CbxupfI7oQpr8uRtnlnLIEy4i_7l_9klRr0RQ2KWyPMNTTJEuDbMiqMwCV6sZBcueer07jVspESAMWjpTaMIdi91r8Mo4"/>
+                  </div>
+                  <!-- Validation Rationale -->
+                  <div class="flex-1 space-y-2">
+                    <div>
+                      <h4 class="font-headline-md text-headline-md font-bold text-on-surface">Danio rerio <span class="font-normal text-on-surface-variant">(Zebrafish)</span></h4>
+                      <span class="font-code-sm text-code-sm text-primary font-medium">Embryonic GTPase Xenograft Screen</span>
+                    </div>
+                    <div class="space-y-1.5 text-body-sm font-body-sm text-on-surface-variant">
+                      <div class="flex justify-between items-center bg-surface-container-lowest px-2.5 py-1 rounded border border-outline-variant/20 font-code-sm">
+                        <span>Sequence Conservation</span>
+                        <strong class="text-secondary font-bold">88.4%</strong>
+                      </div>
+                      <div class="flex justify-between items-center bg-surface-container-lowest px-2.5 py-1 rounded border border-outline-variant/20 font-code-sm">
+                        <span>Switch-II Pocket Homology</span>
+                        <strong class="text-on-surface font-semibold">Preserved (Glu62 / Tyr96)</strong>
+                      </div>
+                      <div class="flex justify-between items-center bg-surface-container-lowest px-2.5 py-1 rounded border border-outline-variant/20 font-code-sm">
+                        <span>RMSD Pocket Fit</span>
+                        <strong class="text-secondary font-bold">0.68 Å</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-space-sm pt-space-xs border-t border-outline-variant/20 font-code-sm text-[11px] text-on-surface-variant flex items-center justify-between">
+                <span>In Vivo Translational Fidelity:</span>
+                <span class="text-secondary font-bold font-code-sm">0.91 / 1.0 (Rapid High-Throughput Phenotyping)</span>
+              </div>
+            </div>
+
+            <!-- Component B: Best Drug Candidate -->
+            <div class="bg-surface-container-low/40 rounded-xl p-space-md border border-outline-variant/30 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-space-sm">
+                  <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-primary"></span>
+                    <span class="font-label-md text-label-md uppercase font-bold text-primary tracking-wider">B) Best Screened Drug Candidate</span>
+                  </div>
+                  <span class="px-2 py-0.5 rounded-full bg-secondary-container/30 text-on-secondary-container font-code-sm text-code-sm font-bold">93.4% Confidence</span>
+                </div>
+                <div class="mt-space-sm space-y-space-sm">
+                  <div class="flex items-baseline justify-between">
+                    <div>
+                      <h4 class="font-headline-md text-headline-md font-bold text-on-surface">Sotorasib <span class="text-outline font-normal font-code-sm">(AMG 510)</span></h4>
+                      <span class="font-code-sm text-code-sm text-on-surface-variant">Switch-II Covalent Allosteric Inhibitor • ChEMBL4297800</span>
+                    </div>
+                  </div>
+                  <!-- Metrics Deck -->
+                  <div class="grid grid-cols-2 gap-2.5 font-code-sm">
+                    <div class="bg-surface-container-lowest p-2.5 rounded border border-outline-variant/20">
+                      <span class="text-outline text-[11px] block">Binding Affinity (Kd)</span>
+                      <span class="text-on-surface font-code-md font-bold">1.10 nM</span>
+                    </div>
+                    <div class="bg-surface-container-lowest p-2.5 rounded border border-outline-variant/20">
+                      <span class="text-outline text-[11px] block">Predicted Free Energy (ΔG)</span>
+                      <span class="text-secondary font-code-md font-bold">-11.2 kcal/mol</span>
+                    </div>
+                  </div>
+                  <!-- Mechanistic Rationale Box -->
+                  <div class="bg-surface-container-lowest p-2.5 rounded border border-outline-variant/20">
+                    <span class="font-code-sm text-[11px] text-outline font-semibold uppercase block mb-1">Mechanistic Selection Rationale</span>
+                    <p class="font-body-sm text-body-sm text-on-surface leading-relaxed">
+                      Traps KRAS in its inactive GDP-bound conformation via cryptic <span class="font-semibold text-primary">Switch-II groove interaction</span>, blocking downstream RAF/MEK/ERK phosphorylation cascade with low hepatotoxicity risk.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-space-sm pt-space-xs border-t border-outline-variant/20 font-code-sm text-[11px] text-on-surface-variant flex items-center justify-between">
+                <span>Selectivity Index:</span>
+                <span class="text-secondary font-bold font-code-sm">110x GDP vs GTP Conformation Lock</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= TARGET 3: ALK ================= -->
+        <section class="bg-surface-container-lowest/95 backdrop-blur-xl rounded-2xl p-space-lg lg:p-space-xl border border-outline-variant/35 shadow-[0_8px_24px_-6px_rgba(15,23,42,0.04)] scroll-mt-24" id="target-alk">
+          <!-- Header Strip -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pb-space-md border-b border-outline-variant/20">
+            <div class="flex items-center gap-space-sm flex-wrap">
+              <span class="px-2.5 py-1 rounded bg-secondary-container/70 text-on-secondary-container font-code-sm text-code-sm font-bold tracking-wide uppercase">Target 03</span>
+              <h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">ALK (Anaplastic Lymphoma Kinase)</h2>
+              <span class="px-2 py-0.5 rounded bg-surface-container-high font-code-sm text-code-sm text-on-surface-variant font-medium">Kinase Translocation EML4-ALK • PDB: 4CLI</span>
+            </div>
+            <span class="font-code-sm text-code-sm text-outline">Locus: Chr 2p23.2 | Intron 19 Inversion</span>
+          </div>
+
+          <!-- Two Major Components Grid -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-space-lg mt-space-lg">
+            <!-- Component A: Best Animal Model -->
+            <div class="bg-surface-container-low/40 rounded-xl p-space-md border border-outline-variant/30 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-space-sm">
+                  <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                    <span class="font-label-md text-label-md uppercase font-bold text-secondary tracking-wider">A) Optimal In Vivo Animal Model</span>
+                  </div>
+                  <span class="font-code-sm text-code-sm text-outline">TaxID: 10090</span>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-space-md mt-space-sm">
+                  <!-- Scientific Animal Photo -->
+                  <div class="w-full sm:w-44 h-36 rounded-lg overflow-hidden shrink-0 border border-outline-variant/40 shadow-xs bg-surface-container-lowest">
+                    <img alt="Scientific biological photograph of Mus musculus (BALB/c laboratory mouse)" class="w-full h-full object-cover object-center" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCDEZDYrO6nyr7vc1zerJg2Vp7FbYRwBiGim7S0hZJddm5LuZ2TN98QVuflXgT2MjkL9oN1UHC01ccADMIiP4sicJMKlSULGpVUuJYPHbldE9hE6EBtFlY7LPmyy2b-uue3K7aoUUAmaO6V8hv2j9Oii60VAsCgI1aRQwiRUieCvhq1otnJDI4_kOHUiccFtfE9-1fP8WXfkfo_XCQbwMV5JmbTYfde2Rx2Rzx94LKlU61aatidA81"/>
+                  </div>
+                  <!-- Validation Rationale -->
+                  <div class="flex-1 space-y-2">
+                    <div>
+                      <h4 class="font-headline-md text-headline-md font-bold text-on-surface">Mus musculus <span class="font-normal text-on-surface-variant">(Lab Mouse)</span></h4>
+                      <span class="font-code-sm text-code-sm text-primary font-medium">BALB/c Precision Syngeneic Model</span>
+                    </div>
+                    <div class="space-y-1.5 text-body-sm font-body-sm text-on-surface-variant">
+                      <div class="flex justify-between items-center bg-surface-container-lowest px-2.5 py-1 rounded border border-outline-variant/20 font-code-sm">
+                        <span>Sequence Identity</span>
+                        <strong class="text-secondary font-bold">91.8%</strong>
+                      </div>
+                      <div class="flex justify-between items-center bg-surface-container-lowest px-2.5 py-1 rounded border border-outline-variant/20 font-code-sm">
+                        <span>Juxtamembrane Helix Integrity</span>
+                        <strong class="text-on-surface font-semibold">100% Invariant (Arg1120)</strong>
+                      </div>
+                      <div class="flex justify-between items-center bg-surface-container-lowest px-2.5 py-1 rounded border border-outline-variant/20 font-code-sm">
+                        <span>RMSD Pocket Fit</span>
+                        <strong class="text-secondary font-bold">0.38 Å</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-space-sm pt-space-xs border-t border-outline-variant/20 font-code-sm text-[11px] text-on-surface-variant flex items-center justify-between">
+                <span>In Vivo Translational Fidelity:</span>
+                <span class="text-secondary font-bold font-code-sm">0.98 / 1.0 (Direct CNS Metastasis Predictability)</span>
+              </div>
+            </div>
+
+            <!-- Component B: Best Drug Candidate -->
+            <div class="bg-surface-container-low/40 rounded-xl p-space-md border border-outline-variant/30 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-space-sm">
+                  <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-primary"></span>
+                    <span class="font-label-md text-label-md uppercase font-bold text-primary tracking-wider">B) Best Screened Drug Candidate</span>
+                  </div>
+                  <span class="px-2 py-0.5 rounded-full bg-secondary-container/30 text-on-secondary-container font-code-sm text-code-sm font-bold">95.1% Confidence</span>
+                </div>
+                <div class="mt-space-sm space-y-space-sm">
+                  <div class="flex items-baseline justify-between">
+                    <div>
+                      <h4 class="font-headline-md text-headline-md font-bold text-on-surface">Alectinib <span class="text-outline font-normal font-code-sm">(RG7853)</span></h4>
+                      <span class="font-code-sm text-code-sm text-on-surface-variant">2nd Gen Highly Potent ALK Kinase Inhibitor • ChEMBL2105757</span>
+                    </div>
+                  </div>
+                  <!-- Metrics Deck -->
+                  <div class="grid grid-cols-2 gap-2.5 font-code-sm">
+                    <div class="bg-surface-container-lowest p-2.5 rounded border border-outline-variant/20">
+                      <span class="text-outline text-[11px] block">Binding Affinity (Kd)</span>
+                      <span class="text-on-surface font-code-md font-bold">0.83 nM</span>
+                    </div>
+                    <div class="bg-surface-container-lowest p-2.5 rounded border border-outline-variant/20">
+                      <span class="text-outline text-[11px] block">Predicted Free Energy (ΔG)</span>
+                      <span class="text-secondary font-code-md font-bold">-11.9 kcal/mol</span>
+                    </div>
+                  </div>
+                  <!-- Mechanistic Rationale Box -->
+                  <div class="bg-surface-container-lowest p-2.5 rounded border border-outline-variant/20">
+                    <span class="font-code-sm text-[11px] text-outline font-semibold uppercase block mb-1">Mechanistic Selection Rationale</span>
+                    <p class="font-body-sm text-body-sm text-on-surface leading-relaxed">
+                      Maintains optimal structural orientation bypassing <span class="font-semibold text-primary">L1196M gatekeeper mutation</span> while demonstrating superior <span class="font-semibold text-on-surface">blood-brain barrier penetration</span> against central nervous system metastases.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-space-sm pt-space-xs border-t border-outline-variant/20 font-code-sm text-[11px] text-on-surface-variant flex items-center justify-between">
+                <span>CNS Permeability Ratio:</span>
+                <span class="text-secondary font-bold font-code-sm">0.74 (Brain-to-Plasma Unbound Ratio)</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Action Footer Area with full functional links and exports -->
+      <section class="bg-surface-container-lowest/95 backdrop-blur-xl rounded-2xl p-space-lg border border-outline-variant/35 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-space-md">
+        <div class="text-center sm:text-left">
+          <span class="font-label-md text-label-md uppercase tracking-wider text-outline font-semibold">Report Completion</span>
+          <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">All 3 Target proteins validated with structural conservation and in silico affinities.</p>
+        </div>
+        <div class="flex flex-wrap items-center justify-center gap-space-sm w-full sm:w-auto">
+          <button onclick="window.print()" class="px-space-lg py-2.5 rounded-xl bg-secondary text-on-secondary font-headline-md text-body-md font-semibold flex items-center justify-center gap-2 shadow-sm hover:bg-secondary/90 transition-all cursor-pointer">
+            <span class="material-symbols-outlined text-[19px]">picture_as_pdf</span>
+            Download Report (PDF)
+          </button>
+          <button onclick="exportReportJSON()" class="px-space-md py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-headline-md text-body-md font-medium flex items-center justify-center gap-2 transition-colors cursor-pointer">
+            <span class="material-symbols-outlined text-[19px]">data_object</span>
+            Export Data (JSON)
+          </button>
+          <button onclick="window.location.href='/wizard.html'" class="px-space-md py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-headline-md text-body-md font-medium flex items-center justify-center gap-2 transition-colors cursor-pointer border border-outline-variant/30">
+            <span class="material-symbols-outlined text-[19px]">arrow_back</span>
+            Back to Wizard
+          </button>
+          <button onclick="window.location.href='/'" class="px-space-md py-2.5 rounded-xl bg-surface-container-lowest hover:bg-surface-container-low border border-outline-variant/40 text-on-surface-variant hover:text-on-surface font-headline-md text-body-md font-medium flex items-center justify-center gap-2 transition-colors cursor-pointer">
+            <span class="material-symbols-outlined text-[19px]">refresh</span>
+            Start New Analysis
+          </button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    function showToast(msg) {
+      const toast = document.getElementById('toastNotification');
+      const toastMsg = document.getElementById('toastMessage');
+      if (toast && toastMsg) {
+        toastMsg.textContent = msg;
+        toast.classList.remove('hidden');
+        setTimeout(() => toast.classList.add('hidden'), 4000);
+      }
+    }
+
+    function exportReportJSON() {
+      const reportPayload = {
+        reportId: "PTX-2026-0916-NSCLC",
+        platform: "PhyloTargetX Precision Oncology Pipeline",
+        timestamp: new Date().toISOString(),
+        indication: "Non-Small Cell Lung Cancer (NSCLC - Adenocarcinoma)",
+        targets: [
+          {
+            gene: "EGFR",
+            fullName: "Epidermal Growth Factor Receptor",
+            pdb: "7A2A",
+            bestAnimalModel: {
+              species: "Gallus gallus (Chicken)",
+              taxId: 9031,
+              sequenceIdentity: "94.2%",
+              rmsd: "0.42 Å",
+              fidelity: "0.96 / 1.0"
+            },
+            bestDrugCandidate: {
+              name: "Osimertinib (AZD9291)",
+              chemblId: "CHEMBL3358826",
+              kd: "0.52 nM",
+              deltaG: "-12.4 kcal/mol",
+              confidence: "96.8%"
+            }
+          },
+          {
+            gene: "KRAS G12D",
+            fullName: "KRAS G12D Oncogene Variant",
+            pdb: "8D20",
+            bestAnimalModel: {
+              species: "Danio rerio (Zebrafish)",
+              taxId: 7955,
+              sequenceIdentity: "88.4%",
+              rmsd: "0.68 Å",
+              fidelity: "0.91 / 1.0"
+            },
+            bestDrugCandidate: {
+              name: "Sotorasib (AMG 510)",
+              chemblId: "CHEMBL4297800",
+              kd: "1.10 nM",
+              deltaG: "-11.2 kcal/mol",
+              confidence: "93.4%"
+            }
+          },
+          {
+            gene: "ALK",
+            fullName: "Anaplastic Lymphoma Kinase",
+            pdb: "4CLI",
+            bestAnimalModel: {
+              species: "Mus musculus (Lab Mouse)",
+              taxId: 10090,
+              sequenceIdentity: "91.8%",
+              rmsd: "0.38 Å",
+              fidelity: "0.98 / 1.0"
+            },
+            bestDrugCandidate: {
+              name: "Alectinib (RG7853)",
+              chemblId: "CHEMBL2105757",
+              kd: "0.83 nM",
+              deltaG: "-11.9 kcal/mol",
+              confidence: "95.1%"
+            }
+          }
+        ]
+      };
+
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(reportPayload, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", "phylotargetx_final_report_PTX-2026-0916.json");
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+      showToast("JSON Analysis Telemetry exported successfully!");
+    }
+  </script>
+</body>
+</html>

@@ -58,6 +58,7 @@ export default function AnalysisWizard({ onNavigate }) {
     } else {
       if (isLastProtein) {
         if (onNavigate) onNavigate('report');
+        else window.location.href = '/report.html';
       } else {
         setCurrentProteinIndex((prev) => prev + 1);
         setCurrentPhase('animals');

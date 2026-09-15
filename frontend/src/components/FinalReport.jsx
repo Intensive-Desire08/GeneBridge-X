@@ -245,7 +245,15 @@ export default function FinalReport({ onNavigate }) {
             </button>
 
             <button
-              onClick={() => onNavigate && onNavigate('dashboard')}
+              onClick={() => { window.location.href = '/wizard.html'; }}
+              className="w-full py-2 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-300 font-headline text-xs font-semibold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
+            >
+              <span className="material-symbols-outlined text-[16px]">arrow_back</span>
+              <span>Back to Wizard</span>
+            </button>
+
+            <button
+              onClick={() => { if (onNavigate) onNavigate('dashboard'); else window.location.href = '/'; }}
               className="w-full py-2 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-300 font-headline text-xs font-medium transition-all flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <span className="material-symbols-outlined text-[16px]">refresh</span>
@@ -509,6 +517,20 @@ export default function FinalReport({ onNavigate }) {
               >
                 <span className="material-symbols-outlined text-[18px]">file_download</span>
                 <span>Export Telemetry</span>
+              </button>
+              <button
+                onClick={() => { window.location.href = '/wizard.html'; }}
+                className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-headline text-xs font-semibold border border-slate-300 transition-all flex items-center gap-2 cursor-pointer shadow-xs"
+              >
+                <span className="material-symbols-outlined text-[18px]">arrow_back</span>
+                <span>Back to Wizard</span>
+              </button>
+              <button
+                onClick={() => { if (onNavigate) onNavigate('dashboard'); else window.location.href = '/'; }}
+                className="px-4 py-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-600 font-headline text-xs font-medium border border-slate-300 transition-all flex items-center gap-2 cursor-pointer shadow-xs"
+              >
+                <span className="material-symbols-outlined text-[18px]">refresh</span>
+                <span>Start New Run</span>
               </button>
             </div>
           </section>

@@ -8,6 +8,16 @@ function App() {
   const [viewMode, setViewMode] = useState('dashboard'); // 'dashboard' | 'wizard' | 'report'
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const view = params.get('view');
+    if (view === 'report' || window.location.hash === '#report') {
+      setViewMode('report');
+    } else if (view === 'wizard' || window.location.hash === '#wizard') {
+      setViewMode('wizard');
+    }
+  }, []);
+
+  useEffect(() => {
     
     
       // 1. Smooth entrance & active state for semicircular edge windows
@@ -329,9 +339,9 @@ function App() {
 </div>
 </div>
 <nav className="hidden lg:flex items-center gap-1.5 p-1 rounded-xl bg-slate-100/90 border border-slate-200/80 text-sm">
-<button className={`px-3.5 py-1.5 rounded-lg font-semibold transition-all ${viewMode === 'dashboard' ? 'bg-white text-emerald-700 shadow-sm border border-slate-200/60 font-bold' : 'text-[#334155] hover:bg-white/80 hover:text-[#0f172a]'}`} onClick={() => setViewMode('dashboard')}>Dashboard</button>
-<button className={`px-3.5 py-1.5 rounded-lg font-semibold transition-all ${viewMode === 'wizard' ? 'bg-white text-emerald-700 shadow-sm border border-slate-200/60 font-bold' : 'text-[#334155] hover:bg-white/80 hover:text-[#0f172a]'}`} onClick={() => setViewMode('wizard')}>Analysis Wizard</button>
-<button className={`px-3.5 py-1.5 rounded-lg font-semibold transition-all ${viewMode === 'report' ? 'bg-white text-emerald-700 shadow-sm border border-slate-200/60 font-bold' : 'text-[#334155] hover:bg-white/80 hover:text-[#0f172a]'}`} onClick={() => setViewMode('report')}>Final Report</button>
+<button className={`px-3.5 py-1.5 rounded-lg font-semibold transition-all ${viewMode === 'dashboard' ? 'bg-white text-emerald-700 shadow-sm border border-slate-200/60 font-bold' : 'text-[#334155] hover:bg-white/80 hover:text-[#0f172a]'}`} onClick={() => { setViewMode('dashboard'); window.history.pushState(null, '', '/'); }}>Dashboard</button>
+<button className={`px-3.5 py-1.5 rounded-lg font-semibold transition-all ${viewMode === 'wizard' ? 'bg-white text-emerald-700 shadow-sm border border-slate-200/60 font-bold' : 'text-[#334155] hover:bg-white/80 hover:text-[#0f172a]'}`} onClick={() => { window.location.href = '/wizard.html'; }}>Analysis Wizard</button>
+<button className={`px-3.5 py-1.5 rounded-lg font-semibold transition-all ${viewMode === 'report' ? 'bg-white text-emerald-700 shadow-sm border border-slate-200/60 font-bold' : 'text-[#334155] hover:bg-white/80 hover:text-[#0f172a]'}`} onClick={() => { window.location.href = '/report.html'; }}>Final Report</button>
 </nav>
 <div className="flex items-center gap-3">
 <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/90 shadow-sm">

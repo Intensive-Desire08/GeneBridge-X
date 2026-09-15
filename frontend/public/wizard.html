@@ -1060,6 +1060,11 @@
 <span>Clinical Phylogenomics Engine</span>
 </div>
 </div>
+  <nav style="display: flex; align-items: center; gap: 6px; padding: 4px; background: rgba(255,255,255,0.7); border: 1px solid var(--glass-border); border-radius: 12px; font-size: 13px;">
+    <button onclick="window.location.href='/'" style="border:none; background:none; padding: 6px 14px; border-radius: 8px; cursor: pointer; color: var(--text-charcoal); font-weight: 500; font-family: var(--font-body); transition: all 0.2s;">Dashboard</button>
+    <button style="border: 1px solid rgba(136, 183, 143, 0.4); background: white; padding: 6px 14px; border-radius: 8px; color: #24552e; font-weight: 700; font-family: var(--font-body); box-shadow: 0 2px 6px rgba(0,0,0,0.04);">Analysis Wizard</button>
+    <button onclick="window.location.href='/report.html'" style="border:none; background:none; padding: 6px 14px; border-radius: 8px; cursor: pointer; color: var(--text-charcoal); font-weight: 500; font-family: var(--font-body); transition: all 0.2s;">Final Report</button>
+  </nav>
 <div class="target-badge">
 <span class="label">Target Protein:</span>
 <span class="target-val">BRAF_V600E (Kinase Domain)</span>
@@ -1455,44 +1460,45 @@
 <svg fill="none" height="14" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="14"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
             Back to Phase 2A
           </button>
-<button class="btn-primary" onclick="openFinalReportModal()">
-<svg fill="none" height="16" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24" width="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-<span>View Final Report</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-<!-- Final Report Modal Popup -->
-<div class="report-modal-backdrop" id="report-modal" onclick="closeFinalReportOnBackdrop(event)">
-<div class="report-modal-card">
-<div style="display: flex; justify-content: space-between; align-items: flex-start;">
-<div>
-<span class="rank-pill" style="margin-bottom: 8px; display: inline-block;">PhyloTargetX Summary</span>
-<h3>Phylogenomic Target Dossier</h3>
-<p style="font-size: 13px; color: var(--text-muted);">Generated for <b>BRAF_V600E</b> kinase target assay</p>
-</div>
-<button onclick="closeFinalReportModal()" style="border:none; background:none; cursor:pointer; padding:6px; color:var(--text-muted);">
-<svg fill="none" height="20" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="20"><line x1="18" x2="6" y1="6" y2="18"></line><line x1="6" x2="18" y1="6" y2="18"></line></svg>
-</button>
-</div>
-<div style="margin: 24px 0; display: flex; flex-direction: column; gap: 14px;">
-<div style="padding: 14px 18px; background: rgba(136, 183, 143, 0.15); border: 1px solid rgba(136, 183, 143, 0.35); border-radius: 12px; font-size: 13.5px;">
-<b style="color: #24552e;">Selected In-Vivo Model:</b> Gallus gallus (Chicken) — 99.4% catalytic pocket identity, 0.31 Å RMSD.
+          <button class="btn-primary" onclick="window.location.href='/report.html'">
+            <svg fill="none" height="16" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24" width="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            <span>View Final Report</span>
+          </button>
         </div>
-<div style="padding: 14px 18px; background: rgba(240, 244, 248, 0.8); border: 1px solid var(--glass-border); border-radius: 12px; font-size: 13.5px;">
-<b style="color: var(--text-slate);">Lead Drug Molecule:</b> ChEMBL288412 (PTX-Enzaligand) — -11.8 kcal/mol binding affinity, 96.4% AI confidence score.
+      </div>
+    </div>
+  </div>
+  <!-- Final Report Modal Popup -->
+  <div class="report-modal-backdrop" id="report-modal" onclick="closeFinalReportOnBackdrop(event)">
+    <div class="report-modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <div>
+          <span class="rank-pill" style="margin-bottom: 8px; display: inline-block;">PhyloTargetX Summary</span>
+          <h3>Phylogenomic Target Dossier</h3>
+          <p style="font-size: 13px; color: var(--text-muted);">Generated for <b>BRAF_V600E</b> kinase target assay</p>
         </div>
-<div style="padding: 14px 18px; background: rgba(255, 255, 255, 0.6); border: 1px solid var(--glass-border-subtle); border-radius: 12px; font-size: 13px; color: var(--text-charcoal);">
+        <button onclick="closeFinalReportModal()" style="border:none; background:none; cursor:pointer; padding:6px; color:var(--text-muted);">
+          <svg fill="none" height="20" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="20"><line x1="18" x2="6" y1="6" y2="18"></line><line x1="6" x2="18" y1="6" y2="18"></line></svg>
+        </button>
+      </div>
+      <div style="margin: 24px 0; display: flex; flex-direction: column; gap: 14px;">
+        <div style="padding: 14px 18px; background: rgba(136, 183, 143, 0.15); border: 1px solid rgba(136, 183, 143, 0.35); border-radius: 12px; font-size: 13.5px;">
+          <b style="color: #24552e;">Selected In-Vivo Model:</b> Gallus gallus (Chicken) — 99.4% catalytic pocket identity, 0.31 Å RMSD.
+        </div>
+        <div style="padding: 14px 18px; background: rgba(240, 244, 248, 0.8); border: 1px solid var(--glass-border); border-radius: 12px; font-size: 13.5px;">
+          <b style="color: var(--text-slate);">Lead Drug Molecule:</b> ChEMBL288412 (PTX-Enzaligand) — -11.8 kcal/mol binding affinity, 96.4% AI confidence score.
+        </div>
+        <div style="padding: 14px 18px; background: rgba(255, 255, 255, 0.6); border: 1px solid var(--glass-border-subtle); border-radius: 12px; font-size: 13px; color: var(--text-charcoal);">
           All structural coordinate outputs and 3D PDB trajectories are ready for preclinical validation pipelines.
         </div>
-</div>
-<div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 28px;">
-<button class="btn-secondary" onclick="window.location.href='/'">Start New Analysis</button>
-<button class="btn-primary" onclick="alert('Dossier exported to JSON/PDB bundle.'); closeFinalReportModal();">
-<svg fill="none" height="15" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="15"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
-          Export Full Report (.PDB)
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 28px;">
+        <button class="btn-secondary" onclick="window.location.href='/'">Start New Analysis</button>
+        <button class="btn-primary" onclick="window.location.href='/report.html'">
+          <svg fill="none" height="15" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="15"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
+          Open Full Clinical Report
         </button>
+      </div>
 </div>
 </div>
 </div>
