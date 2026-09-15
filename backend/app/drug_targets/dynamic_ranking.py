@@ -16,7 +16,6 @@ DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__
 os.makedirs(DATA_DIR, exist_ok=True)
 
 def get_chembl_target_id(uniprot_id: str) -> str:
-    """Gets the ChEMBL target ID for a given UniProt ID."""
     url = f"https://www.ebi.ac.uk/chembl/api/data/target.json?target_components__accession={uniprot_id}"
     response = requests.get(url, timeout=15)
     response.raise_for_status()
@@ -31,12 +30,10 @@ def get_chembl_target_id(uniprot_id: str) -> str:
     return targets[0]["target_chembl_id"]
 
 def fetch_and_prepare_chembl_data(chembl_target_id: str, csv_path: str):
-    """Fetches activity data from ChEMBL for a target and saves it to a CSV."""
     url = f"https://www.ebi.ac.uk/chembl/api/data/activity.json?target_chembl_id={chembl_target_id}&standard_type=IC50&limit=1000"
     
     compounds = []
     
-    # Just fetch the first 1000 for speed in this demo
     response = requests.get(url, timeout=30)
     response.raise_for_status()
     data = response.json()
@@ -54,7 +51,7 @@ def fetch_and_prepare_chembl_data(chembl_target_id: str, csv_path: str):
         if smiles and ic50_val and units == "nM":
             try:
                 ic50_float = float(ic50_val)
-                # Calculate pIC50: -log10(IC50 in M). 1 nM = 10^-9 M
+                
                 pic50 = -np.log10(ic50_float * 1e-9) if ic50_float > 0 else np.nan
                 compounds.append({
                     "molecule_chembl_id": mol_id,
