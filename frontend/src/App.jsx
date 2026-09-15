@@ -1,22 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import * as THREE from 'three';
 import './index.css';
-import FinalReport from './components/FinalReport';
-import AnalysisWizard from './components/AnalysisWizard';
 
 function App() {
-  const [viewMode, setViewMode] = useState('dashboard'); // 'dashboard' | 'wizard' | 'report'
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const view = params.get('view');
-    if (view === 'report' || window.location.hash === '#report') {
-      setViewMode('report');
-    } else if (view === 'wizard' || window.location.hash === '#wizard') {
-      setViewMode('wizard');
-    }
-  }, []);
-
   useEffect(() => {
     
     
@@ -312,37 +298,34 @@ function App() {
   }, []);
 
   return (
-    <div className={`${viewMode === 'dashboard' ? 'min-h-[420vh] bg-[#faf8ff]' : 'min-h-screen bg-[#f0f4f8] bg-[radial-gradient(ellipse_80%_80%_at_50%_0%,rgba(163,201,168,0.22),transparent_70%)]'} font-body text-[#0f172a] antialiased relative selection:bg-emerald-500 selection:text-white`}>
+    <div className="min-h-[420vh] bg-[#faf8ff] font-body text-[#0f172a] antialiased relative selection:bg-emerald-500 selection:text-white">
       
-{/* Dual-Mode Three.js WebGL Canvas (Fluid Sea into Radiant Luminous DNA Helix) - Only rendered on Dashboard */}
-{viewMode === 'dashboard' && (
-  <>
-    <canvas className="fixed inset-0 w-full h-full pointer-events-none z-0" id="bg-canvas"></canvas>
-    <div className="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_25%,rgba(255,255,255,0.25)_0%,rgba(241,245,249,0.15)_60%,rgba(203,213,225,0.05)_100%)]"></div>
-    <div className="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_50%_60%,rgba(15,23,42,0.12)_0%,rgba(15,23,42,0.02)_55%,transparent_75%)]"></div>
-    <div className="fixed inset-0 pointer-events-none z-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.04)_1px,transparent_1px)] bg-[size:3.5rem_3.5rem]"></div>
-  </>
-)}
-{/* Sticky Clinical Navigation Header */}
-<header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-2xl border-b border-slate-200/90 shadow-[0_4px_24px_-2px_rgba(15,23,42,0.08)]">
-<div className="h-16 w-full px-4 sm:px-8 flex items-center justify-between gap-4 max-w-7xl mx-auto">
-<div className="flex items-center gap-3 cursor-pointer" onClick={() => { window.scrollTo({top: 0, behavior: 'smooth'}) }}>
-<div className="relative w-10 h-10 rounded-xl bg-white shadow-md border border-slate-200/80 p-1 flex items-center justify-center">
-<img alt="PhyloTargetX Logo" className="w-full h-full object-contain" src="/logo.svg"/>
-</div>
-<div className="flex flex-col">
-<div className="flex items-center gap-2">
-<span className="font-headline text-lg sm:text-xl text-[#0f172a] font-extrabold tracking-tight">PhyloTargetX</span>
-<span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">v4.2 PRO</span>
-</div>
-<span className="font-mono text-[11px] text-[#475569] font-medium tracking-wide uppercase">Computational Oncology &amp; Target Identification</span>
-</div>
-</div>
-<nav className="hidden lg:flex items-center gap-1.5 p-1 rounded-xl bg-slate-100/90 border border-slate-200/80 text-sm">
-<button className={`px-3.5 py-1.5 rounded-lg font-semibold transition-all ${viewMode === 'dashboard' ? 'bg-white text-emerald-700 shadow-sm border border-slate-200/60 font-bold' : 'text-[#334155] hover:bg-white/80 hover:text-[#0f172a]'}`} onClick={() => { setViewMode('dashboard'); window.history.pushState(null, '', '/'); }}>Dashboard</button>
-<button className={`px-3.5 py-1.5 rounded-lg font-semibold transition-all ${viewMode === 'wizard' ? 'bg-white text-emerald-700 shadow-sm border border-slate-200/60 font-bold' : 'text-[#334155] hover:bg-white/80 hover:text-[#0f172a]'}`} onClick={() => { window.location.href = '/wizard.html'; }}>Analysis Wizard</button>
-<button className={`px-3.5 py-1.5 rounded-lg font-semibold transition-all ${viewMode === 'report' ? 'bg-white text-emerald-700 shadow-sm border border-slate-200/60 font-bold' : 'text-[#334155] hover:bg-white/80 hover:text-[#0f172a]'}`} onClick={() => { window.location.href = '/report.html'; }}>Final Report</button>
-</nav>
+      {/* Dual-Mode Three.js WebGL Canvas (Fluid Sea into Radiant Luminous DNA Helix) */}
+      <canvas className="fixed inset-0 w-full h-full pointer-events-none z-0" id="bg-canvas"></canvas>
+      <div className="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_25%,rgba(255,255,255,0.25)_0%,rgba(241,245,249,0.15)_60%,rgba(203,213,225,0.05)_100%)]"></div>
+      <div className="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_50%_60%,rgba(15,23,42,0.12)_0%,rgba(15,23,42,0.02)_55%,transparent_75%)]"></div>
+      <div className="fixed inset-0 pointer-events-none z-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.04)_1px,transparent_1px)] bg-[size:3.5rem_3.5rem]"></div>
+
+      {/* Sticky Clinical Navigation Header */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-2xl border-b border-slate-200/90 shadow-[0_4px_24px_-2px_rgba(15,23,42,0.08)]">
+        <div className="h-16 w-full px-4 sm:px-8 flex items-center justify-between gap-4 max-w-7xl mx-auto">
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => { window.scrollTo({top: 0, behavior: 'smooth'}) }}>
+            <div className="relative w-10 h-10 rounded-xl bg-white shadow-md border border-slate-200/80 p-1 flex items-center justify-center">
+              <img alt="PhyloTargetX Logo" className="w-full h-full object-contain" src="/logo.svg"/>
+            </div>
+            <div className="flex flex-col">
+              <div className="flex items-center gap-2">
+                <span className="font-headline text-lg sm:text-xl text-[#0f172a] font-extrabold tracking-tight">PhyloTargetX</span>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">v4.2 PRO</span>
+              </div>
+              <span className="font-mono text-[11px] text-[#475569] font-medium tracking-wide uppercase">Computational Oncology &amp; Target Identification</span>
+            </div>
+          </div>
+          <nav className="hidden lg:flex items-center gap-1.5 p-1 rounded-xl bg-slate-100/90 border border-slate-200/80 text-sm">
+            <button className="px-3.5 py-1.5 rounded-lg font-bold bg-white text-emerald-700 shadow-sm border border-slate-200/60 transition-all cursor-pointer" onClick={() => { window.scrollTo({top: 0, behavior: 'smooth'}); }}>Dashboard</button>
+            <button className="px-3.5 py-1.5 rounded-lg font-semibold text-[#334155] hover:bg-white/80 hover:text-[#0f172a] transition-all cursor-pointer" onClick={() => { window.location.href = '/wizard.html'; }}>Analysis Wizard</button>
+            <button className="px-3.5 py-1.5 rounded-lg font-semibold text-[#334155] hover:bg-white/80 hover:text-[#0f172a] transition-all cursor-pointer" onClick={() => { window.location.href = '/report.html'; }}>Final Report</button>
+          </nav>
 <div className="flex items-center gap-3">
 <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/90 shadow-sm">
 <span className="relative flex h-2.5 w-2.5">
@@ -361,64 +344,50 @@ function App() {
 </div>
 </div>
 </header>
-{/* Corner Telemetry HUD Coordinates & Nav Rail - Only rendered on Dashboard */}
-{viewMode === 'dashboard' && (
-  <>
-    <div className="fixed top-20 left-6 z-20 pointer-events-none hidden lg:flex flex-col gap-1 text-[#334155] font-mono text-[11px] font-semibold select-none bg-white/75 backdrop-blur-md px-3 py-2 rounded-lg border border-slate-200 shadow-sm">
-      <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>LAT 37.7749° N · LON 122.4194° W</span>
-      <span className="text-[#0f172a]">DISPERSION_INDEX: <strong className="text-sky-600">1.042 λ</strong></span>
-      <span className="text-emerald-700 tracking-wider">HELIX_AXIS // EGFR-T790M-V4</span>
-    </div>
-    <div className="fixed top-20 right-6 z-20 pointer-events-none hidden lg:flex flex-col items-end gap-1 text-[#334155] font-mono text-[11px] font-semibold select-none bg-white/75 backdrop-blur-md px-3 py-2 rounded-lg border border-slate-200 shadow-sm">
-      <span className="text-[#0f172a]">CRYSTAL_RES: <strong className="text-indigo-600">1.84 Å</strong></span>
-      <span>CONVERGENCE: <strong className="text-emerald-700">1.0e-06</strong></span>
-      <span className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-300 text-[10px]">ISO 15189 CERTIFIED</span>
-    </div>
-    <nav aria-label="Section shortcuts" className="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col items-end gap-3 pointer-events-auto">
-      <div className="p-2 rounded-2xl bg-white/90 backdrop-blur-xl border border-slate-200/90 shadow-xl flex flex-col gap-2.5 items-center">
-        <div className="w-1 h-28 bg-slate-200 rounded-full relative overflow-hidden mb-1">
-          <div className="absolute top-0 left-0 w-full bg-gradient-to-b from-emerald-500 via-sky-500 to-indigo-600 rounded-full transition-all duration-150" id="scrollProgressBar" style={{'height': '10%'}}></div>
-        </div>
-        <button className="nav-dot group relative flex items-center justify-center w-7 h-7 rounded-full text-slate-500 hover:text-emerald-700 hover:bg-emerald-50 transition-all active:scale-90" onClick={() => { document.getElementById('hero').scrollIntoView({behavior: 'smooth'}) }} title="00 Hero Overview">
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 group-hover:scale-125 transition-transform"></span>
-          <span className="absolute right-9 px-2.5 py-1 rounded-md bg-[#0f172a] text-white text-xs font-mono font-medium opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap shadow-lg">Hero Dashboard</span>
-        </button>
-        <button className="nav-dot group relative flex items-center justify-center w-7 h-7 rounded-full text-slate-500 hover:text-sky-700 hover:bg-sky-50 transition-all active:scale-90" onClick={() => { document.getElementById('telemetry-section').scrollIntoView({behavior: 'smooth'}) }} title="01 Active Target Pipeline">
-          <span className="w-2.5 h-2.5 rounded-full bg-sky-500 group-hover:scale-125 transition-transform"></span>
-          <span className="absolute right-9 px-2.5 py-1 rounded-md bg-[#0f172a] text-white text-xs font-mono font-medium opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap shadow-lg">01 Crystallography</span>
-        </button>
-        <button className="nav-dot group relative flex items-center justify-center w-7 h-7 rounded-full text-slate-500 hover:text-indigo-700 hover:bg-indigo-50 transition-all active:scale-90" onClick={() => { document.getElementById('phylogenetics').scrollIntoView({behavior: 'smooth'}) }} title="02 Phylogenetic Drift">
-          <span className="w-2.5 h-2.5 rounded-full bg-indigo-500 group-hover:scale-125 transition-transform"></span>
-          <span className="absolute right-9 px-2.5 py-1 rounded-md bg-[#0f172a] text-white text-xs font-mono font-medium opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap shadow-lg">02 Phylogenetics</span>
-        </button>
-        <button className="nav-dot group relative flex items-center justify-center w-7 h-7 rounded-full text-slate-500 hover:text-teal-700 hover:bg-teal-50 transition-all active:scale-90" onClick={() => { document.getElementById('binding').scrollIntoView({behavior: 'smooth'}) }} title="03 Structural Binding Pockets">
-          <span className="w-2.5 h-2.5 rounded-full bg-teal-500 group-hover:scale-125 transition-transform"></span>
-          <span className="absolute right-9 px-2.5 py-1 rounded-md bg-[#0f172a] text-white text-xs font-mono font-medium opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap shadow-lg">03 Binding Pockets</span>
-        </button>
-        <button className="nav-dot group relative flex items-center justify-center w-7 h-7 rounded-full text-slate-500 hover:text-amber-700 hover:bg-amber-50 transition-all active:scale-90" onClick={() => { document.getElementById('variants').scrollIntoView({behavior: 'smooth'}) }} title="04 Variant Atlas">
-          <span className="w-2.5 h-2.5 rounded-full bg-amber-500 group-hover:scale-125 transition-transform"></span>
-          <span className="absolute right-9 px-2.5 py-1 rounded-md bg-[#0f172a] text-white text-xs font-mono font-medium opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap shadow-lg">04 Variant Atlas</span>
-        </button>
-        <button className="nav-dot group relative flex items-center justify-center w-7 h-7 rounded-full text-slate-500 hover:text-rose-700 hover:bg-rose-50 transition-all active:scale-90" onClick={() => { document.getElementById('protocol').scrollIntoView({behavior: 'smooth'}) }} title="05 Protocol Enclave">
-          <span className="w-2.5 h-2.5 rounded-full bg-rose-500 group-hover:scale-125 transition-transform"></span>
-          <span className="absolute right-9 px-2.5 py-1 rounded-md bg-[#0f172a] text-white text-xs font-mono font-medium opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap shadow-lg">05 Batch Enclave</span>
-        </button>
+      {/* Corner Telemetry HUD Coordinates & Nav Rail */}
+      <div className="fixed top-20 left-6 z-20 pointer-events-none hidden lg:flex flex-col gap-1 text-[#334155] font-mono text-[11px] font-semibold select-none bg-white/75 backdrop-blur-md px-3 py-2 rounded-lg border border-slate-200 shadow-sm">
+        <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>LAT 37.7749° N · LON 122.4194° W</span>
+        <span className="text-[#0f172a]">DISPERSION_INDEX: <strong className="text-sky-600">1.042 λ</strong></span>
+        <span className="text-emerald-700 tracking-wider">HELIX_AXIS // EGFR-T790M-V4</span>
       </div>
-    </nav>
-  </>
-)}
-{viewMode === 'wizard' && (
-  <main className="relative z-10 w-full pt-20 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1440px] mx-auto">
-    <AnalysisWizard onNavigate={(mode) => setViewMode(mode)} />
-  </main>
-)}
-{viewMode === 'report' && (
-  <main className="relative z-10 w-full pt-20 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1440px] mx-auto">
-    <FinalReport onNavigate={(mode) => setViewMode(mode)} />
-  </main>
-)}
-{viewMode === 'dashboard' && (
-  <main className="relative z-10 w-full pt-16 flex flex-col gap-40 pb-44">
+      <div className="fixed top-20 right-6 z-20 pointer-events-none hidden lg:flex flex-col items-end gap-1 text-[#334155] font-mono text-[11px] font-semibold select-none bg-white/75 backdrop-blur-md px-3 py-2 rounded-lg border border-slate-200 shadow-sm">
+        <span className="text-[#0f172a]">CRYSTAL_RES: <strong className="text-indigo-600">1.84 Å</strong></span>
+        <span>CONVERGENCE: <strong className="text-emerald-700">1.0e-06</strong></span>
+        <span className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-300 text-[10px]">ISO 15189 CERTIFIED</span>
+      </div>
+      <nav aria-label="Section shortcuts" className="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col items-end gap-3 pointer-events-auto">
+        <div className="p-2 rounded-2xl bg-white/90 backdrop-blur-xl border border-slate-200/90 shadow-xl flex flex-col gap-2.5 items-center">
+          <div className="w-1 h-28 bg-slate-200 rounded-full relative overflow-hidden mb-1">
+            <div className="absolute top-0 left-0 w-full bg-gradient-to-b from-emerald-500 via-sky-500 to-indigo-600 rounded-full transition-all duration-150" id="scrollProgressBar" style={{'height': '10%'}}></div>
+          </div>
+          <button className="nav-dot group relative flex items-center justify-center w-7 h-7 rounded-full text-slate-500 hover:text-emerald-700 hover:bg-emerald-50 transition-all active:scale-90" onClick={() => { document.getElementById('hero').scrollIntoView({behavior: 'smooth'}) }} title="00 Hero Overview">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 group-hover:scale-125 transition-transform"></span>
+            <span className="absolute right-9 px-2.5 py-1 rounded-md bg-[#0f172a] text-white text-xs font-mono font-medium opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap shadow-lg">Hero Dashboard</span>
+          </button>
+          <button className="nav-dot group relative flex items-center justify-center w-7 h-7 rounded-full text-slate-500 hover:text-sky-700 hover:bg-sky-50 transition-all active:scale-90" onClick={() => { document.getElementById('telemetry-section').scrollIntoView({behavior: 'smooth'}) }} title="01 Active Target Pipeline">
+            <span className="w-2.5 h-2.5 rounded-full bg-sky-500 group-hover:scale-125 transition-transform"></span>
+            <span className="absolute right-9 px-2.5 py-1 rounded-md bg-[#0f172a] text-white text-xs font-mono font-medium opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap shadow-lg">01 Crystallography</span>
+          </button>
+          <button className="nav-dot group relative flex items-center justify-center w-7 h-7 rounded-full text-slate-500 hover:text-indigo-700 hover:bg-indigo-50 transition-all active:scale-90" onClick={() => { document.getElementById('phylogenetics').scrollIntoView({behavior: 'smooth'}) }} title="02 Phylogenetic Drift">
+            <span className="w-2.5 h-2.5 rounded-full bg-indigo-500 group-hover:scale-125 transition-transform"></span>
+            <span className="absolute right-9 px-2.5 py-1 rounded-md bg-[#0f172a] text-white text-xs font-mono font-medium opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap shadow-lg">02 Phylogenetics</span>
+          </button>
+          <button className="nav-dot group relative flex items-center justify-center w-7 h-7 rounded-full text-slate-500 hover:text-teal-700 hover:bg-teal-50 transition-all active:scale-90" onClick={() => { document.getElementById('binding').scrollIntoView({behavior: 'smooth'}) }} title="03 Structural Binding Pockets">
+            <span className="w-2.5 h-2.5 rounded-full bg-teal-500 group-hover:scale-125 transition-transform"></span>
+            <span className="absolute right-9 px-2.5 py-1 rounded-md bg-[#0f172a] text-white text-xs font-mono font-medium opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap shadow-lg">03 Binding Pockets</span>
+          </button>
+          <button className="nav-dot group relative flex items-center justify-center w-7 h-7 rounded-full text-slate-500 hover:text-amber-700 hover:bg-amber-50 transition-all active:scale-90" onClick={() => { document.getElementById('variants').scrollIntoView({behavior: 'smooth'}) }} title="04 Variant Atlas">
+            <span className="w-2.5 h-2.5 rounded-full bg-amber-500 group-hover:scale-125 transition-transform"></span>
+            <span className="absolute right-9 px-2.5 py-1 rounded-md bg-[#0f172a] text-white text-xs font-mono font-medium opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap shadow-lg">04 Variant Atlas</span>
+          </button>
+          <button className="nav-dot group relative flex items-center justify-center w-7 h-7 rounded-full text-slate-500 hover:text-rose-700 hover:bg-rose-50 transition-all active:scale-90" onClick={() => { document.getElementById('protocol').scrollIntoView({behavior: 'smooth'}) }} title="05 Protocol Enclave">
+            <span className="w-2.5 h-2.5 rounded-full bg-rose-500 group-hover:scale-125 transition-transform"></span>
+            <span className="absolute right-9 px-2.5 py-1 rounded-md bg-[#0f172a] text-white text-xs font-mono font-medium opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap shadow-lg">05 Batch Enclave</span>
+          </button>
+        </div>
+      </nav>
+
+      <main className="relative z-10 w-full pt-16 flex flex-col gap-40 pb-44">
     {/* SECTION 1: EXPANSIVE SEMICIRCLE CANOPY HERO (Translucent Wall-to-Wall Arch, Brand Title Image, Expansive Target Suite) */}
     <section className="w-full min-h-[95vh] flex items-center justify-center pt-8 sm:pt-12 pb-6 px-0 relative overflow-hidden" id="hero">
 {/* Majestic Semicircle Canopy touching edges and opening upward */}
@@ -497,7 +466,7 @@ function App() {
 </div>
 {/* Primary Action Row with Generous Spacing */}
 <div className="mt-6 pt-6 border-t border-slate-200/80 flex flex-col sm:flex-row items-center justify-between gap-4">
-<button className="w-full sm:w-auto flex-1 px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-600 via-emerald-700 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-headline text-base font-bold shadow-lg shadow-emerald-700/30 hover:shadow-xl hover:shadow-emerald-600/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 flex items-center justify-center gap-2.5 group cursor-pointer" id="startAnalysisBtn" onClick={() => setViewMode('wizard')} type="button">
+<button className="w-full sm:w-auto flex-1 px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-600 via-emerald-700 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-headline text-base font-bold shadow-lg shadow-emerald-700/30 hover:shadow-xl hover:shadow-emerald-600/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 flex items-center justify-center gap-2.5 group cursor-pointer" id="startAnalysisBtn" type="button">
 <span>Start Target Analysis</span>
 <span className="material-symbols-outlined text-[20px] transition-transform duration-200 group-hover:translate-x-1">
                 arrow_forward
@@ -845,7 +814,6 @@ Zero-knowledge hardware security modules (HSM) guarantee non-disclosure of propr
 </div>
 </section>
 </main>
-)}
 {/* Clinical Sticky Footer */}
 <footer className="w-full bg-white/95 backdrop-blur-xl border-t border-slate-200 py-6 relative z-20 shadow-md">
 <div className="max-w-7xl mx-auto px-4 sm:px-8 flex flex-col md:flex-row items-center justify-between gap-4 font-mono text-xs text-[#475569] font-medium">
