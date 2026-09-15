@@ -1,0 +1,575 @@
+=== TABLE 0 (19x3) ===
+Layer | Technology | Frozen
+Language | Python 3.12 | Yes
+API framework | FastAPI | Yes
+ASGI server | Uvicorn | Yes
+Data validation | Pydantic v2 | Yes
+Bioinformatics | Biopython | Yes
+Numerical | NumPy / SciPy | Yes
+Data processing | Pandas | Yes
+Machine learning | scikit-learn (Random Forest) | Yes
+Chemistry | RDKit | Yes
+HTTP client | Requests | Yes
+Target data | UniProt REST API | Yes
+Orthology data | Ensembl REST API / NCBI | Yes
+Drug data | ChEMBL REST API | Yes
+DNA visualization | JBrowse 2 | Yes
+3D molecule visualization | 3Dmol.js | Yes
+Charts and heat maps | Plotly | Yes
+Frontend framework | React / Next.js | Yes
+Version control | Git | Yes
+
+=== TABLE 1 (15x3) ===
+Folder | Owner workstream | Contents
+backend/app/api/ | Workstream 3 | FastAPI routes, orchestrator, request/response models
+backend/app/core/ | Workstream 3 | Config, caching, error handling, shared utilities
+backend/app/genomics/ | Workstream 1 | Module 1 sequence fetching, ortholog lookup, alignment
+backend/app/proteins/ | Workstream 1 | Module 1 binding-site mapping, scoring
+backend/app/drug_targets/ | Workstream 2 | Module 2 ChEMBL fetch, RDKit fingerprints, Random Forest
+backend/app/scoring/ | Workstream 2 | Module 2 drug scoring, ranking, drug-likeness
+frontend/ | Workstream 4 + 5 | All UI, dashboard, heat map, 3D viewer
+data/raw/ | All (read-only after write) | Downloaded ChEMBL CSV, UniProt FASTA snapshots
+data/processed/ | All (read-only after write) | Cleaned intermediate data
+data/reference/ | Workstream 1 | Short DNA segments for alignment visualization
+models/ | Workstream 2 | Saved Random Forest .pkl files per target
+simulations/ | — | Empty in this build; reserved for future work
+tests/ | All | One test file per engine entry function
+docs/ | All | This report and any agent-facing documentation
+
+=== TABLE 2 (6x3) ===
+Module | Folder(s) | Workstream
+Module 1 — Species Ranking | backend/app/genomics/, backend/app/proteins/ | 1
+Module 2 — Drug Ranking | backend/app/drug_targets/, backend/app/scoring/ | 2
+Shared Backend | backend/app/api/, backend/app/core/ | 3
+Frontend Module 1 | frontend/ (species page) | 4
+Frontend Module 2 + Dashboard | frontend/ (drugs page + shell) | 5
+
+=== TABLE 3 (7x3) ===
+Field | Type | Description
+target_uniprot_id | string | Human target identifier
+target_gene_name | string | e.g. "EGFR"
+ranked_species | list | Ordered list of SpeciesScore objects
+best_model | string | Species name with highest final_score
+dropped_species | list | Species excluded due to missing ortholog
+overall_confidence | string | Lowest confidence across ranked species
+
+=== TABLE 4 (7x3) ===
+Field | Type | Description
+species | string | e.g. "zebrafish"
+global_identity | float | Percentage
+binding_site_conservation | float | Percentage
+final_score | float | Weighted score 0–100
+confidence | string | "high" / "medium" / "low"
+evidence_breakdown | list | Per-evidence detail with tags
+
+=== TABLE 5 (7x2) ===
+Dependency | Purpose
+UniProt REST API | Human target sequence, ortholog lookup, ortholog sequences, binding-site annotations
+Ensembl REST API | Backup ortholog lookup
+Biopython | Pairwise alignment
+Requests | HTTP calls
+Pydantic | Output validation
+NumPy | Score computation
+
+=== TABLE 6 (7x2) ===
+Failure | Handling
+Target not found in UniProt | Return structured error; do not proceed
+No binding-site annotation for target | Fall back to domain-level scoring; mark confidence 🔵
+No ortholog for a species | Drop species; note in dropped_species
+Ortholog has no binding-site annotation | Use position map to project human residues; mark confidence 🟡
+Alignment coverage < 60% | Mark species confidence 🔵
+UniProt API timeout | Retry once; on second failure, use cached snapshot if available
+
+=== TABLE 7 (7x3) ===
+Field | Type | Description
+target_chembl_id | string | ChEMBL target identifier
+target_gene_name | string | e.g. "EGFR"
+ranked_drugs | list | Ordered list of DrugScore objects
+top_recommendation | object | Best drug's SMILES + ChEMBL ID
+model_metadata | object | Training accuracy, size, timestamp
+overall_confidence | string | Lowest confidence across ranked drugs
+
+=== TABLE 8 (9x3) ===
+Field | Type | Description
+smiles | string | Molecular structure
+chembl_id | string | ChEMBL identifier if known
+activity_probability | float | Predicted probability 0–1
+drug_likeness_qed | float | QED score 0–1
+lipinski_pass | boolean | Pass/fail drug-likeness rules
+molecular_weight | float | Daltons
+confidence | string | "high" / "medium" / "low"
+evidence_breakdown | list | Per-evidence detail with tags
+
+=== TABLE 9 (8x2) ===
+Dependency | Purpose
+ChEMBL REST API | Bioactivity data (IC50 values)
+RDKit | SMILES → Morgan fingerprints, QED, Lipinski
+scikit-learn | Random Forest training and prediction
+NumPy | Array operations
+Pandas | Data cleaning and filtering
+Requests | HTTP calls
+Pydantic | Output validation
+
+=== TABLE 10 (7x2) ===
+Failure | Handling
+ChEMBL returns < 50 actives | Fall back to similarity-based ranking against known actives; mark confidence 🔵
+ChEMBL API timeout | Retry once; on second failure, use cached bioactivity snapshot if available
+Invalid SMILES in candidate list | Drop compound; record in response metadata
+Random Forest accuracy < 70% | Proceed but mark all scores confidence 🔵
+Model file corrupted | Retrain from scratch
+No candidate SMILES provided | Use ChEMBL's top 10 known actives as candidates
+
+=== TABLE 11 (5x3) ===
+Field | Type | Description
+error | boolean | Always true for errors
+error_code | string | Short code, e.g. "TARGET_NOT_FOUND", "CHEMBL_TIMEOUT", "INSUFFICIENT_DATA"
+error_message | string | Human-readable description
+partial_result | object or null | Any partial data that succeeded before the error
+
+=== TABLE 12 (9x2) ===
+Code | Meaning
+TARGET_NOT_FOUND | UniProt ID does not resolve
+NO_ORTHOLOGS | Module 1 found no orthologs in any species
+CHEMBL_TIMEOUT | ChEMBL API did not respond in time
+CHEMBL_EMPTY | ChEMBL returned zero bioactivity records for the target
+INSUFFICIENT_DATA | Fewer than 50 actives; Random Forest training unreliable
+MODEL_TRAINING_FAILED | Random Forest training threw an exception
+INVALID_SMILES | All candidate SMILES strings were invalid
+INTERNAL_ERROR | Catch-all for unhandled exceptions
+
+=== TABLE 13 (5x4) ===
+Tag | Symbol | Meaning | Applied When
+Experimental | 🟢 | Backed by direct experimental measurement | ChEMBL IC50 value; curated binding-site annotation; curated ortholog relationship
+Literature | 🟡 | Backed by published research or curated database | Domain annotation from UniProt; homology-based ortholog; alignment coverage 60–80%
+Computational | 🔵 | Inferred from sequence or structure | Position-mapped binding-site conservation; alignment coverage < 60%; prediction from model with accuracy < 80%
+AI-prioritized | 🟠 | Produced by the ML model | Random Forest activity probability; any output derived from the trained model
+
+=== TABLE 14 (9x2) ===
+Evidence | Default Tag
+UniProt curated binding-site annotation | 🟢
+UniProt domain annotation | 🟡
+Curated ortholog (Ensembl homology) | 🟢
+Homology-based ortholog | 🟡
+Alignment identity percentage | 🔵
+Binding-site conservation percentage (direct annotation) | 🟢
+Binding-site conservation percentage (position-mapped) | 🔵
+Final weighted score | Lowest of contributing tags
+
+=== TABLE 15 (10x2) ===
+Evidence | Default Tag
+ChEMBL IC50 experimental value | 🟢
+ChEMBL assay description (literature) | 🟡
+Random Forest activity probability | 🟠
+Drug-likeness QED | 🔵
+Lipinski compliance | 🔵
+Training accuracy > 85% | Model outputs can be 🟠
+Training accuracy 70–85% | Model outputs become 🔵
+Training accuracy < 70% | All outputs 🔵, overall confidence 🔵
+Final weighted score | Lowest of contributing tags
+
+=== TABLE 16 (8x3) ===
+File | Contents | Purpose
+data/raw/uniprot/egfr.json | Full UniProt entry for P00533 | Module 1 fallback
+data/raw/uniprot/orthologs.json | Ortholog entries for chicken, zebrafish, fruit fly | Module 1 fallback
+data/raw/chembl/egfr_bioactivity.csv | All EGFR IC50 records | Module 2 fallback
+data/reference/human_egfr_segment.fasta | Short segment around EGFR kinase domain | DNA visualization
+data/reference/zebrafish_egfr_segment.fasta | Corresponding zebrafish segment | DNA visualization
+data/reference/chicken_egfr_segment.fasta | Corresponding chicken segment | DNA visualization
+data/reference/fruit_fly_egfr_segment.fasta | Corresponding fruit fly segment | DNA visualization
+
+=== TABLE 17 (9x4) ===
+Field | Type | Required | Description
+target_uniprot_id | string | yes | Human target identifier
+target_chembl_id | string | yes | Resolved ChEMBL target
+target_gene_name | string | yes | e.g. "EGFR"
+species_ranking | SpeciesRankingResult or null | yes | Module 1 output; null if Module 1 failed
+drug_ranking | DrugRankingResult or null | yes | Module 2 output; null if Module 2 failed
+recommendation | Recommendation | yes | Merged final recommendation
+analysis_timestamp | string (ISO 8601) | yes | When the analysis ran
+errors | list of ErrorBlock | yes | Empty if no errors
+
+=== TABLE 18 (7x4) ===
+Field | Type | Required | Description
+target_uniprot_id | string | yes | Human target
+target_gene_name | string | yes | Gene name
+ranked_species | list of SpeciesScore | yes | Ordered descending by final_score
+best_model | string | yes | Species name with highest score
+dropped_species | list of string | yes | Species excluded due to missing ortholog
+overall_confidence | string | yes | "high" / "medium" / "low"
+
+=== TABLE 19 (8x4) ===
+Field | Type | Required | Description
+species | string | yes | "chicken" / "zebrafish" / "fruit_fly"
+global_identity | float | yes | Percentage 0–100
+binding_site_conservation | float | yes | Percentage 0–100
+final_score | float | yes | Weighted score 0–100
+confidence | string | yes | "high" / "medium" / "low"
+evidence_breakdown | list of EvidenceItem | yes | Per-evidence detail
+alignment_preview | AlignmentPreview | yes | Short alignment for UI
+
+=== TABLE 20 (5x4) ===
+Field | Type | Required | Description
+human_segment | string | yes | Short segment of human sequence
+ortholog_segment | string | yes | Corresponding ortholog segment
+binding_site_positions | list of int | yes | Positions within the segment
+differences | list of Difference | yes | Positions where residues differ
+
+=== TABLE 21 (4x4) ===
+Field | Type | Required | Description
+position | int | yes | Position within the segment
+human_residue | string | yes | One-letter code
+ortholog_residue | string | yes | One-letter code
+
+=== TABLE 22 (7x4) ===
+Field | Type | Required | Description
+target_chembl_id | string | yes | ChEMBL target
+target_gene_name | string | yes | Gene name
+ranked_drugs | list of DrugScore | yes | Ordered descending by activity_probability
+top_recommendation | TopDrug | yes | Highest-scored drug
+model_metadata | ModelMetadata | yes | Training info
+overall_confidence | string | yes | "high" / "medium" / "low"
+
+=== TABLE 23 (10x4) ===
+Field | Type | Required | Description
+smiles | string | yes | Molecular structure
+chembl_id | string or null | yes | ChEMBL molecule ID if known
+activity_probability | float | yes | 0–1
+drug_likeness_qed | float | yes | 0–1
+lipinski_pass | boolean | yes | Pass/fail
+molecular_weight | float | yes | Daltons
+confidence | string | yes | "high" / "medium" / "low"
+evidence_breakdown | list of EvidenceItem | yes | Per-evidence detail
+structure_format | string | yes | "smiles" (frontend converts to 3D)
+
+=== TABLE 24 (4x4) ===
+Field | Type | Required | Description
+smiles | string | yes | Best drug SMILES
+chembl_id | string or null | yes | ChEMBL ID
+activity_probability | float | yes | 0–1
+
+=== TABLE 25 (7x4) ===
+Field | Type | Required | Description
+training_accuracy | float | yes | 0–1
+training_size | int | yes | Number of compounds
+active_count | int | yes | Actives in training set
+inactive_count | int | yes | Inactives in training set
+trained_at | string (ISO 8601) | yes | Timestamp
+model_cached | boolean | yes | Whether loaded from cache
+
+=== TABLE 26 (6x4) ===
+Field | Type | Required | Description
+type | string | yes | e.g. "binding_site_annotation", "sequence_alignment", "chembl_ic50", "random_forest_prediction"
+value | float or string | yes | The measured or computed value
+unit | string or null | yes | e.g. "percent", "nM", "probability"
+source | string | yes | e.g. "uniprot", "chembl", "alignment", "random_forest"
+confidence_tag | string | yes | "experimental" / "literature" / "computational" / "ai_prioritized"
+
+=== TABLE 27 (6x4) ===
+Field | Type | Required | Description
+best_species | string or null | yes | From Module 1 best_model
+best_drug_smiles | string or null | yes | From Module 2 top_recommendation.smiles
+best_drug_chembl_id | string or null | yes | From Module 2
+combined_confidence | string | yes | Lowest confidence across both modules
+summary_text | string | yes | Human-readable recommendation, e.g. "Test Drug C in chicken cells first."
+
+=== TABLE 28 (4x4) ===
+Field | Type | Required | Description
+error_code | string | yes | From Section 7.6
+error_message | string | yes | Human-readable
+module | string | yes | "module_1" / "module_2" / "orchestrator"
+
+=== TABLE 29 (4x3) ===
+Key | Source | Used By
+target_uniprot_id | Human target | Module 1, orchestrator, frontend
+target_chembl_id | Resolved from UniProt cross-reference | Module 2, orchestrator, frontend
+target_gene_name | From UniProt | Module 1, Module 2, orchestrator, frontend
+
+=== TABLE 30 (5x3) ===
+Route | Owner | Purpose
+/ | Workstream 5 | Dashboard shell with target selector, headline recommendation, links to both module pages
+/species | Workstream 4 | Module 1 page — species ranking, heat map, alignment view
+/drugs | Workstream 5 | Module 2 page — drug ranking, 3D molecule viewer
+/targets | Workstream 5 | Target selector (static list from GET /targets)
+
+=== TABLE 31 (8x2) ===
+Component | Purpose
+AppShell | Top navigation, page container, shared styling
+TargetSelector | Dropdown that loads targets from GET /targets; triggers /analyze on change
+ConfidenceBadge | Renders a colored dot (🟢🟡🔵🟠) with tooltip showing evidence type
+EvidenceBreakdownPanel | Expandable panel listing every EvidenceItem for a score
+LoadingOverlay | Full-page overlay while /analyze is running
+ErrorBanner | Displays ErrorBlock entries from the response
+RetrainButton | Triggers /retrain when a new target is selected
+
+=== TABLE 32 (8x3) ===
+Check | Command / Action | Expected Result
+Backend running | uvicorn app.main:app --reload | Server starts on port 8000
+Frontend running | npm run dev | Next.js starts on port 3000
+Health check | Open /health endpoint | All engines ok, all APIs reachable
+Cache warm | Trigger /analyze once for EGFR | Response returns in under 5 seconds
+Model cached | Confirm models/CHEMBL203.pkl exists | File present
+Fallback loaded | Confirm fallback-analysis.json present in frontend | File bundled
+Browser tabs ready | Tab 1: dashboard, Tab 2: species page, Tab 3: drugs page | All load without errors
+
+=== TABLE 33 (9x2) ===
+Trigger | Response
+/analyze takes longer than 90 seconds | Switch to the cached analysis from the pre-demo warm-up
+ChEMBL API unreachable | Engine loads data/raw/chembl/egfr_bioactivity.csv and continues
+UniProt API unreachable | Engine loads data/raw/uniprot/egfr.json and continues
+Module 2 fails entirely | Dashboard shows Module 1 results and an ErrorBanner for Module 2
+Module 1 fails entirely | Dashboard shows Module 2 results and an ErrorBanner for Module 1
+Both modules fail | Load fallback-analysis.json via keyboard shortcut
+Frontend crashes | Restart with npm run dev; state is lost but re-analysis takes under 10 seconds with warm cache
+Wi-Fi down entirely | Use the fallback file; the demo still shows the full interface and results
+
+=== TABLE 34 (4x2) ===
+File | Contents
+fallback-analysis.json | Complete FullAnalysisResult for EGFR, generated during pre-demo warm-up
+decorative_molecules/ | 5–10 preloaded 3D molecule files for the loading overlay
+reference_segments/ | Short FASTA segments for human, chicken, zebrafish, fruit fly EGFR binding sites
+
+=== TABLE 35 (8x2) ===
+Question | Answer
+"Why these four species?" | "They cover an evolutionary gradient from close (chicken) to far (fruit fly). Zebrafish is the primary screening model. Fruit fly stress-tests extreme distance."
+"Why EGFR?" | "It has approved drugs, a well-characterized binding site, and validated cross-species conservation in zebrafish. It's the cleanest validation case."
+"Is the ML model novel?" | "No. Random Forest on Morgan fingerprints is the standard baseline in cheminformatics. The novelty is the cross-species binding-site weighting, not the ML."
+"What if I want a different target?" | "The system retrains on that target's ChEMBL data in under 90 seconds. Same pipeline, different data."
+"Does this replace animal testing?" | "No. It helps researchers choose which animal to test in, so fewer animals are used and fewer experiments fail."
+"How do you know it works?" | "Our ranking for EGFR matches published biology: zebrafish is 63% identical overall but 90% identical in the kinase domain. Our system catches that."
+"What's the confidence tag system?" | "Every score is tagged by evidence quality: experimental, literature, computational, or AI-prioritized. Conservative aggregation means if we're unsure, we say so."
+
+=== TABLE 36 (8x2) ===
+Segment | Target Duration
+Setup and framing | 20 seconds
+Dashboard overview | 20 seconds
+Module 1 walkthrough | 60 seconds
+Module 2 walkthrough | 60 seconds
+Recommendation + retrain | 40 seconds
+Closing line | 20 seconds
+Total | 3 minutes 40 seconds
+
+=== TABLE 37 (6x3) ===
+Workstream | Owner Folder(s) | Module
+1 | backend/app/genomics/, backend/app/proteins/, data/reference/ | Module 1 — Species Ranking
+2 | backend/app/drug_targets/, backend/app/scoring/, models/ | Module 2 — Drug Ranking
+3 | backend/app/api/, backend/app/core/ | Shared Backend — Orchestrator & API
+4 | frontend/ (species page) | Frontend Module 1
+5 | frontend/ (drugs page + dashboard shell) | Frontend Module 2 + Shell
+
+=== TABLE 38 (6x3) ===
+Workstream | Depends On | Depended On By
+1 | Section 10 schemas | Workstream 3 (merge), Workstream 4 (render)
+2 | Section 10 schemas | Workstream 3 (merge), Workstream 5 (render)
+3 | Workstreams 1 + 2 entry function signatures | Workstreams 4 + 5
+4 | Workstream 3 (working /species and /analyze endpoints) | —
+5 | Workstream 3 (working /drugs and /analyze endpoints) | —
+
+=== TABLE 39 (9x2) ===
+Rule | Reason
+No agent edits outside its owned folder | Prevents merge conflicts
+Commit every 2 hours minimum | Limits conflict size
+Pull before push | Standard Git hygiene
+No force pushes | Preserves history
+No rebase after hour 12 | Freezes history for the demo
+Schema changes require all five owners to agree | Protects integration
+New fields must be optional | Backward compatibility
+Test files live in tests/ with test_<module>.py naming | Uniform discovery
+
+=== TABLE 40 (8x3) ===
+Hour | Checkpoint | Pass Condition
+2 | Schema locked | All five workstreams agree on Section 10 schemas
+6 | Module 1 returns real data | /species/P00533 returns valid SpeciesRankingResult
+6 | Module 2 returns real data | /drugs/CHEMBL203 returns valid DrugRankingResult
+10 | /analyze merges both | Returns valid FullAnalysisResult
+14 | Frontend renders real data | Both pages display live analysis
+18 | Demo runs cleanly | Three consecutive successful runs
+22 | Fallback verified | Simulated API failure triggers fallback
+
+=== TABLE 41 (6x2) ===
+Workstream | Must Not
+1 | Edit Module 2 folders, edit schemas, call ChEMBL
+2 | Edit Module 1 folders, edit schemas, call UniProt
+3 | Implement domain logic, edit engine folders, edit frontend
+4 | Edit Module 2 frontend components, call external APIs
+5 | Edit Module 1 frontend components, call external APIs
+
+=== TABLE 42 (8x2) ===
+Claim | Validation Method
+Module 1 ranks species using real biological data | Run on EGFR; confirm sequences fetched from UniProt match published entries
+Module 1 correctly weights binding-site conservation | Confirm zebrafish EGFR is ranked as a strong model, matching published literature
+Module 2 trains on real ChEMBL data | Confirm EGFR bioactivity dataset contains thousands of IC50 measurements
+Module 2 produces stable rankings | Retrain twice on same target; verify rankings match
+Retraining works | Run /retrain on a second target; verify new model trains in under 90 seconds
+Confidence tags are accurate | Manually verify a sample of evidence tags against their sources
+Demo is reproducible | Run the full demo three times; results match each run
+
+=== TABLE 43 (14x2) ===
+Non-Goal | Reason
+Virtual mutation lab | Would require structural modeling, out of time budget
+Full structural biology / PDB integration | Out of time budget
+Bioactive molecule registry (snake venom, cone snail, Gila monster) | Wrong direction of the bridge
+Animal-derived peptide analysis | Different ML pipeline; not compatible with Random Forest
+Multi-target generic model | Target-specific design is intentional
+Deep learning (PyTorch, Transformers) | Overkill; Random Forest is sufficient
+3D protein structure visualization | 3D molecules yes; 3D proteins no
+User accounts, authentication | No users; hackathon demo only
+Database | JSON files on disk only
+Docker, Kubernetes, cloud deployment | Runs locally
+Mobile app | Desktop browser only
+Real-time collaboration | Single-user demo
+Clinical claims of any kind | Research-prioritization only
+
+=== TABLE 44 (14x4) ===
+Risk | Likelihood | Impact | Mitigation
+ChEMBL API slow or unreachable during demo | Medium | High | Pre-download EGFR bioactivity; fallback to local CSV
+UniProt API slow or unreachable | Medium | High | Pre-download UniProt entries for demo targets
+Zebrafish ortholog not found | Low | High | Pre-verify ortholog exists before hackathon
+Random Forest training takes too long | Low | Medium | Cache trained model for EGFR; verify retrain timing
+Frontend crash during demo | Medium | High | Bundled fallback JSON; restart with warm cache
+Integration failure between modules | Medium | High | Schema locked by hour 2; integration checkpoints
+Wi-Fi down entirely | Medium | High | Full fallback analysis file bundled with frontend
+Agent edits outside its folder | Medium | Medium | Git rules; folder ownership in prompt
+Schema changed after hour 2 | Low | High | Freeze rule; team approval required
+Demo overruns 4 minutes | Medium | Low | Time each segment; rehearse
+Judge asks about a feature we dropped | High | Low | Pre-written answer: "That's the roadmap, not the build"
+Team member unavailable during demo | Low | High | Every workstream documents its entry point; any teammate can run the demo
+Browser runs out of memory with 3D molecule viewer | Low | Medium | Limit viewer to one molecule at a time; dispose resources on switch
+
+=== TABLE 45 (8x3) ===
+Limitation | Impact | Acceptable?
+Only 4 species supported | Cannot test arbitrary species | Yes — demo is EGFR-specific
+Only target-specific ML | Retrain required for new target | Yes — 90-second retrain is fast enough
+Random Forest only | No deep learning | Yes — standard cheminformatics baseline
+No structural validation | Binding-site inference is sequence-based | Yes — sequence conservation is a valid proxy
+No wet-lab validation | Predictions are computational | Yes — research-prioritization tool, not clinical
+No literature mining | Evidence comes from ChEMBL/UniProt only | Yes — sufficient for demo
+No user input for custom compounds | Default to ChEMBL actives | Yes — accept optional SMILES in API
+
+=== TABLE 46 (7x2) ===
+Assumption | If Wrong
+ChEMBL has > 500 actives for EGFR | Use backup target with more data
+UniProt has binding-site annotations for EGFR | Fall back to domain-level scoring
+Zebrafish has a curated ortholog for EGFR | Use Ensembl homology; if missing, drop zebrafish
+Demo laptop can run Python + Node + browser simultaneously | Reduce frontend to single-page layout
+Wi-Fi available during demo | Use fallback analysis file
+All five team members available for the full 24 hours | Redistribute workstreams
+
+=== TABLE 47 (6x2) ===
+Feature | Kill If
+Fruit fly species | Ortholog lookup fails or sequence too divergent to align
+3D molecule viewer | 3Dmol.js fails on demo molecules; fall back to static ChEMBL images
+Heat map | Plotly integration too slow; fall back to alignment view only
+Retrain demo | Retraining takes over 120 seconds; skip live retrain and mention it verbally
+Chicken species | Chicken ortholog not found; drop to 3 species
+
+=== TABLE 48 (7x2) ===
+Feature | Reason
+Module 1 species ranking | Core of the demo
+Module 2 drug ranking | Core of the demo
+Confidence tags | Key differentiator vs. black-box tools
+/analyze endpoint | Demo trigger
+Fallback analysis file | Demo safety net
+Schema freeze | Integration guarantee
+
+=== TABLE 49 (7x2) ===
+Hour | If Behind
+Hour 6 | Cut Module 2 to similarity-based ranking instead of Random Forest
+Hour 10 | Cut heat map; use alignment view only
+Hour 14 | Cut retrain demo; mention verbally
+Hour 18 | Cut 3D molecule viewer; use 2D ChEMBL images
+Hour 20 | Cut one species (fruit fly); run with three species
+Hour 22 | Run demo from fallback file only
+
+=== TABLE 50 (21x2) ===
+Term | Frozen Definition
+Target | The human protein a drug acts on. Identified by a UniProt ID.
+Human target | The reference protein. All species are compared against this.
+Ortholog | The version of the target protein in another species.
+Species | One of: human, chicken, zebrafish, fruit fly.
+Binding site | The residues in the target protein where the drug attaches. Identified from UniProt feature annotations.
+Conservation | How similar the target protein (or its binding site) is between species. Expressed as a percentage.
+Global identity | Percentage of the full protein sequence that matches between human and ortholog.
+Binding-site conservation | Percentage of binding-site residues that match between human and ortholog.
+Final score | Weighted score combining global identity (30%) and binding-site conservation (70%). 0–100.
+Model organism | The species chosen for lab testing. Recommended by the system, decided by the researcher.
+Candidate drug | A compound submitted to Module 2 for scoring. Can be SMILES string or ChEMBL ID.
+Activity probability | Module 2's prediction of whether a compound is active against the target. 0–1.
+QED | Quantitative Estimate of Drug-likeness. 0–1. Higher is more drug-like.
+Lipinski pass | Whether the compound satisfies Lipinski's rule of five. Boolean.
+Confidence tag | The quality label attached to every score. One of: experimental, literature, computational, ai_prioritized.
+Evidence breakdown | The list of contributing evidence items behind a score.
+Retrain | Rebuilding the Random Forest for a new target.
+Cache | Stored results from a previous analysis. Used to speed up repeat queries.
+Fallback | Pre-downloaded data used when an API is unreachable.
+Orchestrator | The backend component that calls Module 1 and Module 2 and merges their outputs.
+
+=== TABLE 51 (10x3) ===
+Term | Frozen Meaning | Not This
+Score | Always a 0–100 value with an attached confidence tag | Not a raw probability
+Probability | Always a 0–1 value from the ML model | Not the same as "score"
+Ranking | Descending order by score, assigned by the backend | Not re-sorted by frontend
+Confidence | A categorical label: high / medium / low | Not a percentage
+Tag | Always refers to the confidence tag system | Not a Git tag
+Module | Module 1 or Module 2 | Not a Python module
+Engine | The implementation of a module inside its folder | Not a search engine
+Snapshot | A pre-downloaded dataset for fallback | Not a screen capture
+Full analysis | The merged result from both modules | Not just Module 1
+
+=== TABLE 52 (14x2) ===
+Abbreviation | Meaning
+EGFR | Epidermal Growth Factor Receptor (the demo target)
+UniProt | Universal Protein Resource (target data source)
+ChEMBL | Chemical database of bioactive molecules
+Ensembl | Genome and orthology database
+IC50 | Half-maximal inhibitory concentration (activity measure)
+nM | Nanomolar
+QED | Quantitative Estimate of Drug-likeness
+RF | Random Forest
+API | Application Programming Interface
+JSON | JavaScript Object Notation (data interchange format)
+UI | User Interface
+TTL | Time To Live (cache expiration)
+PDB | Protein Data Bank (not used in this build)
+
+=== TABLE 53 (13x2) ===
+Use This | Not This
+target | protein, gene, marker
+species | organism, animal
+confidence tag | confidence label, confidence color
+activity probability | activity score, binding probability
+final score | overall score, total score
+evidence breakdown | evidence list, evidence detail
+retrain | retraining, rebuild model
+fallback | backup data, cached data
+cache | memory, store
+orchestrator | coordinator, controller, manager
+ranked_species | species_list, species_array
+ranked_drugs | drugs_list, drug_array
+
+=== TABLE 54 (17x2) ===
+Field Name | Used In
+target_uniprot_id | FullAnalysisResult, SpeciesRankingResult
+target_chembl_id | FullAnalysisResult, DrugRankingResult
+target_gene_name | All results
+ranked_species | SpeciesRankingResult
+ranked_drugs | DrugRankingResult
+best_model | SpeciesRankingResult
+top_recommendation | DrugRankingResult
+final_score | SpeciesScore
+activity_probability | DrugScore
+confidence | SpeciesScore, DrugScore
+confidence_tag | EvidenceItem
+evidence_breakdown | SpeciesScore, DrugScore
+alignment_preview | SpeciesScore
+model_metadata | DrugRankingResult
+combined_confidence | Recommendation
+summary_text | Recommendation
+
+=== TABLE 55 (6x2) ===
+Term | Meaning
+Frozen | Cannot be changed after the freeze hour
+Locked | Same as frozen, used for schemas
+Checkpoint | A time-based integration milestone
+Workstream | One of the five parallel build tracks
+Owner | The workstream that owns a folder
+
