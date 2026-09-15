@@ -1,3 +1,10 @@
+"""
+Module for ranking EGFR targeting drugs.
+
+This module provides functionality to rank EGFR candidate compounds
+using a Random Forest model, calculating Lipinski's Rule of Five, 
+and evaluating properties using RDKit.
+"""
 import pandas as pd
 import numpy as np
 
@@ -10,6 +17,13 @@ from sklearn.metrics import accuracy_score, classification_report
 
 
 def rank_egfr_drugs():
+    """
+    Ranks a list of EGFR compounds based on their predicted activity.
+
+    Returns:
+        dict: A dictionary containing the target, model details, dataset stats,
+              and the top candidates.
+    """
 
     df = pd.read_csv("EGFR_compounds_clean.csv")
 

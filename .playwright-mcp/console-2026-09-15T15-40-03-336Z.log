@@ -1,0 +1,2 @@
+[     107ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=a40feb4c:15804
+[     132ms] [ERROR] Use the `defaultValue` or `value` props on <select> instead of setting `selected` on <option>. @ http://localhost:5173/@vite/client:298

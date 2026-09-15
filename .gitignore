@@ -58,3 +58,6 @@ models/*.pkl
 !models/.gitkeep
 CONTEXT.md
 Temp.txt
+
+.venv/
+__pycache__/

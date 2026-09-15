@@ -1,0 +1,233 @@
+- generic [ref=f5e3]:
+  - navigation "Section shortcuts" [ref=f5e4]:
+    - generic [ref=f5e5]:
+      - button "Hero Dashboard" [ref=f5e8] [cursor=pointer]
+      - button "01 Crystallography" [ref=f5e10] [cursor=pointer]
+      - button "02 Phylogenetics" [ref=f5e12] [cursor=pointer]
+      - button "03 Binding Pockets" [ref=f5e14] [cursor=pointer]
+      - button "04 Variant Atlas" [ref=f5e16] [cursor=pointer]
+      - button "05 Batch Enclave" [ref=f5e18] [cursor=pointer]
+  - main [ref=f5e20]:
+    - generic [ref=f5e23]:
+      - img "PhyloTargetX Emblem" [ref=f5e27]
+      - generic [ref=f5e28]: Bioinformatics & Precision Oncology Suite
+      - generic [ref=f5e33]:
+        - img "PhyloTargetX"
+      - paragraph [ref=f5e34]: PhyloTargetX computes evolutionary conservation gradients, crystallographic pocket topologies, and drug sensitivity profiles across therapeutic oncogene mutations.
+      - generic [ref=f5e36]:
+        - generic [ref=f5e37]:
+          - generic [ref=f5e38]:
+            - generic [ref=f5e39]: target
+            - text: Select Target Disease / Oncogenic Axis
+          - generic [ref=f5e40]:
+            - generic [ref=f5e41]: verified
+            - text: PDB 7A2A Validated
+        - generic [ref=f5e42]:
+          - generic [ref=f5e43]:
+            - generic: biotech
+            - combobox "target Select Target Disease / Oncogenic Axis" [ref=f5e44] [cursor=pointer]:
+              - option "Non-small cell lung cancer (NSCLC) — EGFR / KRAS / ALK" [selected]
+              - option "Triple-negative breast cancer (TNBC) — PARP1 / Trop-2"
+              - option "Glioblastoma Multiforme (GBM) — IDH1 / MGMT / EGFRvIII"
+              - option "Colorectal Adenocarcinoma (CRC) — BRAF V600E / APC"
+              - option "Acute Myeloid Leukemia (AML) — FLT3 / NPM1 / DNMT3A"
+            - generic: expand_more
+          - generic [ref=f5e45]:
+            - generic [ref=f5e46]: "Hot Targets:"
+            - button "EGFR T790M" [ref=f5e47] [cursor=pointer]
+            - button "KRAS G12D" [ref=f5e48] [cursor=pointer]
+            - button "HER2 Neu" [ref=f5e49] [cursor=pointer]
+            - button "upload_file Custom FASTA" [ref=f5e50] [cursor=pointer]:
+              - generic [ref=f5e51]: upload_file
+              - text: Custom FASTA
+        - generic [ref=f5e52]:
+          - button "Start Target Analysis arrow_forward" [ref=f5e53] [cursor=pointer]:
+            - generic [ref=f5e54]: Start Target Analysis
+            - generic [ref=f5e55]: arrow_forward
+          - button "insights Inspect Telemetry" [ref=f5e56] [cursor=pointer]:
+            - generic [ref=f5e57]: insights
+            - generic [ref=f5e58]: Inspect Telemetry
+      - generic [ref=f5e59]:
+        - button "Scroll to Explore Telemetry & DNA Helix arrow_downward" [ref=f5e60] [cursor=pointer]:
+          - generic [ref=f5e61]: Scroll to Explore Telemetry & DNA Helix
+          - generic [ref=f5e62]: arrow_downward
+        - generic [ref=f5e63]:
+          - generic [ref=f5e64]:
+            - generic [ref=f5e65]: verified
+            - text: ISO 15189 Certified
+          - generic [ref=f5e66]: •
+          - generic [ref=f5e67]:
+            - generic [ref=f5e68]: security
+            - text: Zero-Knowledge Enclave
+          - generic [ref=f5e69]: •
+          - generic [ref=f5e70]:
+            - generic [ref=f5e71]: memory
+            - text: 32x H100 SXM5 GPU
+    - generic [ref=f5e75]:
+      - generic [ref=f5e76]:
+        - generic [ref=f5e77]: Telemetry Module 01
+        - generic [ref=f5e78]: 1.84 Å Resolution
+      - heading "Active Target Pipeline & Crystallographic Telemetry" [level=2] [ref=f5e79]
+      - paragraph [ref=f5e80]: High-definition electron density maps extracted from crystalline diffraction data, verified against cryo-EM structures with zero steric clashes.
+      - generic [ref=f5e81]:
+        - generic [ref=f5e82]:
+          - generic [ref=f5e83]: Kinase Target
+          - generic [ref=f5e84]: EGFR (7A2A)
+          - generic [ref=f5e85]: Wild-type + T790M
+        - generic [ref=f5e87]:
+          - generic [ref=f5e88]: Pocket Volume
+          - generic [ref=f5e89]: 482.6 Å³
+          - generic [ref=f5e90]: "Cavity Depth: 14.2 Å"
+        - generic [ref=f5e91]:
+          - generic [ref=f5e92]: AlphaFold-v3 pLDDT
+          - generic [ref=f5e93]: 96.8 / 100
+          - generic [ref=f5e94]: Ultra-high fidelity
+      - generic [ref=f5e95]:
+        - generic [ref=f5e96]:
+          - generic [ref=f5e97]: Crystallographic Electron Density Fit (R-free)
+          - generic [ref=f5e98]: 0.198 (Optimal)
+        - generic [ref=f5e101]:
+          - generic [ref=f5e102]: "Backbone RMSD: 0.28 Å"
+          - generic [ref=f5e103]: "Diffraction Space Group: P 21 21 21"
+    - generic [ref=f5e107]:
+      - generic [ref=f5e108]:
+        - generic [ref=f5e109]: Evolutionary Telemetry 02
+        - generic [ref=f5e110]: 48 Orthologs Aligned
+      - heading "Phylogenetic Sequence Conservation & Ortholog Drift" [level=2] [ref=f5e111]
+      - paragraph [ref=f5e112]: Cross-species deep multiple sequence alignment separates strictly conserved kinase catalytic cores from hypervariable peripheral loops that facilitate drug resistance.
+      - generic [ref=f5e113]:
+        - generic [ref=f5e114]:
+          - generic [ref=f5e115]:
+            - generic [ref=f5e116]:
+              - generic [ref=f5e117]: nature_people
+              - text: Mammalia & Primates Clade (Orthology)
+            - generic [ref=f5e118]: 94.2% Conserved
+          - generic [ref=f5e121]:
+            - generic [ref=f5e122]: "Ka/Ks Evolutionary Ratio: 0.114 (Strong Purifying Selection)"
+            - generic [ref=f5e123]: p < 0.0001
+        - generic [ref=f5e124]:
+          - generic [ref=f5e125]:
+            - generic [ref=f5e126]:
+              - generic [ref=f5e127]: pets
+              - text: Vertebrata Extended Clade
+            - generic [ref=f5e128]: 81.7% Conserved
+          - generic [ref=f5e131]:
+            - generic [ref=f5e132]: ATP binding loop invariant across 420 Myr
+            - generic [ref=f5e133]: ClustalOmega v2.1
+      - generic [ref=f5e134]:
+        - generic [ref=f5e135]: check_circle
+        - generic [ref=f5e136]: "Conserved Kinase Triad: Lys745 — Glu762 — Asp855 perfectly aligned"
+    - generic [ref=f5e140]:
+      - generic [ref=f5e141]:
+        - generic [ref=f5e142]: Biophysical Telemetry 03
+        - generic [ref=f5e143]: Docking Energy Validated
+      - heading "Structural Binding Pockets & Small Molecule Affinity" [level=2] [ref=f5e144]
+      - paragraph [ref=f5e145]: Thermodynamic binding free energy (ΔG) and covalent binding profiles calculated for flagship FDA-approved targeted kinase inhibitors.
+      - generic [ref=f5e146]:
+        - generic [ref=f5e147]:
+          - generic [ref=f5e148]:
+            - generic [ref=f5e149]: 3rd
+            - generic [ref=f5e150]:
+              - generic [ref=f5e151]: Osimertinib (AZD9291)
+              - text: Irreversible Covalent · Cys797 Targeting
+          - generic [ref=f5e152]:
+            - generic [ref=f5e153]: Kd = 0.52 nM
+            - text: "ΔG: -12.4 kcal/mol"
+        - generic [ref=f5e154]:
+          - generic [ref=f5e155]:
+            - generic [ref=f5e156]: 1st
+            - generic [ref=f5e157]:
+              - generic [ref=f5e158]: Gefitinib (Iressa)
+              - text: Reversible ATP-Competitive Inhibitor
+          - generic [ref=f5e159]:
+            - generic [ref=f5e160]: Kd = 3.20 nM
+            - text: "ΔG: -9.8 kcal/mol"
+        - generic [ref=f5e161]:
+          - generic [ref=f5e162]:
+            - generic [ref=f5e163]: 1st
+            - generic [ref=f5e164]:
+              - generic [ref=f5e165]: Erlotinib (Tarceva)
+              - text: Quinazoline Ring · H-Bond Met793
+          - generic [ref=f5e166]:
+            - generic [ref=f5e167]: Kd = 2.85 nM
+            - text: "ΔG: -10.1 kcal/mol"
+    - generic [ref=f5e171]:
+      - generic [ref=f5e172]:
+        - generic [ref=f5e173]: Genomic Atlas 04
+        - generic [ref=f5e174]: ClinVar & COSMIC v99
+      - heading "Variant Atlas & Allele Frequency Distribution" [level=2] [ref=f5e175]
+      - paragraph [ref=f5e176]: Real-time somatic prevalence tracking monitors drug resistance gatekeeper mutations and secondary bypass escape trajectories in patient cohorts.
+      - generic [ref=f5e177]:
+        - generic [ref=f5e178]:
+          - generic [ref=f5e179]:
+            - generic [ref=f5e180]: T790M
+            - generic [ref=f5e181]: Gatekeeper
+          - generic [ref=f5e182]: Exon 20 steric clash
+          - generic [ref=f5e183]:
+            - text: 52.8%
+            - generic [ref=f5e184]: 1st-gen relapse allele
+        - generic [ref=f5e185]:
+          - generic [ref=f5e186]:
+            - generic [ref=f5e187]: C797S
+            - generic [ref=f5e188]: 3rd-Gen Res
+          - generic [ref=f5e189]: Loss of covalent thiol
+          - generic [ref=f5e190]:
+            - text: 14.6%
+            - generic [ref=f5e191]: Post-Osimertinib rel.
+        - generic [ref=f5e192]:
+          - generic [ref=f5e193]:
+            - generic [ref=f5e194]: L858R
+            - generic [ref=f5e195]: Sensitizing
+          - generic [ref=f5e196]: Exon 21 activation
+          - generic [ref=f5e197]:
+            - text: 41.2%
+            - generic [ref=f5e198]: Primary driver oncogene
+      - generic [ref=f5e199]:
+        - generic [ref=f5e200]:
+          - generic [ref=f5e201]: query_stats
+          - text: Cross-referenced against 14,800 patient NGS panels
+        - generic [ref=f5e202]: gnomAD v4.1 Synced
+    - generic [ref=f5e206]:
+      - generic [ref=f5e207]:
+        - generic [ref=f5e208]: Execution Telemetry 05
+        - generic [ref=f5e209]: HSM Enclave Active
+      - heading "Batch Protocol Execution & Enclave Telemetry" [level=2] [ref=f5e211]
+      - paragraph [ref=f5e212]: Zero-knowledge hardware security modules (HSM) guarantee non-disclosure of proprietary lead compound chemical graphs during high-throughput evolutionary docking.
+      - generic [ref=f5e213]:
+        - generic [ref=f5e214]:
+          - generic [ref=f5e215]: Enclave Cryptographic Hash
+          - generic [ref=f5e216]: "SHA-256: 0x9FD8...24B7"
+        - generic [ref=f5e217]:
+          - generic [ref=f5e218]: GPU Cluster Allocations
+          - generic [ref=f5e219]: 32x NVIDIA H100 SXM5 (ESM-2 Dedicated)
+        - generic [ref=f5e220]:
+          - generic [ref=f5e221]: Inference Latency Target
+          - generic [ref=f5e222]: 12.4 ms per residue pocket
+        - generic [ref=f5e223]:
+          - generic [ref=f5e224]: Regulatory Audit Trail
+          - generic [ref=f5e225]: FDA 21 CFR Part 11 Compliant
+      - generic [ref=f5e226]:
+        - button "terminal Launch Enclave Batch Job" [ref=f5e227] [cursor=pointer]:
+          - generic [ref=f5e228]: terminal
+          - generic [ref=f5e229]: Launch Enclave Batch Job
+        - button "download Export Telemetry (JSON)" [ref=f5e230] [cursor=pointer]:
+          - generic [ref=f5e231]: download
+          - generic [ref=f5e232]: Export Telemetry (JSON)
+  - contentinfo [ref=f5e233]:
+    - generic [ref=f5e234]:
+      - generic [ref=f5e235]:
+        - generic [ref=f5e236]:
+          - img "PhyloTargetX Icon" [ref=f5e237]
+          - generic [ref=f5e238]: PhyloTargetX Platform
+        - generic [ref=f5e239]: •
+        - generic [ref=f5e240]: © 2025 Biologics Computational Lab
+        - generic [ref=f5e241]: •
+        - generic [ref=f5e242]: 21 CFR Part 11 Active
+      - generic [ref=f5e243]:
+        - generic [ref=f5e244]:
+          - text: "Genome:"
+          - strong [ref=f5e245]: GRCh38.p14
+        - generic [ref=f5e246]: •
+        - generic [ref=f5e247]:
+          - text: "Engine:"
+          - strong [ref=f5e248]: BLAST+ 2.15.0

@@ -3,7 +3,7 @@ import os
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from app.genomics.module1_entry import rank_species_for_target
+from app.genomics.species_ranking import rank_species_for_target
 
 def test_module1_end_to_end():
     print("Starting Module 1 End-to-End Test on EGFR (P00533)...")

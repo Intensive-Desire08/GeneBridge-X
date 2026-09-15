@@ -1,3 +1,9 @@
+"""
+Module for ranking species orthologs for a specific human target.
+
+This module uses genomics and proteomics models to find orthologs, 
+align sequences, map binding sites, and score each species model.
+"""
 import sys
 import os
 
@@ -12,6 +18,16 @@ from app.proteins.binding import map_binding_site
 from app.proteins.scoring import score_species
 
 def rank_species_for_target(uniprot_id: str, species_list: List[str] = ["chicken", "zebrafish", "fruit_fly"]) -> SpeciesRankingResult:
+    """
+    Ranks potential species models for a given human protein target.
+
+    Args:
+        uniprot_id (str): The UniProt ID of the human target.
+        species_list (List[str], optional): A list of species to consider. Defaults to ["chicken", "zebrafish", "fruit_fly"].
+
+    Returns:
+        SpeciesRankingResult: The ranking results including the best model and confidence.
+    """
     try:
         human_target = fetch_human_target(uniprot_id)
     except Exception as e:

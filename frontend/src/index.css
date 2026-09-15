@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body { margin: 0; padding: 0; }
+  body { overscroll-behavior: none; }
+}
+::-webkit-scrollbar { display: none; }
+
+/* Pod gliding transition for edge-attached semicircular windows */
+.glide-pod {
+  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  will-change: transform, opacity;
+}
+.glide-left-hidden {
+  transform: translateX(-140px);
+  opacity: 0.15;
+}
+.glide-right-hidden {
+  transform: translateX(140px);
+  opacity: 0.15;
+}
+.glide-visible {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Subtle glow pulse on target elements */
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.08); opacity: 0.3; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+.pulse-glow {
+  animation: pulse-ring 3s infinite ease-in-out;
+}
