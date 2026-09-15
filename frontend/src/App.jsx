@@ -61,8 +61,7 @@ function App() {
           setTimeout(() => {
             startBtn.innerHTML = originalText;
             startBtn.disabled = false;
-            const targetSection = document.getElementById('telemetry-section');
-            if (targetSection) targetSection.scrollIntoView({ behavior: 'smooth' });
+            window.location.href = '/wizard.html';
           }, 800);
         });
       }

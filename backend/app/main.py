@@ -1,5 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from app.genomics.species_ranking import rank_species_for_target
+from app.genomics.target_api import resolve_human_gene_to_uniprot
 from app.drug_targets.egfr_ranking import rank_egfr_drugs
 from app.core.schemas import SpeciesRankingResult
 
@@ -13,11 +14,16 @@ app = FastAPI(
 def read_root():
     return {"message": "Welcome to the GeneBridge-X API"}
 
-@app.get("/api/genomics/rank-species/{uniprot_id}", response_model=SpeciesRankingResult)
-def get_species_ranking(uniprot_id: str):
+@app.get("/api/genomics/rank-species/{protein_name}", response_model=SpeciesRankingResult)
+def get_species_ranking(protein_name: str):
     """
-    Ranks species orthologs for a given human target UniProt ID.
+    Ranks species orthologs for a given human protein target name (e.g., KRAS, EGFR).
     """
+    try:
+        uniprot_id = resolve_human_gene_to_uniprot(protein_name)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+        
     return rank_species_for_target(uniprot_id)
 
 @app.get("/api/drug-targets/rank-egfr")
