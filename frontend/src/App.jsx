@@ -272,8 +272,8 @@ function App() {
           // 2. Dynamic Scroll Cross-Fade:
           // Near Top: Fluid sea is 0.75 opacity; DNA is faint (0.2)
           // Scrolled: Fluid sea drops to 0.0; DNA brightens to intense 1.0
-          const seaTargetOpacity = Math.max(0.0, 0.75 - scrollRatio * 3.5);
-          const dnaTargetOpacity = Math.min(1.0, 0.2 + scrollRatio * 2.0);
+          const seaTargetOpacity = Math.max(0.0, 1.0 - scrollRatio * 3.5);
+          const dnaTargetOpacity = Math.min(1.0, scrollRatio * 2.5);
 
           seaMaterial.opacity += (seaTargetOpacity - seaMaterial.opacity) * 0.1;
           dnaMaterial.opacity += (dnaTargetOpacity - dnaMaterial.opacity) * 0.1;
@@ -399,7 +399,7 @@ function App() {
 {/* SECTION 1: EXPANSIVE SEMICIRCLE CANOPY HERO (Translucent Wall-to-Wall Arch, Brand Title Image, Expansive Target Suite) */}
 <section className="w-full min-h-[95vh] flex items-center justify-center pt-8 sm:pt-12 pb-6 px-0 relative overflow-hidden" id="hero">
 {/* Majestic Semicircle Canopy touching edges and opening upward */}
-<div className="w-full rounded-t-[280px] sm:rounded-t-[420px] md:rounded-t-[50vw] bg-white/25 hover:bg-white/30 backdrop-blur-md border-t border-x border-white/50 shadow-[0_-20px_60px_-15px_rgba(15,23,42,0.08)] px-4 sm:px-8 md:px-14 lg:px-20 pt-16 sm:pt-20 pb-16 flex flex-col items-center text-center transition-all duration-300">
+<div className="w-full px-4 sm:px-8 md:px-14 lg:px-20 pt-16 sm:pt-20 pb-16 flex flex-col items-center text-center transition-all duration-300">
 <div className="w-full max-w-6xl mx-auto flex flex-col items-center">
 {/* Centered Emblem with Brand Logo */}
 <div className="mb-4 relative group">
@@ -420,7 +420,7 @@ function App() {
 </div>
 {/* Brand Title Image Display */}
 <div className="w-full my-2 flex justify-center">
-<img alt="PhyloTargetX" className="h-20 sm:h-24 md:h-28 mx-auto object-contain my-3 drop-shadow-sm" src="https://lh3.googleusercontent.com/aida/AEtjO1W-z2-L9I9DmlSvWLHDIs3k61S2c51Ng3NfHU7nvNuBAWOLzIVcfHqn_zWSY5mR44InmI0vpUR375Z3haozSuzmYbnN4sBfssJ3ewqRCGolijmSMI12fc7IgKtq67fmSTi21TWSs8aQVYVzIJvXSBMgP43VlzzYThT6K8lVzA3qCKd0lf9C-Vhn-L9mG_rC6YaaUFoz5LiGxW6CP91CTrqN-WDVA4Hww_XMenIctS-E1EZ7OgEPe7tj6ndH"/>
+<img alt="PhyloTargetX" className="h-20 sm:h-24 md:h-28 mx-auto object-contain my-3 drop-shadow-sm" src="/text-logo.svg"/>
 </div>
 {/* Relaxed Elegant Subtitle Paragraph */}
 <p className="font-body text-base sm:text-lg md:text-xl text-[#334155] font-medium mt-1 max-w-3xl leading-relaxed">
