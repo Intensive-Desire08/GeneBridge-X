@@ -1,5 +1,0 @@
-[     143ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=6adf5025:15804
-[     179ms] [ERROR] Use the `defaultValue` or `value` props on <select> instead of setting `selected` on <option>. @ http://localhost:5173/@vite/client:298
-[  106993ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:5173/@vite/client:1030
-[  122861ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=a40feb4c:15804
-[  122891ms] [ERROR] Use the `defaultValue` or `value` props on <select> instead of setting `selected` on <option>. @ http://localhost:5173/@vite/client:298

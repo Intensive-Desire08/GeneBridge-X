@@ -54,6 +54,8 @@ desktop.ini
 # Project specific
 backend/app/core/schemas/__pycache__/
 data/processed/cache/
+.playwright-mcp/
+temp_assets/
 models/*.pkl
 !models/.gitkeep
 CONTEXT.md
