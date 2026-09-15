@@ -273,7 +273,7 @@ function App() {
           // Near Top: Fluid sea is 0.75 opacity; DNA is faint (0.2)
           // Scrolled: Fluid sea drops to 0.0; DNA brightens to intense 1.0
           const seaTargetOpacity = Math.max(0.0, 1.0 - scrollRatio * 3.5);
-          const dnaTargetOpacity = Math.min(1.0, scrollRatio * 2.5);
+          const dnaTargetOpacity = Math.min(0.25, scrollRatio * 2.0);
 
           seaMaterial.opacity += (seaTargetOpacity - seaMaterial.opacity) * 0.1;
           dnaMaterial.opacity += (dnaTargetOpacity - dnaMaterial.opacity) * 0.1;
@@ -399,7 +399,7 @@ function App() {
 {/* SECTION 1: EXPANSIVE SEMICIRCLE CANOPY HERO (Translucent Wall-to-Wall Arch, Brand Title Image, Expansive Target Suite) */}
 <section className="w-full min-h-[95vh] flex items-center justify-center pt-8 sm:pt-12 pb-6 px-0 relative overflow-hidden" id="hero">
 {/* Majestic Semicircle Canopy touching edges and opening upward */}
-<div className="w-full px-4 sm:px-8 md:px-14 lg:px-20 pt-16 sm:pt-20 pb-16 flex flex-col items-center text-center transition-all duration-300">
+<div className="w-full px-4 sm:px-8 md:px-14 lg:px-20 pt-4 sm:pt-8 pb-12 flex flex-col items-center text-center transition-all duration-300">
 <div className="w-full max-w-6xl mx-auto flex flex-col items-center">
 {/* Centered Emblem with Brand Logo */}
 <div className="mb-4 relative group">
@@ -422,10 +422,7 @@ function App() {
 <div className="w-full my-2 flex justify-center">
 <img alt="PhyloTargetX" className="h-20 sm:h-24 md:h-28 mx-auto object-contain my-3 drop-shadow-sm" src="/text-logo.svg"/>
 </div>
-{/* Relaxed Elegant Subtitle Paragraph */}
-<p className="font-body text-base sm:text-lg md:text-xl text-[#334155] font-medium mt-1 max-w-3xl leading-relaxed">
-        PhyloTargetX computes evolutionary conservation gradients, crystallographic pocket topologies, and drug sensitivity profiles across therapeutic oncogene mutations.
-      </p>
+{/* Relaxed Elegant Subtitle Paragraph (Moved down to save space) */}
 {/* Expansive Wide Target Selection Suite */}
 <div className="mt-8 w-full max-w-5xl mx-auto">
 <div className="p-6 sm:p-8 lg:p-10 rounded-3xl bg-white/80 hover:bg-white/90 backdrop-blur-xl border border-white/60 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.12)] text-left transition-all">
@@ -490,8 +487,12 @@ function App() {
 </div>
 </div>
 </div>
+{/* Moved Paragraph */}
+<p className="font-body text-base sm:text-lg text-[#334155] font-medium mt-8 max-w-3xl leading-relaxed px-4">
+  PhyloTargetX computes evolutionary conservation gradients, crystallographic pocket topologies, and drug sensitivity profiles across therapeutic oncogene mutations.
+</p>
 {/* Testable Scroll Prompter */}
-<div className="mt-10 flex flex-col items-center">
+<div className="mt-8 flex flex-col items-center">
 <button className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white/85 hover:bg-white text-slate-800 text-xs font-mono font-bold border border-slate-300 shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer animate-bounce hover:animate-none" onClick={() => { document.getElementById('telemetry-section').scrollIntoView({behavior: 'smooth'}) }}>
 <span>Scroll to Explore Telemetry &amp; DNA Helix</span>
 <span className="material-symbols-outlined text-[16px] text-emerald-600">arrow_downward</span>
