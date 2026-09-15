@@ -303,7 +303,7 @@ function App() {
   }, []);
 
   return (
-    <div className={`${viewMode === 'dashboard' ? 'min-h-[420vh]' : 'min-h-screen'} bg-[#faf8ff] font-body text-[#0f172a] antialiased relative overflow-x-hidden selection:bg-emerald-500 selection:text-white`}>
+    <div className={`${viewMode === 'dashboard' ? 'min-h-[420vh] bg-[#faf8ff]' : 'min-h-screen bg-[#f0f4f8] bg-[radial-gradient(ellipse_80%_80%_at_50%_0%,rgba(163,201,168,0.22),transparent_70%)]'} font-body text-[#0f172a] antialiased relative selection:bg-emerald-500 selection:text-white`}>
       
 {/* Dual-Mode Three.js WebGL Canvas (Fluid Sea into Radiant Luminous DNA Helix) - Only rendered on Dashboard */}
 {viewMode === 'dashboard' && (
@@ -399,12 +399,12 @@ function App() {
   </>
 )}
 {viewMode === 'wizard' && (
-  <main className="relative z-10 w-full pt-20 pb-20">
+  <main className="relative z-10 w-full pt-20 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1440px] mx-auto">
     <AnalysisWizard onNavigate={(mode) => setViewMode(mode)} />
   </main>
 )}
 {viewMode === 'report' && (
-  <main className="relative z-10 w-full pt-20 pb-20">
+  <main className="relative z-10 w-full pt-20 pb-16 px-4 sm:px-6 lg:px-8 max-w-[1440px] mx-auto">
     <FinalReport onNavigate={(mode) => setViewMode(mode)} />
   </main>
 )}

@@ -135,8 +135,7 @@ export default function FinalReport({ onNavigate }) {
   };
 
   return (
-    <div className="w-full bg-gradient-to-br from-slate-50 via-slate-100/70 to-emerald-50/20 font-body text-slate-800 antialiased min-h-screen py-6 px-4 sm:px-6 lg:px-8">
-      
+    <div className="w-full relative">
       {/* Toast Notification */}
       {downloadNotification && (
         <div className="fixed top-20 right-6 z-50 bg-emerald-950 text-emerald-100 px-5 py-3 rounded-xl shadow-2xl border border-emerald-500/40 flex items-center gap-3 animate-bounce font-mono text-xs font-semibold">
@@ -145,81 +144,81 @@ export default function FinalReport({ onNavigate }) {
         </div>
       )}
 
-      {/* Full Screen Layout Grid (Edge to Edge) */}
-      <div className="w-full max-w-[98vw] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      {/* Grid: Compact 3-Column Sidebar + Expansive 9-Column Main Dossier */}
+      <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-        {/* ================= STICKY LEFT SIDEBAR (TRANSLUCENT RECTANGLE - 4 COLUMNS) ================= */}
-        <aside className="lg:col-span-4 bg-white/75 backdrop-blur-2xl border border-slate-200/90 rounded-3xl p-6 shadow-xl space-y-6 lg:sticky lg:top-20 z-30">
+        {/* ================= COMPACT LEFT SIDEBAR (3 COLUMNS) ================= */}
+        <aside className="lg:col-span-3 bg-white/90 backdrop-blur-2xl border border-slate-200/90 rounded-2xl p-4 shadow-lg space-y-4 lg:sticky lg:top-20 z-30">
 
           {/* Patient Telemetry Card */}
-          <div className="bg-slate-50/90 rounded-2xl p-4 border border-slate-200/80 space-y-3">
+          <div className="bg-slate-50/90 rounded-xl p-3.5 border border-slate-200/80 space-y-2.5">
             <div className="flex items-center justify-between pb-2 border-b border-slate-200">
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse"></span>
-                <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-emerald-800">
-                  Patient Telemetry Triage
+              <div className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+                <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-emerald-800">
+                  Patient Triage
                 </span>
               </div>
-              <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-900 font-mono text-[10px] font-bold">
+              <span className="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 font-mono text-[9px] font-bold">
                 ISO 15189
               </span>
             </div>
 
-            <div className="space-y-2 font-mono text-xs">
-              <div className="flex justify-between items-center bg-white p-2.5 rounded-lg border border-slate-200">
-                <span className="text-slate-500">Patient ID:</span>
+            <div className="space-y-1.5 font-mono text-[11px]">
+              <div className="flex justify-between items-center bg-white px-2 py-1.5 rounded border border-slate-200">
+                <span className="text-slate-400">Patient:</span>
                 <strong className="text-slate-900 font-bold">{reportData.patientId}</strong>
               </div>
-              <div className="flex justify-between items-center bg-white p-2.5 rounded-lg border border-slate-200">
-                <span className="text-slate-500">Specimen Run:</span>
+              <div className="flex justify-between items-center bg-white px-2 py-1.5 rounded border border-slate-200">
+                <span className="text-slate-400">Run ID:</span>
                 <strong className="text-slate-900 font-bold">{reportData.specimenId}</strong>
               </div>
-              <div className="bg-white p-2.5 rounded-lg border border-slate-200 space-y-1">
-                <span className="text-slate-500 block text-[10px]">Indication Profile</span>
-                <strong className="text-slate-900 font-semibold block leading-tight">
+              <div className="bg-white px-2 py-1.5 rounded border border-slate-200 space-y-0.5">
+                <span className="text-slate-400 block text-[9px]">Indication Profile</span>
+                <strong className="text-slate-900 font-semibold block leading-tight text-[10px]">
                   {reportData.disease}
                 </strong>
               </div>
-              <div className="flex justify-between items-center bg-white p-2.5 rounded-lg border border-slate-200">
-                <span className="text-slate-500">QC Status:</span>
-                <strong className="text-emerald-700 font-bold">{reportData.qualityScore}</strong>
+              <div className="flex justify-between items-center bg-white px-2 py-1.5 rounded border border-slate-200">
+                <span className="text-slate-400">QC Status:</span>
+                <strong className="text-emerald-700 font-bold">Q38 (99.4%)</strong>
               </div>
             </div>
           </div>
 
           {/* Target Navigation Index Rail */}
-          <div className="bg-slate-50/90 rounded-2xl p-4 border border-slate-200/80 space-y-2.5">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-200">
-              <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                Target Navigation Index
+          <div className="bg-slate-50/90 rounded-xl p-3.5 border border-slate-200/80 space-y-2">
+            <div className="flex items-center justify-between pb-1.5 border-b border-slate-200">
+              <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                Target Navigation
               </span>
-              <span className="font-mono text-[10px] text-slate-400">3 Nodes</span>
+              <span className="font-mono text-[9px] text-slate-400">3 Nodes</span>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               {reportData.targets.map((t) => (
                 <button
                   key={t.id}
                   onClick={() => scrollToTarget(t.id)}
-                  className={`w-full text-left p-3 rounded-xl border transition-all flex items-center justify-between cursor-pointer ${
+                  className={`w-full text-left p-2.5 rounded-lg border transition-all flex items-center justify-between cursor-pointer ${
                     activeTargetId === t.id
                       ? 'bg-emerald-50 border-emerald-400 shadow-xs'
                       : 'bg-white border-slate-200 hover:bg-slate-100'
                   }`}
                 >
-                  <div className="flex items-center gap-2.5">
-                    <span className={`w-7 h-7 rounded-lg flex items-center justify-center font-mono text-xs font-bold ${
+                  <div className="flex items-center gap-2">
+                    <span className={`w-6 h-6 rounded flex items-center justify-center font-mono text-[10px] font-bold ${
                       activeTargetId === t.id ? 'bg-emerald-700 text-white' : 'bg-slate-200 text-slate-700'
                     }`}>
                       {t.nodeNum}
                     </span>
                     <div>
                       <h4 className="font-headline text-xs font-bold text-slate-900">{t.gene}</h4>
-                      <span className="font-mono text-[10px] text-slate-500">{t.drugCandidate.name}</span>
+                      <span className="font-mono text-[9px] text-slate-400 block truncate max-w-[100px]">{t.drugCandidate.name}</span>
                     </div>
                   </div>
 
-                  <span className="font-mono text-xs text-emerald-700 font-bold">
+                  <span className="font-mono text-[11px] text-emerald-700 font-bold">
                     {t.animalModel.sequenceIdentity}
                   </span>
                 </button>
@@ -228,68 +227,64 @@ export default function FinalReport({ onNavigate }) {
           </div>
 
           {/* Action Buttons */}
-          <div className="space-y-2.5">
+          <div className="space-y-2">
             <button
               onClick={handleDownloadPDF}
-              className="w-full py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-headline text-xs font-bold shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-headline text-xs font-bold shadow-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer"
             >
-              <span className="material-symbols-outlined text-[18px]">picture_as_pdf</span>
-              <span>Download PDF Clinical Dossier</span>
+              <span className="material-symbols-outlined text-[16px]">picture_as_pdf</span>
+              <span>Download PDF Report</span>
             </button>
 
             <button
               onClick={handleExportJSON}
-              className="w-full py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-800 font-headline text-xs font-bold border border-slate-300 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+              className="w-full py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-800 font-headline text-xs font-bold border border-slate-300 transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
             >
-              <span className="material-symbols-outlined text-[18px]">file_download</span>
-              <span>Export Raw Telemetry (JSON)</span>
+              <span className="material-symbols-outlined text-[16px]">file_download</span>
+              <span>Export Telemetry (JSON)</span>
             </button>
 
             <button
               onClick={() => onNavigate && onNavigate('dashboard')}
-              className="w-full py-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-300 font-headline text-xs font-medium transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-2 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-300 font-headline text-xs font-medium transition-all flex items-center justify-center gap-1.5 cursor-pointer"
             >
-              <span className="material-symbols-outlined text-[18px]">refresh</span>
-              <span>Start New Target Analysis</span>
+              <span className="material-symbols-outlined text-[16px]">refresh</span>
+              <span>Start New Run</span>
             </button>
           </div>
 
           {/* Cryptographic Enclave Audit Stamp */}
-          <div className="bg-slate-50/90 rounded-2xl p-4 border border-slate-200/80 font-mono text-[10px] text-slate-500 space-y-1.5">
-            <div className="flex items-center justify-between text-slate-700 font-bold border-b border-slate-200 pb-1.5">
-              <span>Cryptographic Audit Hash</span>
-              <span className="text-emerald-700">SHA-256 Validated</span>
+          <div className="bg-slate-50/90 rounded-xl p-3 border border-slate-200/80 font-mono text-[9px] text-slate-500 space-y-1">
+            <div className="flex items-center justify-between text-slate-700 font-bold border-b border-slate-200 pb-1">
+              <span>SHA-256 Audit Ledger</span>
+              <span className="text-emerald-700">Validated</span>
             </div>
-            <div className="break-all text-slate-800 font-semibold bg-white p-2 rounded border border-slate-200">
+            <div className="break-all text-slate-800 font-semibold bg-white p-1.5 rounded border border-slate-200 text-[9px]">
               0x9FD824B7A12C384E910F41566B093C
-            </div>
-            <div className="flex items-center justify-between text-slate-400 pt-1">
-              <span>FDA 21 CFR Part 11</span>
-              <span>gnomAD v4.1 Synced</span>
             </div>
           </div>
 
         </aside>
 
-        {/* ================= MAIN THERAPEUTIC DOSSIER (UNIFIED TRANSLUCENT RECTANGLE - 8 COLUMNS) ================= */}
-        <main className="lg:col-span-8 bg-white/75 backdrop-blur-2xl border border-slate-200/90 rounded-3xl p-6 lg:p-8 shadow-xl space-y-6">
+        {/* ================= MAIN EXPANSIVE THERAPEUTIC DOSSIER (9 COLUMNS) ================= */}
+        <main className="lg:col-span-9 bg-white/90 backdrop-blur-2xl border border-slate-200/90 rounded-3xl p-6 lg:p-8 shadow-xl space-y-6">
 
           {/* Top Header Banner */}
-          <div className="bg-slate-50/90 rounded-2xl p-6 border border-slate-200/80 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700 shadow-xs shrink-0">
-                <span className="material-symbols-outlined text-[28px]">biotech</span>
+          <div className="bg-slate-50/90 rounded-2xl p-5 border border-slate-200/80 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div className="flex items-center gap-3.5">
+              <div className="w-11 h-11 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700 shadow-xs shrink-0">
+                <span className="material-symbols-outlined text-[26px]">biotech</span>
               </div>
               <div>
                 <div className="flex items-center gap-2 flex-wrap">
-                  <h1 className="font-headline text-2xl font-bold text-slate-900 tracking-tight">
+                  <h1 className="font-headline text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
                     PhyloTargetX Final Analysis Report
                   </h1>
-                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-300 font-mono text-[11px] font-bold">
+                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-300 font-mono text-[10px] font-bold">
                     Report #{reportData.reportId}
                   </span>
                 </div>
-                <p className="font-body text-xs text-slate-500 mt-1">
+                <p className="font-body text-xs text-slate-500 mt-0.5">
                   Phylogenetic Animal Model Selection &amp; Precision Therapeutic Affinity Summary
                 </p>
               </div>
@@ -297,7 +292,7 @@ export default function FinalReport({ onNavigate }) {
           </div>
 
           {/* Target Identification Flowchart Section */}
-          <section className="bg-slate-50/90 rounded-2xl p-6 lg:p-8 border border-slate-200/80 shadow-xs relative overflow-hidden">
+          <section className="bg-slate-50/90 rounded-2xl p-6 border border-slate-200/80 shadow-xs relative overflow-hidden">
             <div className="absolute -right-20 -top-20 w-80 h-80 bg-emerald-100/40 rounded-full blur-3xl pointer-events-none"></div>
 
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-200">
@@ -374,7 +369,7 @@ export default function FinalReport({ onNavigate }) {
               <section
                 key={t.id}
                 id={t.id}
-                className="bg-slate-50/90 rounded-2xl p-6 lg:p-8 border border-slate-200/80 shadow-xs scroll-mt-24"
+                className="bg-slate-50/90 rounded-2xl p-6 border border-slate-200/80 shadow-xs scroll-mt-24"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200">
                   <div className="flex items-center gap-3 flex-wrap">
@@ -391,7 +386,7 @@ export default function FinalReport({ onNavigate }) {
                   <span className="font-mono text-xs text-slate-400">{t.locus}</span>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
                   {/* Component A: Best Animal Model */}
                   <div className="bg-white rounded-xl p-5 border border-slate-200/90 flex flex-col justify-between shadow-xs">
                     <div>
@@ -495,7 +490,7 @@ export default function FinalReport({ onNavigate }) {
           </div>
 
           {/* Bottom Action Section */}
-          <section className="bg-slate-50/90 rounded-2xl p-6 border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+          <section className="bg-slate-50/90 rounded-2xl p-5 border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
               <span className="font-mono text-xs font-bold uppercase tracking-wider text-slate-400">Report Status: Complete</span>
               <p className="font-body text-xs text-slate-600 mt-0.5">All 3 Target proteins fully validated with sequence homology &amp; high-affinity compounds.</p>
