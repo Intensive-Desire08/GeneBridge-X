@@ -16,7 +16,6 @@ DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__
 os.makedirs(DATA_DIR, exist_ok=True)
 
 def get_chembl_target_id(uniprot_id: str) -> str:
-    """Gets the ChEMBL target ID for a given UniProt ID."""
     url = f"https://www.ebi.ac.uk/chembl/api/data/target.json?target_components__accession={uniprot_id}"
     response = requests.get(url, timeout=15)
     response.raise_for_status()
