@@ -6,6 +6,8 @@ def align_sequences(human_sequence: str, ortholog_sequence: str) -> AlignmentRes
     aligner = Align.PairwiseAligner()
     aligner.substitution_matrix = substitution_matrices.load("BLOSUM62")
     aligner.mode = "global"
+    aligner.open_gap_score = -10
+    aligner.extend_gap_score = -0.5
     
     alignments = aligner.align(human_sequence, ortholog_sequence)
     if not alignments:
@@ -13,10 +15,9 @@ def align_sequences(human_sequence: str, ortholog_sequence: str) -> AlignmentRes
         
     best_alignment = alignments[0]
     
-    # Extract the aligned strings from the alignment formatter
-    alignment_lines = str(best_alignment).strip().split('\n')
-    aligned_human = alignment_lines[0]
-    aligned_ortholog = alignment_lines[2]
+    # Extract the full aligned strings with gaps
+    aligned_human = best_alignment[0]
+    aligned_ortholog = best_alignment[1]
     
     alignment_score = best_alignment.score
     
