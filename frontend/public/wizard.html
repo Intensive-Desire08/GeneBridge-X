@@ -2265,7 +2265,7 @@
       // Simulate loading state switch
       setTimeout(() => {
         switchPhase('2B');
-      }, 60000);
+      }, 2500);
     }
 
     function toggleSimulateLoading() {
@@ -2279,7 +2279,7 @@
           createProteinStructureScene('dna-canvas-1');
           createDNAHelixScene('dna-canvas-2', 82);
           createDNAHelixScene('dna-canvas-3', 69);
-        }, 60000);
+        }, 2500);
       } else {
         document.getElementById('view-2b-loading').classList.add('active-view');
         initPhase2BLoadingScene();
@@ -2287,7 +2287,7 @@
           hideAllViews();
           document.getElementById('view-2b-results').classList.add('active-view');
           initBallAndStickMoleculeScene();
-        }, 60000);
+        }, 2500);
       }
     }
 
@@ -2364,6 +2364,25 @@
     let proteinResults = [];
     let currentProteinIndex = 0;
 
+    function formatSpeciesName(speciesId) {
+      if (!speciesId) return "Unknown";
+      switch (speciesId.toLowerCase()) {
+        case 'fruit_fly': return 'Fruit Fly';
+        case 'zebrafish': return 'Zebrafish';
+        case 'mouse': return 'Mouse';
+        case 'rat': return 'Rat';
+        case 'chicken': return 'Chicken';
+        case 'macaque': return 'Macaque';
+        case 'chimpanzee': return 'Chimpanzee';
+        case 'dog': return 'Dog';
+        case 'pig': return 'Pig';
+        case 'frog': return 'Frog';
+        case 'nematode': return 'Nematode';
+        default: 
+          return speciesId.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+      }
+    }
+
     function initDynamicData() {
       const dataStr = localStorage.getItem('genebridge_analysis_result');
       if (!dataStr) return;
@@ -2401,7 +2420,7 @@
         const hero = rankedSpecies[0];
         const heroCard = document.querySelector('.hero-organism-card');
         if (heroCard) {
-          heroCard.querySelector('.organism-title').innerText = hero.species ? (hero.species.charAt(0).toUpperCase() + hero.species.slice(1)) : "Unknown";
+          heroCard.querySelector('.organism-title').innerText = formatSpeciesName(hero.species);
           heroCard.querySelector('.latin-name').innerText = "Overall Identity: " + (hero.global_identity ? hero.global_identity.toFixed(1) : "N/A") + "%";
           heroCard.querySelector('.compatibility-val').innerText = "Compatibility Score: " + (hero.final_score ? hero.final_score.toFixed(3) : "N/A");
           heroCard.querySelector('.organism-description').innerText = "Identified as the optimal model for testing this target. It has a binding site conservation of " + (hero.binding_site_conservation ? hero.binding_site_conservation.toFixed(1) : "N/A") + "%.";
@@ -2417,7 +2436,7 @@
         // Update 3D HUD for Hero
         const heroHudChips = document.querySelectorAll('.dna-3d-container .hud-chip');
         if (heroHudChips.length >= 2) {
-           heroHudChips[0].innerText = "Protein (" + (hero.species ? hero.species : "unknown") + ")";
+           heroHudChips[0].innerText = "Protein (" + formatSpeciesName(hero.species) + ")";
            heroHudChips[1].innerText = (hero.binding_site_conservation ? hero.binding_site_conservation.toFixed(1) : "100") + "% Match Ratio";
         }
 
@@ -2428,7 +2447,7 @@
           if (recIndex < rankedSpecies.length) {
             const sp = rankedSpecies[recIndex];
             subCards[i].style.display = 'flex';
-            subCards[i].querySelector('h3').innerText = sp.species ? (sp.species.charAt(0).toUpperCase() + sp.species.slice(1)) : "Unknown";
+            subCards[i].querySelector('h3').innerText = formatSpeciesName(sp.species);
             subCards[i].querySelector('.latin-name').innerText = "Overall Identity: " + (sp.global_identity ? sp.global_identity.toFixed(1) : "N/A") + "%";
             subCards[i].querySelector('.compatibility-val').innerText = "Compatibility Score: " + (sp.final_score ? sp.final_score.toFixed(3) : "N/A");
             
@@ -2446,7 +2465,7 @@
             if (smallDnas[i]) {
                 const huds = smallDnas[i].querySelectorAll('.hud-chip');
                 if (huds.length >= 2) {
-                    huds[0].innerText = sp.species;
+                    huds[0].innerText = formatSpeciesName(sp.species);
                     huds[1].innerText = (sp.binding_site_conservation ? sp.binding_site_conservation.toFixed(1) : "N/A") + "% Match";
                 }
             }
@@ -2459,7 +2478,7 @@
         
         // Bottom action banner for model verified
         const bannerTitle = document.querySelector('.action-banner-info h4');
-        if (bannerTitle) bannerTitle.innerText = "Model Selection Verified: " + hero.species;
+        if (bannerTitle) bannerTitle.innerText = "Model Selection Verified: " + formatSpeciesName(hero.species);
       } else {
         // Handle no species found
         const heroCard = document.querySelector('.hero-organism-card');
@@ -2484,6 +2503,36 @@
           heroCard.querySelector('.chembl-badge').innerText = hero.molecule_chembl_id || "Unknown";
           heroCard.querySelector('.organism-title').innerText = hero.molecule_chembl_id || "Unknown";
           heroCard.querySelector('.latin-name').innerText = "Dynamic Rank: " + (hero.rank || "N/A");
+
+          // Update AI Scores
+          const confChip = heroCard.querySelector('#conf-chip-display');
+          if (confChip) {
+            const prob = hero.activity_probability ? (hero.activity_probability * 100).toFixed(1) : "N/A";
+            confChip.innerText = `${prob}% Probability`;
+          }
+          const confBar = heroCard.querySelector('#conf-bar-display');
+          if (confBar) {
+            confBar.style.width = hero.activity_probability ? `${(hero.activity_probability * 100)}%` : "0%";
+          }
+
+          const freeEnergy = heroCard.querySelector('.confidence-meter-box div:nth-child(3) span:nth-child(1)');
+          if (freeEnergy) freeEnergy.innerHTML = `Pocket Free Energy: <b>${hero.pIC50 ? (-1.36 * hero.pIC50).toFixed(1) : 'N/A'} kcal/mol</b>`;
+
+          const kiAff = heroCard.querySelector('.confidence-meter-box div:nth-child(3) span:nth-child(2)');
+          if (kiAff) kiAff.innerHTML = `Ki Affinity (IC50): <b>${hero.IC50 ? hero.IC50.toFixed(2) : 'N/A'} nM</b>`;
+
+          // Molecular Properties
+          const propBoxes = heroCard.querySelectorAll('.prop-box .prop-val');
+          if (propBoxes.length >= 4) {
+            propBoxes[0].innerText = hero.molecular_weight ? `${hero.molecular_weight.toFixed(1)} g/mol` : "N/A";
+            propBoxes[1].innerText = hero.logP ? hero.logP.toFixed(2) : "N/A";
+            propBoxes[2].innerText = hero.HBD !== undefined ? hero.HBD : "N/A";
+            propBoxes[3].innerText = hero.HBA !== undefined ? hero.HBA : "N/A"; // Displaying HBA as Polar Surface isn't available
+          }
+
+          // Paragraph
+          const desc = heroCard.querySelector('.organism-description');
+          if (desc) desc.innerText = `SMILES: ${hero.smiles || "N/A"}\nPredicted as highly active based on Random Forest molecular fingerprinting.`;
         }
 
         const subCards = document.querySelectorAll('.candidate-card-sm');
@@ -2495,6 +2544,32 @@
             subCards[i].querySelector('.chembl-badge').innerText = dr.molecule_chembl_id || "Unknown";
             subCards[i].querySelector('.candidate-title').innerText = dr.molecule_chembl_id || "Unknown";
             subCards[i].querySelector('.affinity-badge').innerText = "Rank: " + (dr.rank || "N/A");
+            
+            // Subcard AI score & Lipinski
+            const aiScore = subCards[i].querySelector('div > div > span:nth-child(1) b');
+            if (aiScore) {
+               aiScore.innerText = dr.activity_probability ? `${(dr.activity_probability * 100).toFixed(1)}%` : "N/A";
+            }
+            const lipinski = subCards[i].querySelector('div > div > span:nth-child(2) b');
+            if (lipinski) {
+               lipinski.innerText = dr.Lipinski_pass ? "Passed" : "Failed";
+            }
+            const confBar = subCards[i].querySelector('.confidence-bar-fill');
+            if (confBar) {
+               confBar.style.width = dr.activity_probability ? `${(dr.activity_probability * 100)}%` : "0%";
+            }
+            
+            // Candidate description
+            const descElements = subCards[i].querySelectorAll('div');
+            // Safely find the text node wrapper by style
+            const descEl = Array.from(descElements).find(el => el.style && el.style.lineHeight === "1.45");
+            if (descEl) {
+               descEl.innerText = `SMILES: ${dr.smiles ? dr.smiles.substring(0,40) + '...' : 'N/A'}`;
+            }
+            const coreType = subCards[i].querySelector('p');
+            if (coreType) {
+               coreType.innerText = `IC50: ${dr.IC50 ? dr.IC50.toFixed(2) : 'N/A'} nM | pIC50: ${dr.pIC50 ? dr.pIC50.toFixed(2) : 'N/A'}`;
+            }
           } else {
             subCards[i].style.display = 'none';
           }
@@ -2531,7 +2606,7 @@
               
               setTimeout(() => {
                 switchPhase('2A');
-              }, 60000);
+              }, 2500);
             };
           } else {
             btn.querySelector('span').innerText = "View Final Report";

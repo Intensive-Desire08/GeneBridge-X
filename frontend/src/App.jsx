@@ -5,6 +5,8 @@ import './index.css';
 function App() {
   const [analysisTarget, setAnalysisTarget] = useState({ type: 'disease', value: 'non-small cell lung carcinoma' });
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [isBatchRunning, setIsBatchRunning] = useState(false);
+  const [batchStatus, setBatchStatus] = useState('Launch Enclave Batch Job');
 
   useEffect(() => {
     
@@ -429,10 +431,26 @@ function App() {
 <button onClick={() => setAnalysisTarget({ type: 'protein', value: 'BRCA1' })} className={`px-3.5 py-2 rounded-xl border font-mono text-xs font-bold transition-all duration-150 active:scale-95 shadow-xs ${analysisTarget.value === 'BRCA1' ? 'bg-purple-600 text-white border-purple-600' : 'bg-purple-50/90 hover:bg-purple-600 text-purple-900 hover:text-white border-purple-300'}`} type="button">
   BRCA1 (Breast Ca)
 </button>
-<button className="quick-chip px-3 py-2 rounded-xl bg-slate-100/90 hover:bg-slate-200 text-[#334155] font-mono text-xs font-bold border border-slate-300 transition-all duration-150 flex items-center gap-1 shadow-xs" data-target="Custom Upload" type="button">
-<span className="material-symbols-outlined text-[14px]">upload_file</span>
-                Custom FASTA
-              </button>
+<button 
+  onClick={() => document.getElementById('fasta-upload').click()}
+  className={`quick-chip px-3 py-2 rounded-xl font-mono text-xs font-bold border transition-all duration-150 flex items-center gap-1 shadow-xs ${analysisTarget.type === 'fasta' ? 'bg-slate-700 text-white border-slate-800' : 'bg-slate-100/90 hover:bg-slate-200 text-[#334155] border-slate-300'}`} 
+  data-target="Custom Upload" 
+  type="button"
+>
+  <span className="material-symbols-outlined text-[14px]">upload_file</span>
+  {analysisTarget.type === 'fasta' ? analysisTarget.value : 'Custom FASTA'}
+</button>
+<input 
+  type="file" 
+  id="fasta-upload" 
+  accept=".fasta,.fa,.txt" 
+  style={{display: 'none'}} 
+  onChange={(e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setAnalysisTarget({ type: 'fasta', value: e.target.files[0].name });
+    }
+  }} 
+/>
 </div>
 </div>
 {/* Primary Action Row with Generous Spacing */}
@@ -797,11 +815,55 @@ Zero-knowledge hardware security modules (HSM) guarantee non-disclosure of propr
 </div>
 {/* Action Buttons */}
 <div className="mt-6 flex flex-col sm:flex-row items-center gap-3">
-<button className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-headline text-sm font-bold shadow-lg shadow-emerald-700/30 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 cursor-pointer" type="button">
-<span className="material-symbols-outlined text-[19px]">terminal</span>
-<span>Launch Enclave Batch Job</span>
+<button 
+  className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-headline text-sm font-bold shadow-lg shadow-emerald-700/30 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed" 
+  type="button"
+  disabled={isBatchRunning || batchStatus !== 'Launch Enclave Batch Job'}
+  onClick={() => {
+    setIsBatchRunning(true);
+    setBatchStatus('Initializing Enclave...');
+    setTimeout(() => {
+      setBatchStatus('Job Scheduled Successfully');
+      setTimeout(() => {
+        setIsBatchRunning(false);
+        setBatchStatus('Launch Enclave Batch Job');
+      }, 3000);
+    }, 1500);
+  }}
+>
+  {isBatchRunning ? (
+    <span className="material-symbols-outlined text-[19px] animate-spin">progress_activity</span>
+  ) : (
+    <span className="material-symbols-outlined text-[19px]">{batchStatus === 'Job Scheduled Successfully' ? 'check_circle' : 'terminal'}</span>
+  )}
+  <span>{batchStatus}</span>
 </button>
-<button className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-white border border-slate-300 hover:bg-slate-100 text-[#1e293b] font-body text-sm font-bold shadow-xs transition-all flex items-center justify-center gap-2" type="button">
+<button 
+  className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-white border border-slate-300 hover:bg-slate-100 text-[#1e293b] font-body text-sm font-bold shadow-xs transition-all flex items-center justify-center gap-2" 
+  type="button"
+  onClick={() => {
+    const telemetryData = {
+      timestamp: new Date().toISOString(),
+      enclave_hash: "0x9FD8...24B7",
+      target: analysisTarget,
+      metrics: {
+        resolution: "1.84 Å",
+        pocket_volume: "482.6 Å³",
+        pLDDT: 96.8,
+        r_free: 0.198
+      }
+    };
+    const blob = new Blob([JSON.stringify(telemetryData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `telemetry_export_${new Date().getTime()}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }}
+>
 <span className="material-symbols-outlined text-[18px] text-slate-600">download</span>
 <span>Export Telemetry (JSON)</span>
 </button>
