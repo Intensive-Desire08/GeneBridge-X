@@ -409,7 +409,7 @@ function App() {
 <option value="" disabled hidden>Select a disease...</option>
 <option value="alzheimer's disease">Alzheimer's Disease — APP / ACHE</option>
 <option value="immune system modulation">Immune System Modulation — CD4 / IL2</option>
-<option value="breast cancer">Breast Cancer — BRCA1 / ESR1</option>
+<option value="breast cancer">Breast Cancer — PARP1 / ESR1</option>
 <option value="prostate cancer">Prostate Cancer — AR / PTGS2</option>
 <option value="hypercholesterolemia">Hypercholesterolemia — HMGCR</option>
 </select>
@@ -426,8 +426,8 @@ function App() {
 <button onClick={() => setAnalysisTarget({ type: 'protein', value: 'CD4' })} className={`px-3.5 py-2 rounded-xl border font-mono text-xs font-bold transition-all duration-150 active:scale-95 shadow-xs ${analysisTarget.value === 'CD4' ? 'bg-sky-600 text-white border-sky-600' : 'bg-sky-50/90 hover:bg-sky-600 text-sky-900 hover:text-white border-sky-300'}`} type="button">
   CD4 (Immune)
 </button>
-<button onClick={() => setAnalysisTarget({ type: 'protein', value: 'BRCA1' })} className={`px-3.5 py-2 rounded-xl border font-mono text-xs font-bold transition-all duration-150 active:scale-95 shadow-xs ${analysisTarget.value === 'BRCA1' ? 'bg-purple-600 text-white border-purple-600' : 'bg-purple-50/90 hover:bg-purple-600 text-purple-900 hover:text-white border-purple-300'}`} type="button">
-  BRCA1 (Breast Cancer)
+<button onClick={() => setAnalysisTarget({ type: 'protein', value: 'PARP1' })} className={`px-3.5 py-2 rounded-xl border font-mono text-xs font-bold transition-all duration-150 active:scale-95 shadow-xs ${analysisTarget.value === 'PARP1' ? 'bg-purple-600 text-white border-purple-600' : 'bg-purple-50/90 hover:bg-purple-600 text-purple-900 hover:text-white border-purple-300'}`} type="button">
+  PARP1 (Breast Cancer)
 </button>
 <button className="quick-chip px-3 py-2 rounded-xl bg-slate-100/90 hover:bg-slate-200 text-[#334155] font-mono text-xs font-bold border border-slate-300 transition-all duration-150 flex items-center gap-1 shadow-xs" data-target="Custom Upload" type="button">
 <span className="material-symbols-outlined text-[14px]">upload_file</span>
