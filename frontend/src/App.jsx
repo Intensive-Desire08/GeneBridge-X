@@ -427,7 +427,7 @@ function App() {
   CD4 (Immune)
 </button>
 <button onClick={() => setAnalysisTarget({ type: 'protein', value: 'BRCA1' })} className={`px-3.5 py-2 rounded-xl border font-mono text-xs font-bold transition-all duration-150 active:scale-95 shadow-xs ${analysisTarget.value === 'BRCA1' ? 'bg-purple-600 text-white border-purple-600' : 'bg-purple-50/90 hover:bg-purple-600 text-purple-900 hover:text-white border-purple-300'}`} type="button">
-  BRCA1 (Breast Ca)
+  BRCA1 (Breast Cancer)
 </button>
 <button className="quick-chip px-3 py-2 rounded-xl bg-slate-100/90 hover:bg-slate-200 text-[#334155] font-mono text-xs font-bold border border-slate-300 transition-all duration-150 flex items-center gap-1 shadow-xs" data-target="Custom Upload" type="button">
 <span className="material-symbols-outlined text-[14px]">upload_file</span>
