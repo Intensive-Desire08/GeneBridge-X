@@ -34,3 +34,6 @@
 2026-09-16 10:09:08,241 - app.main - INFO - Path: /api/orchestrator/disease/non-small cell lung carcinoma Method: GET Status: 200 Process Time: 36.1468s
 2026-09-16 10:12:08,060 - app.main - INFO - Path: /api/orchestrator/disease/alzheimer's disease Method: GET Status: 200 Process Time: 45.4670s
 2026-09-16 10:18:52,642 - app.main - INFO - Path: /api/orchestrator/disease/alzheimer's disease Method: GET Status: 200 Process Time: 53.2690s
+2026-09-16 10:47:41,859 - app.main - INFO - Path: / Method: GET Status: 200 Process Time: 0.0040s
+2026-09-16 10:49:17,123 - app.main - INFO - Path: /api/orchestrator/disease/alzheimer's disease Method: GET Status: 200 Process Time: 72.4742s
+2026-09-16 10:52:55,538 - app.main - INFO - Path: /api/orchestrator/disease/alzheimer's disease Method: GET Status: 200 Process Time: 74.4500s
