@@ -27,3 +27,10 @@
 2026-09-16 09:04:14,422 - app.main - INFO - Path: /api/orchestrator/disease/prostate cancer Method: GET Status: 200 Process Time: 67.3971s
 2026-09-16 09:12:41,307 - app.main - INFO - Path: /api/orchestrator/disease/hypercholesterolemia Method: GET Status: 200 Process Time: 27.7415s
 2026-09-16 09:14:07,994 - app.main - INFO - Path: /api/orchestrator/disease/hypercholesterolemia Method: GET Status: 200 Process Time: 19.8511s
+2026-09-16 09:50:29,439 - app.main - INFO - Path: /api/orchestrator/disease/non-small cell lung carcinoma Method: GET Status: 200 Process Time: 46.2375s
+2026-09-16 09:55:45,213 - app.main - INFO - Path: /api/orchestrator/disease/immune system modulation Method: GET Status: 200 Process Time: 36.7633s
+2026-09-16 09:57:13,427 - app.main - INFO - Path: /api/orchestrator/disease/non-small cell lung carcinoma Method: GET Status: 200 Process Time: 55.5513s
+2026-09-16 10:04:40,321 - app.main - INFO - Path: /api/orchestrator/disease/non-small cell lung carcinoma Method: GET Status: 200 Process Time: 57.3686s
+2026-09-16 10:09:08,241 - app.main - INFO - Path: /api/orchestrator/disease/non-small cell lung carcinoma Method: GET Status: 200 Process Time: 36.1468s
+2026-09-16 10:12:08,060 - app.main - INFO - Path: /api/orchestrator/disease/alzheimer's disease Method: GET Status: 200 Process Time: 45.4670s
+2026-09-16 10:18:52,642 - app.main - INFO - Path: /api/orchestrator/disease/alzheimer's disease Method: GET Status: 200 Process Time: 53.2690s

@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import './index.css';
 
 function App() {
-  const [analysisTarget, setAnalysisTarget] = useState({ type: 'disease', value: 'non-small cell lung carcinoma' });
+  const [analysisTarget, setAnalysisTarget] = useState({ type: 'disease', value: '' });
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isBatchRunning, setIsBatchRunning] = useState(false);
   const [batchStatus, setBatchStatus] = useState('Launch Enclave Batch Job');
@@ -455,7 +455,7 @@ function App() {
 </div>
 {/* Primary Action Row with Generous Spacing */}
 <div className="mt-6 pt-6 border-t border-slate-200/80 flex flex-col sm:flex-row items-center justify-between gap-4">
-<button disabled={isAnalyzing} onClick={async () => {
+<button disabled={isAnalyzing || !analysisTarget.value} onClick={async () => {
   setIsAnalyzing(true);
   try {
     const endpoint = analysisTarget.type === 'disease' 
