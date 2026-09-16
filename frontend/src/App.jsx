@@ -450,7 +450,7 @@ function App() {
     window.location.href = '/wizard.html';
   } catch (err) {
     console.error(err);
-    alert('Failed to analyze target. Check console for details.');
+    alert('Failed to analyze target. Error: ' + err.message + '\n' + (err.stack || ''));
     setIsAnalyzing(false);
   }
 }} className="w-full sm:w-auto flex-1 px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-600 via-emerald-700 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-headline text-base font-bold shadow-lg shadow-emerald-700/30 hover:shadow-xl hover:shadow-emerald-600/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 flex items-center justify-center gap-2.5 group cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed" id="startAnalysisBtn" type="button">
