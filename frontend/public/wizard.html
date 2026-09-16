@@ -2358,8 +2358,8 @@
                       <div class="confidence-bar-fill ${isHigh ? '' : 'coral'}" style="width: ${probPct}%;"></div>
                     </div>
                     <div style="display: flex; justify-content: space-between; font-size: 11.5px; color: var(--text-muted); margin-top: 6px;">
-                      <span>Pocket Free Energy: <b>-11.8 kcal/mol</b></span>
-                      <span>Ki Affinity: <b>1.8 nM</b></span>
+                      <span>pIC50: <b>${dr.pIC50 ? dr.pIC50.toFixed(2) : 'N/A'}</b></span>
+                      <span>IC50 Affinity: <b>${dr.IC50 ? dr.IC50.toFixed(1) : 'N/A'} nM</b></span>
                     </div>
                   </div>
                   <!-- Molecular Properties Grid -->
@@ -2377,12 +2377,12 @@
                       <div class="prop-val">${dr.HBD !== undefined ? dr.HBD : "N/A"}</div>
                     </div>
                     <div class="prop-box">
-                      <div class="prop-name">Polar Surface</div>
-                      <div class="prop-val">84.2 Å²</div>
+                      <div class="prop-name">QED Score</div>
+                      <div class="prop-val">${dr.QED !== undefined ? dr.QED.toFixed(2) : "N/A"}</div>
                     </div>
                   </div>
                   <p class="organism-description">
-                    Strong hydrogen bonding with backbone amide of Cys532 in hinge region. The 3D view renders a true ball-and-stick ligand model with refractive glass atoms and dynamic AI confidence halo wave.
+                    High predicted activity against the target based on Random Forest classification of molecular fingerprints. The 3D view renders a true ball-and-stick ligand model with refractive glass atoms and dynamic AI confidence halo wave.
                   </p>
                 </div>
                 <!-- 3D Ball-and-Stick Molecule Viewport -->
