@@ -87,6 +87,7 @@ def rank_drugs_for_target(protein_name: str):
     df = df[["molecule_chembl_id", "IC50", "units", "smiles", "pIC50"]].copy()
     df["IC50"] = pd.to_numeric(df["IC50"], errors="coerce")
     df = df.dropna(subset=["IC50", "smiles"]).copy()
+    df = df.drop_duplicates(subset=["smiles"]).copy()
 
     def classify_activity(ic50):
         if ic50 < 100:
@@ -122,6 +123,7 @@ def rank_drugs_for_target(protein_name: str):
         n_estimators=100, 
         random_state=42,
         class_weight="balanced",
+        min_samples_leaf=5,
         n_jobs=-1
     )
 
@@ -131,7 +133,9 @@ def rank_drugs_for_target(protein_name: str):
     report = classification_report(y_test, y_pred, output_dict=True)
     model_confidence = "high" if accuracy >= 0.70 else "low"
 
-    df["activity_probability"] = model.predict_proba(X)[:, 1]
+    from sklearn.model_selection import cross_val_predict
+    # Use cross-validation to get realistic out-of-fold probability estimates without overfitting
+    df["activity_probability"] = cross_val_predict(model, X, y, cv=5, method='predict_proba', n_jobs=-1)[:, 1]
 
     df["molecular_weight"] = df["mol"].apply(Descriptors.MolWt)
     df["logP"] = df["mol"].apply(Crippen.MolLogP)

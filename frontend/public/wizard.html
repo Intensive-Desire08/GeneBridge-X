@@ -2379,6 +2379,7 @@
                     </div>
                     <div style="display: flex; justify-content: space-between; font-size: 11.5px; color: var(--text-muted); margin-top: 6px;">
                       <span>Pocket Free Energy: <b>${dr.pIC50 ? (-1.36 * dr.pIC50).toFixed(1) : 'N/A'} kcal/mol</b></span>
+                      <span>pIC50: <b>${dr.pIC50 ? dr.pIC50.toFixed(2) : 'N/A'}</b></span>
                       <span>Ki Affinity (IC50): <b>${dr.IC50 ? dr.IC50.toFixed(2) : 'N/A'} nM</b></span>
                     </div>
                   </div>
@@ -2400,9 +2401,14 @@
                       <div class="prop-name">Polar Surface</div>
                       <div class="prop-val">${dr.HBA !== undefined ? dr.HBA : "N/A"}</div>
                     </div>
+                    <div class="prop-box">
+                      <div class="prop-name">QED Score</div>
+                      <div class="prop-val">${dr.QED !== undefined ? dr.QED.toFixed(2) : "N/A"}</div>
+                    </div>
                   </div>
                   <p class="organism-description">
-                    SMILES: ${dr.smiles || "N/A"}<br/>Predicted as highly active based on Random Forest molecular fingerprinting.
+                    SMILES: ${dr.smiles || "N/A"}<br/>
+                    High predicted activity against the target based on Random Forest classification of molecular fingerprints. The 3D view renders a true ball-and-stick ligand model with refractive glass atoms and dynamic AI confidence halo wave.
                   </p>
                 </div>
                 <!-- 3D Ball-and-Stick Molecule Viewport -->

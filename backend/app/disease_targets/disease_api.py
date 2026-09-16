@@ -13,7 +13,7 @@ def get_top_proteins_for_disease(disease_name: str, limit: int = 2) -> list[str]
     disease_map = {
         "alzheimer's disease": ["APP", "ACHE"],
         "immune system modulation": ["CD4", "IL2"],
-        "breast cancer": ["BRCA1", "ESR1"],
+        "breast cancer": ["PARP1", "ESR1"],
         "prostate cancer": ["AR", "PTGS2"],
         "hypercholesterolemia": ["HMGCR"]
     }
