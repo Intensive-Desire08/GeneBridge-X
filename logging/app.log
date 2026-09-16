@@ -24,3 +24,6 @@
 2026-09-16 08:10:14,240 - app.main - INFO - Path: /api/orchestrator/disease/non-small cell lung carcinoma Method: GET Status: 200 Process Time: 37.7529s
 2026-09-16 08:12:30,774 - app.main - INFO - Path: /api/orchestrator/disease/immune system modulation Method: GET Status: 200 Process Time: 34.3831s
 2026-09-16 08:18:49,602 - app.main - INFO - Path: /api/orchestrator/disease/non-small cell lung carcinoma Method: GET Status: 200 Process Time: 68.1113s
+2026-09-16 09:04:14,422 - app.main - INFO - Path: /api/orchestrator/disease/prostate cancer Method: GET Status: 200 Process Time: 67.3971s
+2026-09-16 09:12:41,307 - app.main - INFO - Path: /api/orchestrator/disease/hypercholesterolemia Method: GET Status: 200 Process Time: 27.7415s
+2026-09-16 09:14:07,994 - app.main - INFO - Path: /api/orchestrator/disease/hypercholesterolemia Method: GET Status: 200 Process Time: 19.8511s
