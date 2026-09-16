@@ -1300,14 +1300,6 @@
 <p>High-affinity molecular leads mapped to BRAF ATP catalytic domain with live AI confidence pulse feedback.</p>
 </div>
 <div style="display: flex; align-items: center; gap: 14px;">
-<!-- Interactive Confidence level toggle to test the prompt requirement -->
-<div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-slate);">
-<span>Test AI Confidence:</span>
-<div class="confidence-toggle-pill">
-<button class="conf-btn selected" id="conf-high-btn" onclick="setMoleculeConfidence('HIGH')">High (Sage Pulse)</button>
-<button class="conf-btn" id="conf-low-btn" onclick="setMoleculeConfidence('LOW')">Low (Coral Pulse)</button>
-</div>
-</div>
 </div>
 </div>
 <!-- Top Candidate Hero Card with 3D Ball-and-Stick Simulation -->
@@ -2297,10 +2289,8 @@
     }
 
     // Toggle Prop: AI Confidence Level (Calm Sage vs Coral)
-    function setMoleculeConfidence(level) {
+    function setMoleculeConfidence(level, probPct = null) {
       moleculeConfidenceState = level;
-      const highBtn = document.getElementById('conf-high-btn');
-      const lowBtn = document.getElementById('conf-low-btn');
       const auraRing = document.getElementById('aura-ring-icon');
       const auraText = document.getElementById('aura-indicator-text');
       const hudStatus = document.getElementById('hud-aura-status');
@@ -2308,29 +2298,25 @@
       const confChip = document.getElementById('conf-chip-display');
 
       if (level === 'HIGH') {
-        highBtn.classList.add('selected');
-        lowBtn.classList.remove('selected');
         auraRing.classList.remove('coral');
         auraText.innerText = 'AI Confidence: High (Sage Glow)';
         hudStatus.innerText = 'Calm Aura (High Confidence)';
         hudStatus.style.color = '#276233';
         hudStatus.style.background = 'var(--accent-sage-light)';
         confBar.classList.remove('coral');
-        confBar.style.width = '96.4%';
-        confChip.innerText = '96.4% Probability (Calm Sage)';
+        confBar.style.width = (probPct || '96.4') + '%';
+        confChip.innerText = (probPct || '96.4') + '% Probability (Calm Sage)';
         confChip.style.color = '#276233';
         confChip.style.background = 'var(--accent-sage-light)';
       } else {
-        lowBtn.classList.add('selected');
-        highBtn.classList.remove('selected');
         auraRing.classList.add('coral');
         auraText.innerText = 'AI Confidence: Low / Mismatch (Coral Pulse)';
         hudStatus.innerText = 'Rapid Coral Pulse (High Uncertainty)';
         hudStatus.style.color = '#80302b';
         hudStatus.style.background = 'var(--accent-coral-light)';
         confBar.classList.add('coral');
-        confBar.style.width = '58%';
-        confChip.innerText = '58.0% Probability (Uncertainty Warning)';
+        confBar.style.width = (probPct || '58.0') + '%';
+        confChip.innerText = (probPct || '58.0') + '% Probability (Uncertainty Warning)';
         confChip.style.color = '#80302b';
         confChip.style.background = 'var(--accent-coral-light)';
       }
@@ -2484,6 +2470,13 @@
           heroCard.querySelector('.chembl-badge').innerText = hero.molecule_chembl_id || "Unknown";
           heroCard.querySelector('.organism-title').innerText = hero.molecule_chembl_id || "Unknown";
           heroCard.querySelector('.latin-name').innerText = "Dynamic Rank: " + (hero.rank || "N/A");
+          if (hero.activity_probability !== undefined) {
+            const probPct = (hero.activity_probability * 100).toFixed(1);
+            const level = hero.activity_probability > 0.5 ? 'HIGH' : 'LOW';
+            setMoleculeConfidence(level, probPct);
+          } else {
+            setMoleculeConfidence('LOW', 0);
+          }
         }
 
         const subCards = document.querySelectorAll('.candidate-card-sm');
