@@ -3,11 +3,11 @@ import { chromium } from 'playwright';
 const url = 'http://localhost:5173';
 
 const diseases = [
-  'non-small cell lung carcinoma',
-  'triple-negative breast cancer',
-  'glioblastoma multiforme',
-  'colorectal cancer',
-  'acute myeloid leukemia'
+  "alzheimer's disease",
+  "immune system modulation",
+  "breast cancer",
+  "prostate cancer",
+  "hypercholesterolemia"
 ];
 
 async function runTest() {

@@ -407,11 +407,11 @@ function App() {
 </div>
 <select value={analysisTarget.type === 'disease' ? analysisTarget.value : ''} onChange={(e) => setAnalysisTarget({ type: 'disease', value: e.target.value })} className="w-full pl-12 pr-11 py-4 rounded-2xl bg-slate-50/90 text-[#0f172a] font-body text-sm sm:text-base font-semibold border-2 border-slate-200 shadow-inner appearance-none focus:outline-none focus:bg-white focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/20 transition-all cursor-pointer" id="diseaseTargetSelector">
 <option value="" disabled hidden>Select a disease...</option>
-<option value="non-small cell lung carcinoma">Non-small cell lung cancer (NSCLC) — EGFR / KRAS / ALK</option>
-<option value="triple-negative breast cancer">Triple-negative breast cancer (TNBC) — PARP1 / Trop-2</option>
-<option value="glioblastoma multiforme">Glioblastoma Multiforme (GBM) — IDH1 / MGMT / EGFRvIII</option>
-<option value="colorectal cancer">Colorectal Adenocarcinoma (CRC) — BRAF V600E / APC</option>
-<option value="acute myeloid leukemia">Acute Myeloid Leukemia (AML) — FLT3 / NPM1 / DNMT3A</option>
+<option value="alzheimer's disease">Alzheimer's Disease — APP / ACHE</option>
+<option value="immune system modulation">Immune System Modulation — CD4 / IL2</option>
+<option value="breast cancer">Breast Cancer — BRCA1 / ESR1</option>
+<option value="prostate cancer">Prostate Cancer — AR / PTGS2</option>
+<option value="hypercholesterolemia">Hypercholesterolemia — HMGCR</option>
 </select>
 <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-[#475569] group-hover:text-[#0f172a] transition-colors">
 <span className="material-symbols-outlined text-[24px]">expand_more</span>
@@ -420,14 +420,14 @@ function App() {
 {/* Hot Target Quick Chips: Spans 5 cols on large screens */}
 <div className="lg:col-span-5 flex flex-wrap items-center gap-2">
 <span className="font-mono text-xs text-[#475569] font-bold mr-1">Hot Targets:</span>
-<button onClick={() => setAnalysisTarget({ type: 'protein', value: 'EGFR' })} className={`px-3.5 py-2 rounded-xl border font-mono text-xs font-bold transition-all duration-150 active:scale-95 shadow-xs ${analysisTarget.value === 'EGFR' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-emerald-50/90 hover:bg-emerald-600 text-emerald-900 hover:text-white border-emerald-300'}`} type="button">
-  EGFR T790M
+<button onClick={() => setAnalysisTarget({ type: 'protein', value: 'APP' })} className={`px-3.5 py-2 rounded-xl border font-mono text-xs font-bold transition-all duration-150 active:scale-95 shadow-xs ${analysisTarget.value === 'APP' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-emerald-50/90 hover:bg-emerald-600 text-emerald-900 hover:text-white border-emerald-300'}`} type="button">
+  APP (Alzheimer's)
 </button>
-<button onClick={() => setAnalysisTarget({ type: 'protein', value: 'KRAS' })} className={`px-3.5 py-2 rounded-xl border font-mono text-xs font-bold transition-all duration-150 active:scale-95 shadow-xs ${analysisTarget.value === 'KRAS' ? 'bg-sky-600 text-white border-sky-600' : 'bg-sky-50/90 hover:bg-sky-600 text-sky-900 hover:text-white border-sky-300'}`} type="button">
-  KRAS G12D
+<button onClick={() => setAnalysisTarget({ type: 'protein', value: 'CD4' })} className={`px-3.5 py-2 rounded-xl border font-mono text-xs font-bold transition-all duration-150 active:scale-95 shadow-xs ${analysisTarget.value === 'CD4' ? 'bg-sky-600 text-white border-sky-600' : 'bg-sky-50/90 hover:bg-sky-600 text-sky-900 hover:text-white border-sky-300'}`} type="button">
+  CD4 (Immune)
 </button>
-<button onClick={() => setAnalysisTarget({ type: 'protein', value: 'ERBB2' })} className={`px-3.5 py-2 rounded-xl border font-mono text-xs font-bold transition-all duration-150 active:scale-95 shadow-xs ${analysisTarget.value === 'ERBB2' ? 'bg-purple-600 text-white border-purple-600' : 'bg-purple-50/90 hover:bg-purple-600 text-purple-900 hover:text-white border-purple-300'}`} type="button">
-  HER2 Neu
+<button onClick={() => setAnalysisTarget({ type: 'protein', value: 'BRCA1' })} className={`px-3.5 py-2 rounded-xl border font-mono text-xs font-bold transition-all duration-150 active:scale-95 shadow-xs ${analysisTarget.value === 'BRCA1' ? 'bg-purple-600 text-white border-purple-600' : 'bg-purple-50/90 hover:bg-purple-600 text-purple-900 hover:text-white border-purple-300'}`} type="button">
+  BRCA1 (Breast Ca)
 </button>
 <button className="quick-chip px-3 py-2 rounded-xl bg-slate-100/90 hover:bg-slate-200 text-[#334155] font-mono text-xs font-bold border border-slate-300 transition-all duration-150 flex items-center gap-1 shadow-xs" data-target="Custom Upload" type="button">
 <span className="material-symbols-outlined text-[14px]">upload_file</span>

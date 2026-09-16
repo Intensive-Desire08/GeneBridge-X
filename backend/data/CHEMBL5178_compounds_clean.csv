@@ -1,0 +1,2 @@
+molecule_chembl_id,IC50,units,smiles,pIC50
+CHEMBL1232461,10.0,nM,CCNC(=O)C[C@@H]1N=C(c2ccc(Cl)cc2)c2cc(OC)ccc2-n2c(C)nnc21,8.0

@@ -2401,10 +2401,24 @@
         const hero = rankedSpecies[0];
         const heroCard = document.querySelector('.hero-organism-card');
         if (heroCard) {
-          heroCard.querySelector('.organism-title').innerText = hero.species || "Unknown";
+          heroCard.querySelector('.organism-title').innerText = hero.common_name + " (" + hero.species + ")";
           heroCard.querySelector('.latin-name').innerText = "Score: " + (hero.final_score ? hero.final_score.toFixed(3) : "N/A");
-          heroCard.querySelector('.compatibility-val').innerText = "Top Match";
-          heroCard.querySelector('.organism-description').innerText = "Identified as the optimal model for testing this target.";
+          heroCard.querySelector('.compatibility-val').innerText = (hero.global_identity ? hero.global_identity.toFixed(1) : "N/A") + "% Overall Identity";
+          heroCard.querySelector('.organism-description').innerText = "Identified as the optimal model for testing this target. It has a binding site conservation of " + (hero.binding_site_conservation ? hero.binding_site_conservation.toFixed(1) : "N/A") + "%.";
+          
+          const breakdownValues = heroCard.querySelectorAll('.breakdown-item .value');
+          if (breakdownValues.length >= 3) {
+             breakdownValues[0].innerText = (hero.binding_site_conservation ? hero.binding_site_conservation.toFixed(1) : "N/A") + "% Match";
+             breakdownValues[1].innerText = (hero.global_identity ? hero.global_identity.toFixed(1) : "N/A") + "% Identity";
+             breakdownValues[2].innerText = "Dynamic";
+          }
+        }
+        
+        // Update 3D HUD for Hero
+        const heroHudChips = document.querySelectorAll('.dna-3d-container .hud-chip');
+        if (heroHudChips.length >= 2) {
+           heroHudChips[0].innerText = hero.common_name + " Protein (" + hero.species + ")";
+           heroHudChips[1].innerText = (hero.binding_site_conservation ? hero.binding_site_conservation.toFixed(1) : "100") + "% Match Ratio";
         }
 
         // Sub Cards
@@ -2414,13 +2428,38 @@
           if (recIndex < rankedSpecies.length) {
             const sp = rankedSpecies[recIndex];
             subCards[i].style.display = 'flex';
-            subCards[i].querySelector('h3').innerText = sp.species || "Unknown";
+            subCards[i].querySelector('h3').innerText = sp.common_name + " (" + sp.species + ")";
             subCards[i].querySelector('.latin-name').innerText = "Score: " + (sp.final_score ? sp.final_score.toFixed(3) : "N/A");
-            subCards[i].querySelector('.compatibility-val').innerText = "Match";
+            subCards[i].querySelector('.compatibility-val').innerText = (sp.global_identity ? sp.global_identity.toFixed(1) : "N/A") + "% Overall Identity";
+            
+            // Sub-card text details
+            const subMatch = subCards[i].querySelector('b');
+            if (subMatch) subMatch.innerText = (sp.binding_site_conservation ? sp.binding_site_conservation.toFixed(1) : "N/A") + "%";
+            
+            const subDesc = subCards[i].querySelectorAll('div')[3];
+            if (subDesc && subDesc.innerText.includes('Three conservative')) {
+               subDesc.innerText = "Binding site conservation is " + (sp.binding_site_conservation ? sp.binding_site_conservation.toFixed(1) : "N/A") + "%.";
+            }
+            
+            // Sub-card HUDs
+            const smallDnas = document.querySelectorAll('.dna-3d-small');
+            if (smallDnas[i]) {
+                const huds = smallDnas[i].querySelectorAll('.hud-chip');
+                if (huds.length >= 2) {
+                    huds[0].innerText = sp.species;
+                    huds[1].innerText = (sp.binding_site_conservation ? sp.binding_site_conservation.toFixed(1) : "N/A") + "% Match";
+                }
+            }
           } else {
             subCards[i].style.display = 'none';
+            const smallDnas = document.querySelectorAll('.dna-3d-small');
+            if (smallDnas[i]) smallDnas[i].style.display = 'none';
           }
         }
+        
+        // Bottom action banner for model verified
+        const bannerTitle = document.querySelector('.action-banner-info h4');
+        if (bannerTitle) bannerTitle.innerText = "Model Selection Verified: " + hero.species;
       } else {
         // Handle no species found
         const heroCard = document.querySelector('.hero-organism-card');
