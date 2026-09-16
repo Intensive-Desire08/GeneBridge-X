@@ -1154,15 +1154,15 @@
 </div>
 <div class="match-breakdown-row">
 <div class="breakdown-item">
-<div class="label">P-Loop Conserved</div>
+<div class="label">Binding Site Conserved</div>
 <div class="value" style="color: #276233;">100% Match</div>
 </div>
 <div class="breakdown-item">
-<div class="label">DFG Motif Parity</div>
+<div class="label">Overall Sequence Identity</div>
 <div class="value" style="color: #276233;">Identical</div>
 </div>
 <div class="breakdown-item">
-<div class="label">Catalytic Pocket RMSD</div>
+<div class="label">Final Match Score</div>
 <div class="value">0.31 Å</div>
 </div>
 </div>
@@ -1199,7 +1199,7 @@
 <p class="latin-name">Teleostei / Cyprinidae</p>
 </div>
 <div style="margin: 14px 0;">
-<div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">P-Loop / Hinge Match: <b>82%</b></div>
+<div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">Binding Site Match: <b>82%</b></div>
 <div style="font-size: 12px; color: var(--text-charcoal); line-height: 1.45;">
                 Three conservative substitutions in flanking loops. 3D DNA shows ~18% Soft Coral rungs for variant sequence loci.
               </div>
@@ -1235,7 +1235,7 @@
 <p class="latin-name">Insecta / Drosophilidae</p>
 </div>
 <div style="margin: 14px 0;">
-<div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">P-Loop / Hinge Match: <b>69%</b></div>
+<div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">Binding Site Match: <b>69%</b></div>
 <div style="font-size: 12px; color: var(--text-charcoal); line-height: 1.45;">
                 Non-conservative gatekeeper shift. DNA strand reflects higher mismatch ratio with prominent Soft Coral rungs.
               </div>
@@ -2401,23 +2401,23 @@
         const hero = rankedSpecies[0];
         const heroCard = document.querySelector('.hero-organism-card');
         if (heroCard) {
-          heroCard.querySelector('.organism-title').innerText = hero.common_name + " (" + hero.species + ")";
-          heroCard.querySelector('.latin-name').innerText = "Score: " + (hero.final_score ? hero.final_score.toFixed(3) : "N/A");
-          heroCard.querySelector('.compatibility-val').innerText = (hero.global_identity ? hero.global_identity.toFixed(1) : "N/A") + "% Overall Identity";
+          heroCard.querySelector('.organism-title').innerText = hero.species ? (hero.species.charAt(0).toUpperCase() + hero.species.slice(1)) : "Unknown";
+          heroCard.querySelector('.latin-name').innerText = "Overall Identity: " + (hero.global_identity ? hero.global_identity.toFixed(1) : "N/A") + "%";
+          heroCard.querySelector('.compatibility-val').innerText = "Compatibility Score: " + (hero.final_score ? hero.final_score.toFixed(3) : "N/A");
           heroCard.querySelector('.organism-description').innerText = "Identified as the optimal model for testing this target. It has a binding site conservation of " + (hero.binding_site_conservation ? hero.binding_site_conservation.toFixed(1) : "N/A") + "%.";
           
           const breakdownValues = heroCard.querySelectorAll('.breakdown-item .value');
           if (breakdownValues.length >= 3) {
              breakdownValues[0].innerText = (hero.binding_site_conservation ? hero.binding_site_conservation.toFixed(1) : "N/A") + "% Match";
              breakdownValues[1].innerText = (hero.global_identity ? hero.global_identity.toFixed(1) : "N/A") + "% Identity";
-             breakdownValues[2].innerText = "Dynamic";
+             breakdownValues[2].innerText = hero.final_score ? hero.final_score.toFixed(3) : "N/A";
           }
         }
         
         // Update 3D HUD for Hero
         const heroHudChips = document.querySelectorAll('.dna-3d-container .hud-chip');
         if (heroHudChips.length >= 2) {
-           heroHudChips[0].innerText = hero.common_name + " Protein (" + hero.species + ")";
+           heroHudChips[0].innerText = "Protein (" + (hero.species ? hero.species : "unknown") + ")";
            heroHudChips[1].innerText = (hero.binding_site_conservation ? hero.binding_site_conservation.toFixed(1) : "100") + "% Match Ratio";
         }
 
@@ -2428,9 +2428,9 @@
           if (recIndex < rankedSpecies.length) {
             const sp = rankedSpecies[recIndex];
             subCards[i].style.display = 'flex';
-            subCards[i].querySelector('h3').innerText = sp.common_name + " (" + sp.species + ")";
-            subCards[i].querySelector('.latin-name').innerText = "Score: " + (sp.final_score ? sp.final_score.toFixed(3) : "N/A");
-            subCards[i].querySelector('.compatibility-val').innerText = (sp.global_identity ? sp.global_identity.toFixed(1) : "N/A") + "% Overall Identity";
+            subCards[i].querySelector('h3').innerText = sp.species ? (sp.species.charAt(0).toUpperCase() + sp.species.slice(1)) : "Unknown";
+            subCards[i].querySelector('.latin-name').innerText = "Overall Identity: " + (sp.global_identity ? sp.global_identity.toFixed(1) : "N/A") + "%";
+            subCards[i].querySelector('.compatibility-val').innerText = "Compatibility Score: " + (sp.final_score ? sp.final_score.toFixed(3) : "N/A");
             
             // Sub-card text details
             const subMatch = subCards[i].querySelector('b');
